@@ -3,84 +3,207 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
+    android:background="#FFFFFF"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.LoginActivity">
 
-    <TextView
-        android:id="@+id/txtdangnhap"
+    <LinearLayout
+        android:layout_marginTop="60dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
-        android:gravity="center"
-        android:padding="5dp"
-        android:text="Đăng nhập"
-        android:textColor="#03DAC5"
-        android:textSize="25sp"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="-16dp" />
+        android:layout_height="match_parent">
 
-    <com.google.android.material.textfield.TextInputLayout
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textColor="#000000"
+            android:fontFamily="@font/inter_bold"
+            android:text="Sign In"
+            android:textSize="36sp" />
 
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/line1"
-        android:layout_marginTop="50dp"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        app:layout_constraintTop_toBottomOf="@id/txtdangnhap">
-        <com.google.android.material.textfield.TextInputEditText
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="15dp"
+            android:fontFamily="@font/inter"
+            android:text="Hi! Well comback to Building Manager"
+            android:textColor="@color/md_theme_outline"
+            android:textSize="13sp" />
+
+
+        <TextView
+            android:textColor="#000000"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+            android:layout_marginBottom="4dp"
+            android:fontFamily="@font/inter_medium"
+            android:text="Email"
+            android:textSize="16sp" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            app:boxStrokeColor="#0A305F"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textEmailAddress"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:hint="   Email"
-            android:id="@+id/email"
-            android:drawableLeft="@drawable/ic_email_24"
-            android:drawablePadding="5dp"/>
+            app:boxBackgroundMode="outline"
+            app:boxCornerRadiusTopStart="25dp"
+            app:boxCornerRadiusTopEnd="25dp"
+            app:hintEnabled="false"
+            app:boxCornerRadiusBottomStart="25dp"
+            app:boxCornerRadiusBottomEnd="25dp">
 
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txtEmail"
+                android:paddingStart="25dp"
+                android:inputType="textEmailAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter your email here."
+                android:textColorHint="#9675796C"
 
-    </com.google.android.material.textfield.TextInputLayout>
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/line2"
-        android:layout_marginTop="5dp"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        app:layout_constraintTop_toBottomOf="@id/line1">
-        <com.google.android.material.textfield.TextInputEditText
+                android:textSize="15sp"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Password Input -->
+        <TextView
+            android:textColor="#000000"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Password"
+            android:textSize="16sp"
+            android:fontFamily="@font/inter_medium"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="4dp"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            app:boxStrokeColor="#0A305F"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:inputType="textPassword"
-            android:layout_marginRight="10dp"
-            android:hint="   Pass"
-            android:id="@+id/pass"
-            android:drawableLeft="@drawable/ic_key_24"
-            android:drawablePadding="5dp"/>
+            app:boxBackgroundMode="outline"
+            app:boxCornerRadiusTopStart="25dp"
+            app:boxCornerRadiusTopEnd="25dp"
+            app:hintEnabled="false"
+            app:boxCornerRadiusBottomStart="25dp"
+            app:boxCornerRadiusBottomEnd="25dp"
+            app:endIconMode="password_toggle">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txtPassword"
+                android:paddingStart="25dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter your password here."
+                android:inputType="textPassword"
+                android:textColorHint="#9675796C"
+                android:textSize="15sp"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Forgot Password -->
+        <RelativeLayout
+            android:layout_marginTop="10dp"
+            android:layout_gravity="end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:fontFamily="@font/inter_medium"
+                android:id="@+id/txtForgotPassword"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Forget password ?"
+                android:textSize="14sp"
+                android:textColor="#0A305F"
+                android:layout_marginTop="8dp"
+                android:layout_gravity="end"/>
+            <View
+                android:layout_below="@id/txtForgotPassword"
+                android:layout_width="115dp"
+                android:layout_height="1dp"
+                android:background="@color/md_theme_onPrimaryContainer" />
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:visibility="gone"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <CheckBox
+                android:id="@+id/checkboxUser"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="User"/>
+            <CheckBox
+                android:layout_marginStart="30dp"
+                android:layout_toRightOf="@id/checkboxUser"
+                android:id="@+id/checkboxAdmin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Admin"/>
+        </RelativeLayout>
+        <Button
+            android:backgroundTint="#0A305F"
+            android:id="@+id/btnSignIn"
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:text="Sign In"
+            android:textSize="20sp"/>
+        <RelativeLayout
+
+            android:layout_marginTop="40dp"
+            android:layout_gravity="start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <CheckBox
+                android:layout_centerVertical="true"
+                android:id="@+id/cbAgreeWith"
+                android:layout_width="24dp"
+                android:layout_height="24dp"/>
+            <TextView
+                android:layout_centerVertical="true"
+
+                android:layout_toRightOf="@id/cbAgreeWith"
+                android:id="@+id/txtAgreeWith"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Agree with  "
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="#000000"
+                android:layout_gravity="end"/>
+            <TextView
+                android:layout_centerVertical="true"
+
+                android:layout_toRightOf="@id/txtAgreeWith"
+                android:id="@+id/txtTermAndCondition"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter_medium"
+                android:text="Terms &amp; Condition"
+                android:textSize="15sp"
+                android:textColor="#0A305F"
+                android:layout_gravity="end"/>
+            <View
+                android:layout_below="@id/txtTermAndCondition"
+                android:layout_toRightOf="@id/txtTermAndCondition"
+                android:layout_toLeftOf="@id/txtTermAndCondition"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:background="#0A305F" />
+
+        </RelativeLayout>
 
 
-    </com.google.android.material.textfield.TextInputLayout>
-    <androidx.appcompat.widget.AppCompatButton
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/btnLogIn"
-        app:layout_constraintTop_toBottomOf="@id/line2"
-        android:text="ĐĂNG NHẬP"
-        android:textColor="@color/white"
-        android:backgroundTint="#03DAC5"
-        android:layout_marginRight="25dp"
-        android:layout_marginLeft="25dp"
-        android:layout_marginTop="10dp"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/txtresetpass"
-        android:layout_marginTop="15dp"
-        android:textSize="15sp"
-        android:gravity="center"
-        android:textColor="@color/black"
-        app:layout_constraintTop_toBottomOf="@id/btnLogIn"
-        android:text="Quên mật khẩu"/>
+
+
+
+
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
