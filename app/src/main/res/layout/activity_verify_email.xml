@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    tools:context=".ui.VerifyEmailActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <FrameLayout
+                android:id="@+id/iconBack"
+                android:layout_gravity="start|bottom"
+                android:layout_marginStart="15dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_circle"
+                    app:tint="#EDEDF4"/>
+
+                <androidx.constraintlayout.utils.widget.ImageFilterView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:layout_gravity="center"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_back"
+                    android:tint="#0A305F" />
+
+
+            </FrameLayout>
+
+        </FrameLayout>
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textColor="#000000"
+                    android:fontFamily="@font/inter_bold"
+                    android:text="Enter OTP code"
+                    android:textSize="32sp" />
+                <LinearLayout
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="40dp">
+
+                    <EditText
+                        android:layout_marginEnd="15dp"
+                        android:id="@+id/otp1"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:background="@drawable/bg_otp_box"
+                        android:textSize="18sp"
+                        android:gravity="center"
+                        android:inputType="number"
+                        android:maxLength="1"/>
+
+                    <EditText
+                        android:layout_marginEnd="15dp"
+                        android:id="@+id/otp2"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:background="@drawable/bg_otp_box"
+                        android:textSize="18sp"
+                        android:gravity="center"
+                        android:inputType="number"
+                        android:maxLength="1"/>
+
+                    <EditText
+                        android:layout_marginEnd="15dp"
+                        android:id="@+id/otp3"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:background="@drawable/bg_otp_box"
+                        android:textSize="18sp"
+                        android:gravity="center"
+                        android:inputType="number"
+                        android:maxLength="1"/>
+
+                    <EditText
+                        android:id="@+id/otp4"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:background="@drawable/bg_otp_box"
+                        android:textSize="18sp"
+                        android:gravity="center"
+                        android:inputType="number"
+                        android:maxLength="1"/>
+                </LinearLayout>
+
+                <!-- Thời gian nhập mã -->
+                <TextView
+                    android:layout_gravity="center"
+                    android:id="@+id/txtCountdown"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Thời gian nhập mã: 60s"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/inter_medium"
+                    android:textColor="@android:color/black"
+                    android:layout_marginTop="16dp"/>
+                <TextView
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Chưa nhận được mã ?"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/inter_medium"
+                    android:textColor="@android:color/black"
+                    android:layout_marginTop="50dp"/>
+
+                <!-- Link gửi lại mã -->
+                <RelativeLayout
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/txtSendBack"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Send back"
+                        android:textSize="14sp"
+                        android:fontFamily="@font/inter_medium"
+                        android:textColor="#0A305F"
+                        android:layout_marginTop="0dp"
+                        android:layout_gravity="end"/>
+                    <View
+                        android:layout_toRightOf="@id/txtSendBack"
+                        android:layout_toLeftOf="@id/txtSendBack"
+                        android:layout_below="@id/txtSendBack"
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:background="@color/md_theme_onPrimaryContainer" />
+
+                </RelativeLayout>
+
+                <!-- Nút xác nhận -->
+                <Button
+                    android:backgroundTint="#0A305F"
+                    android:id="@+id/btnConfirm"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginStart="80dp"
+                    android:layout_marginEnd="80dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"
+                    android:text="Confirm"
+                    android:textSize="20sp"/>
+            </LinearLayout>
+
+
+        </ScrollView>
+    </LinearLayout>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
