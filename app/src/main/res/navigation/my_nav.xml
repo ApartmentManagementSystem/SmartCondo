@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/my_nav"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.mit.apartmentmanagement.ui.home.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/notificationFragment"
+        android:name="com.mit.apartmentmanagement.ui.notification.NotificationFragment"
+        android:label="fragment_notification"
+        tools:layout="@layout/fragment_notification" />
+    <fragment
+        android:id="@+id/invoiceFragment"
+        android:name="com.mit.apartmentmanagement.ui.invoice.InvoiceFragment"
+        android:label="fragment_invoice"
+        tools:layout="@layout/fragment_invoice" />
+    <fragment
+        android:id="@+id/requestFragment"
+        android:name="com.mit.apartmentmanagement.ui.request.RequestFragment"
+        android:label="fragment_request"
+        tools:layout="@layout/fragment_request" />
+    <fragment
+        android:id="@+id/amenitiesFragment"
+        android:name="com.mit.apartmentmanagement.ui.amenity.AmenitiesFragment"
+        android:label="fragment_amenities"
+        tools:layout="@layout/fragment_amenities" />
+</navigation>

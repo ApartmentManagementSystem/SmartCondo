@@ -21,19 +21,8 @@ class MainViewModel @Inject constructor(
     val isLogined: LiveData<Boolean> get() = _isLogined
 
     fun checkLogin() {
-//        viewModelScope.launch(Dispatchers.IO) {
-//            val result = repository.remote.loginCheck(tokenManager.getAccessToken()!!)
-//
-//            if (result.isSuccessful) {
-//                _isLogined.postValue(true)
-//            }else{
-//                _isLogined.postValue(false)
-//            }
-//        }
         viewModelScope.launch(Dispatchers.IO) {
             val token = tokenManager.getAccessToken()
-
-
             if (token.isNullOrEmpty()) {
 
                 _isLogined.postValue(false)
@@ -42,9 +31,6 @@ class MainViewModel @Inject constructor(
                 _isLogined.postValue(true)
 
             }
-
-
-
         }
     }
 

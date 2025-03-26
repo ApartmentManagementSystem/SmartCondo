@@ -1,4 +1,4 @@
-package com.mit.apartmentmanagement.data.network
+package com.mit.apartmentmanagement.data.network.apiservers
 
 import com.mit.apartmentmanagement.models.ApiResponse
 import com.mit.apartmentmanagement.models.TokenResponse

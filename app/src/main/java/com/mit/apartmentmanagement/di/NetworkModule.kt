@@ -1,11 +1,10 @@
 package com.mit.apartmentmanagement.di
 
 import android.content.Context
-import com.mit.apartmentmanagement.data.network.AuthApi
+import com.mit.apartmentmanagement.data.network.apiservers.AuthApi
 import com.mit.apartmentmanagement.data.network.NetworkManager
-import com.mit.apartmentmanagement.data.network.RefreshApi
+import com.mit.apartmentmanagement.data.network.apiservers.RefreshApi
 import com.mit.apartmentmanagement.data.network.TokenManager
-import com.mit.apartmentmanagement.data.network.UserApi
 import com.mit.apartmentmanagement.data.network.interceptors.AuthInterceptor
 import com.mit.apartmentmanagement.data.network.interceptors.RefreshTokenInterceptor
 import com.mit.apartmentmanagement.util.Constant.BASE_URL
@@ -128,10 +127,6 @@ object NetworkModule {
         return retrofit.create(AuthApi::class.java)
     }
 
-    @Provides
-    @Singleton
-    fun provideUserApi(@Named("AuthRetrofit") retrofit: Retrofit): UserApi {
-        return retrofit.create(UserApi::class.java)
-    }
+
 
 }

@@ -1,7 +1,6 @@
 package com.mit.apartmentmanagement.data.network.interceptors
 
-import com.mit.apartmentmanagement.data.network.AuthApi
-import com.mit.apartmentmanagement.data.network.RefreshApi
+import com.mit.apartmentmanagement.data.network.apiservers.RefreshApi
 import com.mit.apartmentmanagement.data.network.TokenManager
 import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
@@ -20,7 +19,6 @@ class RefreshTokenInterceptor @Inject constructor(
 
                 val newTokenResponse = runBlocking {
                     refreshApi.refreshToken(refreshToken)
-                    //authApi.get().refreshToken(refreshToken)
                 }
 
                 if (newTokenResponse.isSuccessful) {
