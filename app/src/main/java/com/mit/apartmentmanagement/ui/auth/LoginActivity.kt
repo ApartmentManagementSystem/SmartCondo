@@ -1,20 +1,15 @@
-package com.mit.apartmentmanagement.ui
+package com.mit.apartmentmanagement.ui.auth
 
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.MotionEvent
-import android.widget.Button
-import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.lifecycle.ViewModelProvider
-import com.mit.apartmentmanagement.R
 import com.mit.apartmentmanagement.databinding.ActivityLoginBinding
+import com.mit.apartmentmanagement.ui.MainActivity
 import com.mit.apartmentmanagement.viewmodels.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
 

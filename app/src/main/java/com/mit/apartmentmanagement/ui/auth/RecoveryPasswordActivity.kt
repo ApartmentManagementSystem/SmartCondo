@@ -1,4 +1,4 @@
-package com.mit.apartmentmanagement.ui
+package com.mit.apartmentmanagement.ui.auth
 
 import android.content.Intent
 import android.content.res.Configuration
@@ -6,23 +6,20 @@ import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.mit.apartmentmanagement.R
-import com.mit.apartmentmanagement.databinding.ActivityForgetPasswordBinding
-import com.mit.apartmentmanagement.databinding.ActivityLoginBinding
+import com.mit.apartmentmanagement.databinding.ActivityRecoveryPasswordBinding
 
-class ForgetPasswordActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityForgetPasswordBinding
-
+class RecoveryPasswordActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityRecoveryPasswordBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //enableEdgeToEdge()
-        binding = ActivityForgetPasswordBinding.inflate(layoutInflater)
+        binding = ActivityRecoveryPasswordBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+
         controlStatusBar()
         initController()
     }
@@ -58,16 +55,30 @@ class ForgetPasswordActivity : AppCompatActivity() {
             }
             true // Trả về true để không bị override bởi onClick khác
         }
-        binding.btnSendEmail.setOnClickListener {
-            if (binding.txtEmail.text.toString().isEmpty()) {
-                Toast.makeText(this, "Vui lòng nhập email", Toast.LENGTH_SHORT).show()
+        binding.btnConfirm.setOnClickListener {
+            val code = binding.txtCode.text.toString().trim()
+            val newPassword = binding.txtNewPassword.text.toString().trim()
+            val confirmPassword = binding.txtConfirmPassword.text.toString().trim()
+
+            if (code.isEmpty() || newPassword.isEmpty() || confirmPassword.isEmpty()) {
+                showToast("Vui lòng nhập đầy đủ thông tin")
+                return@setOnClickListener
             }
-            else{
-                startActivity(Intent(this, VerifyEmailActivity::class.java))
+
+            if (newPassword != confirmPassword) {
+                showToast("Mật khẩu mới không khớp")
+                return@setOnClickListener
             }
+
+            showToast("Đổi mật khẩu thành công")
+            startActivity(Intent(this, LoginActivity::class.java))
         }
 
 
+
+    }
+    private fun showToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
     private fun controlStatusBar() {
@@ -84,5 +95,4 @@ class ForgetPasswordActivity : AppCompatActivity() {
             window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         }
     }
-
 }

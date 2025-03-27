@@ -20,6 +20,8 @@
     <color name="checkbox_color">#0A305F</color>
 
     <color name="mainColor">#284777</color>
+    <color name="iconColorActive">@color/background_real</color>
+    <color name="iconColorInactive">#74777F</color>
 
 
 

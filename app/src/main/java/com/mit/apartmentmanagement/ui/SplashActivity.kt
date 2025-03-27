@@ -7,10 +7,9 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.mit.apartmentmanagement.R
 import com.mit.apartmentmanagement.databinding.ActivitySplashBinding
+import com.mit.apartmentmanagement.ui.auth.LoginActivity
 import com.mit.apartmentmanagement.viewmodels.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -23,10 +22,11 @@ class SplashActivity : AppCompatActivity() {
         enableEdgeToEdge()
         binding= ActivitySplashBinding.inflate(layoutInflater)
         android.os.Handler(Looper.getMainLooper()).postDelayed({
-            checkLoginStatus()
+            //checkLoginStatus()
+            startActivity(Intent(this, MainActivity::class.java))
         }, 2000)
 
-        setContentView(R.layout.activity_splash)
+        setContentView(binding.root)
 
     }
 
@@ -39,7 +39,7 @@ class SplashActivity : AppCompatActivity() {
                 finish()
             }else{
                 Toast.makeText(this,"Not Logined", Toast.LENGTH_SHORT).show()
-                startActivity(Intent(this,LoginActivity::class.java))
+                startActivity(Intent(this, LoginActivity::class.java))
             }
         }
     }

@@ -1,4 +1,4 @@
-package com.mit.apartmentmanagement.ui
+package com.mit.apartmentmanagement.ui.auth
 
 import android.content.Intent
 import android.content.res.Configuration
@@ -9,13 +9,9 @@ import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.mit.apartmentmanagement.R
-import com.mit.apartmentmanagement.databinding.ActivityRecoveryPasswordBinding
 import com.mit.apartmentmanagement.databinding.ActivityVerifyEmailBinding
 
 class VerifyEmailActivity : AppCompatActivity() {

@@ -1,18 +1,14 @@
-package com.mit.apartmentmanagement.ui
+package com.mit.apartmentmanagement.ui.auth
 
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.mit.apartmentmanagement.R
 import com.mit.apartmentmanagement.databinding.ActivityChangePasswordBinding
-import com.mit.apartmentmanagement.databinding.ActivityRecoveryPasswordBinding
 
 class ChangePasswordActivity : AppCompatActivity() {
     private lateinit var binding: ActivityChangePasswordBinding
