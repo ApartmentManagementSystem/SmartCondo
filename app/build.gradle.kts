@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId = "com.mit.apartmentmanagement"
-        minSdk = 30
+        minSdk = 26
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
@@ -53,6 +53,8 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.navigation.fragment.ktx)
+    implementation(libs.androidx.navigation.ui.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -61,13 +63,10 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
     implementation("androidx.activity:activity-ktx:1.7.2")
-
-
     // Retrofit
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("com.squareup.okhttp3:logging-interceptor:4.11.0")
-
     // GSON
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
     // Coroutine
@@ -80,6 +79,8 @@ dependencies {
     kapt("com.google.dagger:hilt-android-compiler:2.51.1")
     // Secure storage
     implementation("androidx.security:security-crypto:1.1.0-alpha06")
+    //Circle ImageView
+    implementation(libs.circleimageview)
 
 }
 kapt {

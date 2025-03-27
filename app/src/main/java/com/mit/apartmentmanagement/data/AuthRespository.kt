@@ -1,11 +1,9 @@
 package com.mit.apartmentmanagement.data
 
-import com.mit.apartmentmanagement.data.network.AuthApi
+import com.mit.apartmentmanagement.data.network.apiservers.AuthApi
 import com.mit.apartmentmanagement.data.network.TokenManager
-import com.mit.apartmentmanagement.models.ApiResponse
 import com.mit.apartmentmanagement.models.LoginRequest
 import com.mit.apartmentmanagement.models.TokenResponse
-import retrofit2.Response
 import javax.inject.Inject
 import javax.inject.Singleton
 

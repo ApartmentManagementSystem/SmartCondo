@@ -17,7 +17,11 @@
     <color name="md_theme_onErrorContainer">#93000A</color>
     <color name="md_theme_outline">#74777F</color>
     <color name="md_theme_outlineVariant">#C4C6D0</color>
-    <color name="checkbox_color">#0A305F</color> <!-- Màu bạn muốn -->
+    <color name="checkbox_color">#0A305F</color>
+
+    <color name="mainColor">#284777</color>
+    <color name="iconColorActive">@color/background_real</color>
+    <color name="iconColorInactive">#74777F</color>
 
 
 
