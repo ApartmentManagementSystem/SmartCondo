@@ -3,8 +3,7 @@ package com.mit.apartmentmanagement.ui
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.mit.apartmentmanagement.R
@@ -12,7 +11,7 @@ import com.mit.apartmentmanagement.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class MainActivity: AppCompatActivity(){
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
 

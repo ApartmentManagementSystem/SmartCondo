@@ -24,6 +24,7 @@ class SplashActivity : AppCompatActivity() {
         android.os.Handler(Looper.getMainLooper()).postDelayed({
             //checkLoginStatus()
             startActivity(Intent(this, MainActivity::class.java))
+            finish()
         }, 2000)
 
         setContentView(binding.root)
