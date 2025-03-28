@@ -1,28 +1,39 @@
 package com.mit.apartmentmanagement.ui.auth
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.mit.apartmentmanagement.R
 import com.mit.apartmentmanagement.databinding.ActivityForgetPasswordBinding
+import com.mit.apartmentmanagement.ui.MainActivity
+import com.mit.apartmentmanagement.viewmodels.AuthViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ForgetPasswordActivity : AppCompatActivity() {
     private lateinit var binding: ActivityForgetPasswordBinding
+    private val authViewModel: AuthViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //enableEdgeToEdge()
         binding = ActivityForgetPasswordBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+
         controlStatusBar()
         initController()
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private fun initController() {
         binding.iconBack.setOnTouchListener { v, event ->
             when (event.action) {
@@ -36,7 +47,7 @@ class ForgetPasswordActivity : AppCompatActivity() {
                     v.animate().scaleX(1f).scaleY(1f).setDuration(100).start()
                 }
             }
-            true // Trả về true để không bị override bởi onClick khác
+            true
         }
         binding.txtSignIn.setOnTouchListener { v, event ->
             when (event.action) {
@@ -46,20 +57,34 @@ class ForgetPasswordActivity : AppCompatActivity() {
                 MotionEvent.ACTION_UP -> {
                     v.animate().scaleX(1f).scaleY(1f).setDuration(100).withEndAction {
                         startActivity(Intent(this, LoginActivity::class.java))
+                        finish()
                     }.start()
                 }
                 MotionEvent.ACTION_CANCEL -> {
                     v.animate().scaleX(1f).scaleY(1f).setDuration(100).start()
                 }
             }
-            true // Trả về true để không bị override bởi onClick khác
+            true
         }
+
         binding.btnSendEmail.setOnClickListener {
-            if (binding.txtEmail.text.toString().isEmpty()) {
+            val email = binding.txtEmail.text.toString().trim()
+
+            if (email.isEmpty()) {
                 Toast.makeText(this, "Vui lòng nhập email", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
             }
-            else{
-                startActivity(Intent(this, VerifyEmailActivity::class.java))
+
+            authViewModel.forgotPassword(email)
+        }
+
+        authViewModel.forgetPasswordResult.observe(this) { result ->
+            result.onSuccess {
+                Toast.makeText(this, "Đã gửi email thành công!", Toast.LENGTH_SHORT).show()
+                startActivity(Intent(this, RecoveryPasswordActivity::class.java))
+                finish()
+            }.onFailure { error ->
+                Toast.makeText(this, "Lỗi: ${error.message}", Toast.LENGTH_SHORT).show()
             }
         }
 

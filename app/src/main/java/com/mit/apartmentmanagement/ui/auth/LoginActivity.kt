@@ -9,7 +9,9 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.mit.apartmentmanagement.databinding.ActivityLoginBinding
+import com.mit.apartmentmanagement.models.LoginRequest
 import com.mit.apartmentmanagement.ui.MainActivity
+import com.mit.apartmentmanagement.viewmodels.AuthViewModel
 import com.mit.apartmentmanagement.viewmodels.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -17,7 +19,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
-    private val loginViewModel: LoginViewModel by viewModels()
+    private val authViewModel: AuthViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,8 +42,17 @@ class LoginActivity : AppCompatActivity() {
                 Toast.makeText(this, "Vui lòng nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-            startActivity(Intent(this, ProfileUserActivity::class.java))
-            loginViewModel.login(email, password)
+            authViewModel.login(LoginRequest(email,password))
+        }
+        authViewModel.loginResult.observe(this) { result ->
+            result.onSuccess { token ->
+                Toast.makeText(this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show()
+                Log.d("LoginViewModel", "Đăng nhập thành công: $token")
+                startActivity(Intent(this, MainActivity::class.java))
+                finish()
+            }.onFailure { error ->
+                Toast.makeText(this, "Lỗi: ${error.message}", Toast.LENGTH_SHORT).show()
+            }
         }
         binding.txtForgotPassword.setOnTouchListener { v, event ->
             when (event.action) {
@@ -59,16 +70,7 @@ class LoginActivity : AppCompatActivity() {
             }
             true // Trả về true để không bị override bởi onClick khác
         }
-        loginViewModel.loginResult.observe(this) { result ->
-            result.onSuccess { token ->
-                Toast.makeText(this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show()
-                Log.d("LoginViewModel", "Đăng nhập thành công: $token")
-                startActivity(Intent(this, MainActivity::class.java))
-                finish()
-            }.onFailure { error ->
-                Toast.makeText(this, "Lỗi: ${error.message}", Toast.LENGTH_SHORT).show()
-            }
-        }
+
 
     }
 }

@@ -1,18 +1,27 @@
 package com.mit.apartmentmanagement.ui.auth
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.mit.apartmentmanagement.R
 import com.mit.apartmentmanagement.databinding.ActivityRecoveryPasswordBinding
+import com.mit.apartmentmanagement.viewmodels.AuthViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.lifecycle.HiltViewModel
+import retrofit2.http.Header
 
+@AndroidEntryPoint
 class RecoveryPasswordActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRecoveryPasswordBinding
+    private val authViewModel: AuthViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //enableEdgeToEdge()
@@ -24,6 +33,7 @@ class RecoveryPasswordActivity : AppCompatActivity() {
         initController()
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private fun initController() {
         binding.iconBack.setOnTouchListener { v, event ->
             when (event.action) {
@@ -37,7 +47,7 @@ class RecoveryPasswordActivity : AppCompatActivity() {
                     v.animate().scaleX(1f).scaleY(1f).setDuration(100).start()
                 }
             }
-            true // Trả về true để không bị override bởi onClick khác
+            true
         }
         binding.txtSignIn.setOnTouchListener { v, event ->
             when (event.action) {
@@ -47,13 +57,14 @@ class RecoveryPasswordActivity : AppCompatActivity() {
                 MotionEvent.ACTION_UP -> {
                     v.animate().scaleX(1f).scaleY(1f).setDuration(100).withEndAction {
                         startActivity(Intent(this, LoginActivity::class.java))
+                        finish()
                     }.start()
                 }
                 MotionEvent.ACTION_CANCEL -> {
                     v.animate().scaleX(1f).scaleY(1f).setDuration(100).start()
                 }
             }
-            true // Trả về true để không bị override bởi onClick khác
+            true
         }
         binding.btnConfirm.setOnClickListener {
             val code = binding.txtCode.text.toString().trim()
@@ -64,14 +75,25 @@ class RecoveryPasswordActivity : AppCompatActivity() {
                 showToast("Vui lòng nhập đầy đủ thông tin")
                 return@setOnClickListener
             }
-
             if (newPassword != confirmPassword) {
                 showToast("Mật khẩu mới không khớp")
                 return@setOnClickListener
             }
+            authViewModel.recoveryPassword(code, newPassword, confirmPassword)
 
-            showToast("Đổi mật khẩu thành công")
-            startActivity(Intent(this, LoginActivity::class.java))
+
+        }
+        authViewModel.recoveryPasswordResult.observe(this) { result ->
+            result.onSuccess {
+                Toast.makeText(this, "Đổi mật khẩu thành công!", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, LoginActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(intent)
+                finishAffinity()
+
+            }.onFailure { error ->
+                Toast.makeText(this, "Lỗi: ${error.message}", Toast.LENGTH_SHORT).show()
+            }
         }
 
 

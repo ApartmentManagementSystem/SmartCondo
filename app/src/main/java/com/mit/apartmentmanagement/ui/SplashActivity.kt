@@ -22,9 +22,7 @@ class SplashActivity : AppCompatActivity() {
         enableEdgeToEdge()
         binding= ActivitySplashBinding.inflate(layoutInflater)
         android.os.Handler(Looper.getMainLooper()).postDelayed({
-            //checkLoginStatus()
-            startActivity(Intent(this, MainActivity::class.java))
-            finish()
+            checkLoginStatus()
         }, 2000)
 
         setContentView(binding.root)
