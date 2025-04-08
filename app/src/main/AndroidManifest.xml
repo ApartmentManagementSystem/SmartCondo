@@ -18,28 +18,22 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".ui.auth.ChangePasswordActivity"
+            android:name=".persentation.ui.auth.VerifyEmailActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.auth.ProfileUserActivity"
+            android:name=".persentation.ui.auth.RecoveryPasswordActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.auth.VerifyEmailActivity"
+            android:name=".persentation.ui.auth.ForgetPasswordActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.auth.RecoveryPasswordActivity"
+            android:name=".persentation.ui.auth.LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.auth.ForgetPasswordActivity"
+            android:name=".persentation.ui.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.auth.LoginActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.MainActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.SplashActivity"
+            android:name=".persentation.ui.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

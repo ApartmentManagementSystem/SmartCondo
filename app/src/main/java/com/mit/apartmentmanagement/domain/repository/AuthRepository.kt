@@ -1,8 +1,8 @@
 package com.mit.apartmentmanagement.domain.repository
 
-import com.mit.apartmentmanagement.models.ChangePasswordRequest
-import com.mit.apartmentmanagement.models.LoginRequest
-import com.mit.apartmentmanagement.models.TokenResponse
+import com.mit.apartmentmanagement.domain.model.ChangePasswordRequest
+import com.mit.apartmentmanagement.domain.model.LoginRequest
+import com.mit.apartmentmanagement.domain.model.TokenResponse
 
 interface AuthRepository {
     suspend fun login(request: LoginRequest): Result<TokenResponse>

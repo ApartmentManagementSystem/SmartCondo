@@ -1,9 +1,9 @@
 package com.mit.apartmentmanagement.di
 
 import android.content.Context
-import com.mit.apartmentmanagement.data.network.apiservers.AuthApi
+import com.mit.apartmentmanagement.data.apiservers.AuthApi
 import com.mit.apartmentmanagement.data.network.NetworkManager
-import com.mit.apartmentmanagement.data.network.apiservers.RefreshApi
+import com.mit.apartmentmanagement.data.apiservers.RefreshApi
 import com.mit.apartmentmanagement.data.network.TokenManager
 import com.mit.apartmentmanagement.data.network.interceptors.AuthInterceptor
 import com.mit.apartmentmanagement.data.network.interceptors.RefreshTokenInterceptor

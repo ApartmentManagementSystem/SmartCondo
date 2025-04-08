@@ -1,6 +1,6 @@
 package com.mit.apartmentmanagement.data.network.interceptors
 
-import com.mit.apartmentmanagement.data.network.apiservers.RefreshApi
+import com.mit.apartmentmanagement.data.apiservers.RefreshApi
 import com.mit.apartmentmanagement.data.network.TokenManager
 import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
@@ -42,6 +42,24 @@ class RefreshTokenInterceptor @Inject constructor(
             }
         }
         return response
+
+    }
+
+    fun refreshToken(){
+        val refreshToken = tokenManager.getRefreshToken()?:""
+         val newTokenResponse=refreshApi.refreshToken(refreshToken)
+        if (newTokenResponse.isSuccessful) {
+            newTokenResponse.body()?.data?.let { tokenResponse ->
+                // Save new tokens
+                tokenManager.saveTokens(
+                    tokenResponse.accessToken,
+                    tokenResponse.refreshToken
+                )
+            }
+        } else {
+            // Refresh token failed - logout user
+            tokenManager.clearTokens()
+        }
 
     }
 }

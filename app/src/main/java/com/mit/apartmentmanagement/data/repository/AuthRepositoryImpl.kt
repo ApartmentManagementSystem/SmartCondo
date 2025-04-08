@@ -1,19 +1,17 @@
 package com.mit.apartmentmanagement.data.repository
 
-import android.util.Log
-import com.mit.apartmentmanagement.data.RemoteDataSource
+import com.mit.apartmentmanagement.data.datasource.AuthRemoteDataSource
 import com.mit.apartmentmanagement.data.network.TokenManager
 import com.mit.apartmentmanagement.domain.repository.AuthRepository
-import com.mit.apartmentmanagement.models.ChangePasswordRequest
-import com.mit.apartmentmanagement.models.LoginRequest
-import com.mit.apartmentmanagement.models.TokenResponse
-import dagger.hilt.android.scopes.ActivityRetainedScoped
+import com.mit.apartmentmanagement.domain.model.ChangePasswordRequest
+import com.mit.apartmentmanagement.domain.model.LoginRequest
+import com.mit.apartmentmanagement.domain.model.TokenResponse
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class AuthRepositoryImpl @Inject constructor(
-    private val remoteDataSource: RemoteDataSource,
+    private val remoteDataSource: AuthRemoteDataSource,
     private val  tokenManager : TokenManager
 ) : AuthRepository {
 
