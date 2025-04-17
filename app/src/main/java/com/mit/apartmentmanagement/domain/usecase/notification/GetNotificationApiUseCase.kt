@@ -2,6 +2,7 @@ package com.mit.apartmentmanagement.domain.usecase.notification
 
 import com.mit.apartmentmanagement.domain.repository.NotificationRepository
 import retrofit2.Response
+import com.mit.apartmentmanagement.data.model.Notification
 import javax.inject.Inject
 
 class GetNotificationApiUseCase @Inject constructor(

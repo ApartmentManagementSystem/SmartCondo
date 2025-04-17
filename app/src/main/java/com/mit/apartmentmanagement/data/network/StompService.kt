@@ -27,6 +27,7 @@ import javax.inject.Singleton
 class StompService @Inject constructor(
     private val tokenManager: TokenManager,
     private val refreshTokenInterceptor: RefreshTokenInterceptor,
+    private
 ) {
 
     private val serverUrl = URL_STOMP
@@ -113,7 +114,7 @@ class StompService @Inject constructor(
     fun observeNotificationUpdates(): Flow<Notification> = callbackFlow {
         if (!isConnected) connect()
 
-        val disposable = stompClient.topic("topic/notification")
+        val disposable = stompClient.topic("topic/notification/email")
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ message: StompMessage ->
@@ -126,6 +127,8 @@ class StompService @Inject constructor(
 
         awaitClose { disposable.dispose() }
     }
+
+
 
     /**
      * Trả về Flow cập nhật invoice.
