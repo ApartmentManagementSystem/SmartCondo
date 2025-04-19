@@ -10,7 +10,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.mit.apartmentmanagement.databinding.ActivityLoginBinding
 import com.mit.apartmentmanagement.domain.model.LoginRequest
-import com.mit.apartmentmanagement.ui.MainActivity
+import com.mit.apartmentmanagement.persentation.ui.MainActivity
 import com.mit.apartmentmanagement.persentation.viewmodels.AuthViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -25,11 +25,7 @@ class LoginActivity : AppCompatActivity() {
         enableEdgeToEdge()
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         initController()
-
-
-
 
     }
     private fun initController() {

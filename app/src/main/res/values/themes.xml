@@ -5,6 +5,8 @@
         <item name="colorPrimary">@color/md_theme_primary</item>
         <!-- Màu của checkbox khi được chọn -->
         <item name="colorControlActivated">@color/checkbox_color</item>
+        <item name="android:textViewStyle">@style/AppTextViewStyle</item>
+
     </style>
 
     <style name="Theme.ApartmentManagement" parent="Base.Theme.ApartmentManagement" />

@@ -5,7 +5,10 @@ import javax.inject.Inject
 
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import javax.inject.Singleton
 
+
+//@Singleton
 class NetworkStatusImpl @Inject constructor(
     private val context: Context
 ) : NetworkStatus {

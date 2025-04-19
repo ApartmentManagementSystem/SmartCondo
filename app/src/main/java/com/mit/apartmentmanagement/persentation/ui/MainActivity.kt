@@ -15,11 +15,10 @@ import androidx.lifecycle.lifecycleScope
 
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
-import com.google.android.material.navigation.NavigationView
 import com.mit.apartmentmanagement.R
 import com.mit.apartmentmanagement.databinding.ActivityMainBinding
-import com.mit.apartmentmanagement.ui.auth.LoginActivity
-import com.mit.apartmentmanagement.ui.auth.ProfileUserActivity
+import com.mit.apartmentmanagement.persentation.ui.auth.LoginActivity
+import com.mit.apartmentmanagement.persentation.ui.auth.ProfileUserActivity
 import com.mit.apartmentmanagement.persentation.viewmodels.AuthViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -32,11 +31,12 @@ class MainActivity: AppCompatActivity(){
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //enableEdgeToEdge()
+        enableEdgeToEdge()
         binding = ActivityMainBinding.inflate(layoutInflater)
         val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.fragmentContainerView) as NavHostFragment
         navController = navHostFragment.navController
+
         binding.btnMenu.setOnClickListener {
             binding.main.open()
         }
@@ -44,7 +44,6 @@ class MainActivity: AppCompatActivity(){
         setupBottomNavigation()
         setupTiltle()
         setContentView(binding.root)
-        controlStatusBar()
 
         authViewModel.logoutResult.observe(this) { result ->
             result.onSuccess {
@@ -96,6 +95,8 @@ class MainActivity: AppCompatActivity(){
                 else -> false
             }
         }
+
+
     }
     private fun setupBottomNavigation() {
         binding.bottomNavMenu.setOnItemSelectedListener {
@@ -143,19 +144,5 @@ class MainActivity: AppCompatActivity(){
             .show()
 
 
-    }
-    private fun controlStatusBar() {
-        val window = window
-        window.statusBarColor = ContextCompat.getColor(this, R.color.background_real)
-
-        // Kiểm tra chế độ Dark Mode
-        val nightModeFlags = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
-        if (nightModeFlags == Configuration.UI_MODE_NIGHT_YES) {
-            // Nếu đang ở Dark Mode -> Chữ status bar là trắng
-            window.decorView.systemUiVisibility = 0
-        } else {
-            // Nếu đang ở Light Mode -> Chữ status bar là đen
-            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-        }
     }
 }

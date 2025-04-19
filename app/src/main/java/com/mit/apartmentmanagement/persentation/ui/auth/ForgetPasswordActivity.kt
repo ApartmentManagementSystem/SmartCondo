@@ -13,7 +13,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.mit.apartmentmanagement.R
 import com.mit.apartmentmanagement.databinding.ActivityForgetPasswordBinding
-import com.mit.apartmentmanagement.ui.MainActivity
 import com.mit.apartmentmanagement.persentation.viewmodels.AuthViewModel
 import dagger.hilt.android.AndroidEntryPoint
 

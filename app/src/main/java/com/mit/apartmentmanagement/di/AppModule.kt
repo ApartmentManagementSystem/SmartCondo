@@ -13,10 +13,7 @@ import dagger.hilt.components.SingletonComponent
 
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class AppModule {
+object AppModule {
     @Provides
     fun provideContext(application: Application): Context = application
-
-    @Binds
-    abstract fun bindNetworkStatus(impl: NetworkStatusImpl): NetworkStatus
 }

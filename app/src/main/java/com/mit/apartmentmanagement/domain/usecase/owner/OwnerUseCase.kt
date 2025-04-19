@@ -5,8 +5,8 @@ import com.mit.apartmentmanagement.domain.repository.OwnerRepository
 import javax.inject.Inject
 
 class OwnerUseCase @Inject constructor(
-    private val ownerRepository: OwnerRepository
-) {
+    private val ownerRepository: OwnerRepository,
+    ) {
     suspend operator fun invoke(): Result<Owner> {
         return ownerRepository.getOwner()
     }

@@ -27,7 +27,6 @@ import javax.inject.Singleton
 class StompService @Inject constructor(
     private val tokenManager: TokenManager,
     private val refreshTokenInterceptor: RefreshTokenInterceptor,
-    private
 ) {
 
     private val serverUrl = URL_STOMP

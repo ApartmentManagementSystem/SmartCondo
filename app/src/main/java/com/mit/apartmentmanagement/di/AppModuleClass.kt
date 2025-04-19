@@ -1,5 +1,7 @@
 package com.mit.apartmentmanagement.di
 
+import com.mit.apartmentmanagement.data.network.util.NetworkStatus
+import com.mit.apartmentmanagement.data.network.util.NetworkStatusImpl
 import com.mit.apartmentmanagement.data.repository.AuthRepositoryImpl
 import com.mit.apartmentmanagement.data.repository.NotificationRepositoryImpl
 import com.mit.apartmentmanagement.data.repository.OwnerRepositoryImpl
@@ -15,7 +17,7 @@ import javax.inject.Singleton
 // Thay thế @Provides bằng @Binds trong abstract module
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class RepositoryModule {
+abstract class AppModuleClass {
     @Binds
     @Singleton
     abstract fun bindAuthRepository(repo: AuthRepositoryImpl): AuthRepository
@@ -27,4 +29,8 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindOwnerRepository(repo: OwnerRepositoryImpl): OwnerRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindNetworkStatus(impl: NetworkStatusImpl): NetworkStatus
 }

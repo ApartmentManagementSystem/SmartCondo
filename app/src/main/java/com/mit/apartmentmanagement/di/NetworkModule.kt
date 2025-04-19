@@ -3,13 +3,17 @@ package com.mit.apartmentmanagement.di
 import android.content.Context
 import com.mit.apartmentmanagement.data.apiservers.ApartmentApi
 import com.mit.apartmentmanagement.data.apiservers.AuthApi
+import com.mit.apartmentmanagement.data.apiservers.OwnerApi
 import com.mit.apartmentmanagement.data.network.interceptors.NetworkManager
 import com.mit.apartmentmanagement.data.apiservers.RefreshApi
 import com.mit.apartmentmanagement.data.network.TokenManager
 import com.mit.apartmentmanagement.data.network.interceptors.AuthInterceptor
 import com.mit.apartmentmanagement.data.network.interceptors.RefreshTokenInterceptor
+import com.mit.apartmentmanagement.data.network.util.NetworkStatus
+import com.mit.apartmentmanagement.data.network.util.NetworkStatusImpl
 import com.mit.apartmentmanagement.util.Constant.BASE_URL
 import com.mit.apartmentmanagement.util.Constant.NETWORK_TIMEOUT
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -134,6 +138,11 @@ object NetworkModule {
         return retrofit.create(ApartmentApi::class.java)
     }
 
+    @Provides
+    @Singleton
+    fun provideOwnerApi(@Named("AuthRetrofit") retrofit: Retrofit): OwnerApi {
+        return retrofit.create(OwnerApi::class.java)
+    }
 
 
 }
