@@ -1,4 +1,4 @@
-package com.mit.apartmentmanagement.util
+package com.mit.apartmentmanagement.persentation.util
 
 sealed class NetworkResult<T>(
     val data: T? = null,

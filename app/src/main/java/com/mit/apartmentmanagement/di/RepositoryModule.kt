@@ -2,30 +2,29 @@ package com.mit.apartmentmanagement.di
 
 import com.mit.apartmentmanagement.data.repository.AuthRepositoryImpl
 import com.mit.apartmentmanagement.data.repository.NotificationRepositoryImpl
+import com.mit.apartmentmanagement.data.repository.OwnerRepositoryImpl
 import com.mit.apartmentmanagement.domain.repository.AuthRepository
 import com.mit.apartmentmanagement.domain.repository.NotificationRepository
+import com.mit.apartmentmanagement.domain.repository.OwnerRepository
 import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
+// Thay thế @Provides bằng @Binds trong abstract module
 @Module
 @InstallIn(SingletonComponent::class)
-object RepositoryModule {
-
-    @Provides
+abstract class RepositoryModule {
+    @Binds
     @Singleton
-    fun provideAuthRepository(
-        authRepositoryImpl: AuthRepositoryImpl
-    ): AuthRepository = authRepositoryImpl
+    abstract fun bindAuthRepository(repo: AuthRepositoryImpl): AuthRepository
 
-    @Provides
+    @Binds
     @Singleton
-    fun provideNotificationRepository(
-        notificationRepositoryImpl: NotificationRepositoryImpl,
-    ): NotificationRepository = notificationRepositoryImpl
+    abstract fun bindNotificationRepository(repo: NotificationRepositoryImpl): NotificationRepository
 
-
+    @Binds
+    @Singleton
+    abstract fun bindOwnerRepository(repo: OwnerRepositoryImpl): OwnerRepository
 }

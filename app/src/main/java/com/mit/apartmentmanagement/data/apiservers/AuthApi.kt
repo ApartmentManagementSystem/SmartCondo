@@ -32,11 +32,9 @@ interface AuthApi {
     @PUT("api/users/forgot-password")
     suspend fun recoveryPassword(@Body request: ForgotPasswordRequest): Response<ApiResponse<Unit>>
 
-
     @PUT("api/users/change-password")
     suspend fun changePassword(
         @Body request: ChangePasswordRequest
     ): Response<ApiResponse<Unit>>
-
 
 }

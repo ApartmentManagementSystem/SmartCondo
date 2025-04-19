@@ -1,6 +1,6 @@
 package com.mit.apartmentmanagement.domain.repository
 
-import com.mit.apartmentmanagement.data.model.Notification
+import com.mit.apartmentmanagement.data.model.notification.Notification
 import kotlinx.coroutines.flow.Flow
 import retrofit2.Response
 

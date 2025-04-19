@@ -1,4 +1,4 @@
-package com.mit.apartmentmanagement.data.network
+package com.mit.apartmentmanagement.data.network.interceptors
 
 import android.content.Context
 import android.net.ConnectivityManager

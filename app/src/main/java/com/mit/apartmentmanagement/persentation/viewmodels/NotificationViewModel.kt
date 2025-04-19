@@ -2,10 +2,10 @@ package com.mit.apartmentmanagement.persentation.viewmodels
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.mit.apartmentmanagement.data.model.Notification
+import com.mit.apartmentmanagement.data.model.notification.Notification
 import com.mit.apartmentmanagement.domain.repository.NotificationRepository
 import com.mit.apartmentmanagement.persentation.util.networkconnect.NetworkListener
-import com.mit.apartmentmanagement.util.NetworkResult
+import com.mit.apartmentmanagement.persentation.util.NetworkResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Inject

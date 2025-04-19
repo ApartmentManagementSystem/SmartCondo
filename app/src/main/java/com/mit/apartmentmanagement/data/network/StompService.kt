@@ -4,7 +4,7 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import com.google.gson.Gson
-import com.mit.apartmentmanagement.data.model.Notification
+import com.mit.apartmentmanagement.data.model.notification.Notification
 import com.mit.apartmentmanagement.data.network.interceptors.RefreshTokenInterceptor
 import com.mit.apartmentmanagement.domain.model.MonthlyInvoice
 import com.mit.apartmentmanagement.domain.model.Request

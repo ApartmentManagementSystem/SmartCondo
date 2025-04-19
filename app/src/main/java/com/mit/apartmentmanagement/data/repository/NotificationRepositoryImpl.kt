@@ -2,7 +2,7 @@ package com.mit.apartmentmanagement.data.repository
 
 import com.mit.apartmentmanagement.data.network.StompService
 import com.mit.apartmentmanagement.data.apiservers.NotificationApi
-import com.mit.apartmentmanagement.data.model.Notification
+import com.mit.apartmentmanagement.data.model.notification.Notification
 import com.mit.apartmentmanagement.domain.repository.NotificationRepository
 import kotlinx.coroutines.flow.Flow
 import retrofit2.Response

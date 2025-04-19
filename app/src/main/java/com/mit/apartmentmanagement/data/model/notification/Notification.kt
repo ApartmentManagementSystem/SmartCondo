@@ -1,4 +1,4 @@
-package com.mit.apartmentmanagement.data.model
+package com.mit.apartmentmanagement.data.model.notification
 
 import com.google.gson.annotations.SerializedName
 import java.time.LocalDateTime

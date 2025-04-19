@@ -1,6 +1,6 @@
 package com.mit.apartmentmanagement.data.apiservers
 
-import com.mit.apartmentmanagement.data.model.Notification
+import com.mit.apartmentmanagement.data.model.notification.Notification
 import retrofit2.Response
 import retrofit2.http.GET
 

@@ -9,7 +9,7 @@
 
         <variable
             name="notification"
-            type="com.mit.apartmentmanagement.data.model.Notification" />
+            type="com.mit.apartmentmanagement.data.model.notification.Notification" />
 
     </data>
 

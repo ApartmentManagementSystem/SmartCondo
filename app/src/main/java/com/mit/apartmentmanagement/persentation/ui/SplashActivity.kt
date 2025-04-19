@@ -9,7 +9,6 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.mit.apartmentmanagement.R
 import com.mit.apartmentmanagement.databinding.ActivitySplashBinding
-import com.mit.apartmentmanagement.ui.auth.LoginActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

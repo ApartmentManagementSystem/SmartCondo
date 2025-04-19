@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.mit.apartmentmanagement.data.model.Notification
+import com.mit.apartmentmanagement.data.model.notification.Notification
 import com.mit.apartmentmanagement.databinding.ItemNotificationBinding
 import com.mit.apartmentmanagement.persentation.util.GenericDiffUtil
 

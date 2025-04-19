@@ -8,11 +8,10 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import com.mit.apartmentmanagement.R
 import com.mit.apartmentmanagement.databinding.FragmentNotificationBinding
 import com.mit.apartmentmanagement.persentation.ui.adapter.NotificationAdapter
 import com.mit.apartmentmanagement.persentation.viewmodels.NotificationViewModel
-import com.mit.apartmentmanagement.util.NetworkResult
+import com.mit.apartmentmanagement.persentation.util.NetworkResult
 import kotlinx.coroutines.launch
 
 

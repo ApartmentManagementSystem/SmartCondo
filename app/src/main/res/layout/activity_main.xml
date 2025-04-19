@@ -6,7 +6,7 @@
     android:background="@color/background_real"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.MainActivity">
+    tools:context=".persentation.ui.MainActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -81,7 +81,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:itemBackground="@drawable/bottom_nav_item_background"
                 app:menu="@menu/bottom_nav_menu" />
-
         </androidx.cardview.widget.CardView>
 
 
