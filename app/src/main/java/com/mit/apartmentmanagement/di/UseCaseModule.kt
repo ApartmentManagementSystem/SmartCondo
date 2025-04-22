@@ -4,6 +4,7 @@ import com.mit.apartmentmanagement.domain.repository.AuthRepository
 import com.mit.apartmentmanagement.domain.repository.NotificationRepository
 import com.mit.apartmentmanagement.domain.usecase.auth.LoginUseCase
 import com.mit.apartmentmanagement.domain.usecase.auth.LogoutUseCase
+import com.mit.apartmentmanagement.domain.usecase.auth.RecoveryPasswordUseCase
 import com.mit.apartmentmanagement.domain.usecase.notification.GetNotificationApiUseCase
 import com.mit.apartmentmanagement.domain.usecase.notification.ObserveStompNotificationUseCase
 import dagger.Module
@@ -28,11 +29,11 @@ object UseCaseModule {
         return LogoutUseCase(authRepository)
     }
 
-    @Provides
-    @Singleton
-    fun provideForgetPasswordUseCase(authRepository: AuthRepository): ForgetPasswordUseCase {
-        return ForgetPasswordUseCase(authRepository)
-    }
+//    @Provides
+//    @Singleton
+//    fun provideForgetPasswordUseCase(authRepository: AuthRepository): ForgetPasswordUseCase {
+//        return ForgetPasswordUseCase(authRepository)
+//    }
 
     @Provides
     @Singleton
@@ -40,11 +41,11 @@ object UseCaseModule {
         return RecoveryPasswordUseCase(authRepository)
     }
 
-    @Provides
-    @Singleton
-    fun provideChangePasswordUseCase(authRepository: AuthRepository): ChangePasswordUseCase {
-        return ChangePasswordUseCase(authRepository)
-    }
+//    @Provides
+//    @Singleton
+//    fun provideChangePasswordUseCase(authRepository: AuthRepository): ChangePasswordUseCase {
+//        return ChangePasswordUseCase(authRepository)
+//    }
 
     @Provides
     @Singleton

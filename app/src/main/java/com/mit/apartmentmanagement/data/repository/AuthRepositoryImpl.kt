@@ -5,6 +5,7 @@ import com.mit.apartmentmanagement.data.network.TokenManager
 import com.mit.apartmentmanagement.domain.repository.AuthRepository
 import com.mit.apartmentmanagement.domain.model.ChangePasswordRequest
 import com.mit.apartmentmanagement.domain.model.LoginRequest
+import com.mit.apartmentmanagement.domain.model.RecoveryPasswordRequest
 import com.mit.apartmentmanagement.domain.model.TokenResponse
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -72,9 +73,9 @@ class AuthRepositoryImpl @Inject constructor(
     }
 
 
-    override suspend fun resetPassword(password: String): Result<Unit> {
+    override suspend fun recoveryPassword(request: RecoveryPasswordRequest): Result<Unit> {
         return try {
-            val response = remoteDataSource.resetPassword(password)
+            val response = remoteDataSource.recoveryPassword(request)
             if (response.isSuccessful) {
                 Result.success(Unit)
             } else {

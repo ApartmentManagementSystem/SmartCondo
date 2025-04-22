@@ -4,6 +4,7 @@ import com.mit.apartmentmanagement.data.apiservice.AuthApi
 import com.mit.apartmentmanagement.data.apiservice.NoAuthApi
 import com.mit.apartmentmanagement.domain.model.ChangePasswordRequest
 import com.mit.apartmentmanagement.domain.model.LoginRequest
+import com.mit.apartmentmanagement.domain.model.RecoveryPasswordRequest
 import com.mit.apartmentmanagement.domain.model.TokenResponse
 import retrofit2.Response
 
@@ -32,8 +33,8 @@ class AuthRemoteDataSource @Inject constructor(
         return noAuthApi.confirmCode(code)
     }
 
-    suspend fun resetPassword(password: String): Response<Unit> {
-        return noAuthApi.resetPassword(password)
+    suspend fun recoveryPassword(request: RecoveryPasswordRequest): Response<Unit> {
+        return noAuthApi.recoveryPassword(request)
     }
 
     suspend fun logout(): Response<Unit> {

@@ -1,6 +1,7 @@
 package com.mit.apartmentmanagement.data.apiservice
 
 import com.mit.apartmentmanagement.domain.model.LoginRequest
+import com.mit.apartmentmanagement.domain.model.RecoveryPasswordRequest
 import com.mit.apartmentmanagement.domain.model.TokenResponse
 import retrofit2.Response
 import retrofit2.http.Body
@@ -14,7 +15,7 @@ interface NoAuthApi {
     suspend fun confirmCode(@Body code: String): Response<Unit>
 
     @POST("api/users/reset-password")
-    suspend fun resetPassword(@Body password: String): Response<Unit>
+    suspend fun recoveryPassword(@Body request: RecoveryPasswordRequest): Response<Unit>
 
     @POST("api/users/login")
     suspend fun login(@Body request: LoginRequest): Response<TokenResponse>
