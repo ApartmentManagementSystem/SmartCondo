@@ -1,8 +1,13 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.ApartmentManagement" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <!-- Màu chủ đạo của app -->
+        <item name="colorPrimary">@color/md_theme_primary</item>
+        <item name="textInputStyle">@style/AppTextInputLayoutStyle</item>
+        <item name="editTextStyle">@style/AppEditTextStyle</item>
+        <item name="fontFamily">@font/inter</item>
+        <item name="android:textColor">@color/text_primary</item>"
+
     </style>
 
     <style name="Theme.ApartmentManagement" parent="Base.Theme.ApartmentManagement" />

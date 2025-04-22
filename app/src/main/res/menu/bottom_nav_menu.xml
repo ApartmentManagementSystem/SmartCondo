@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/amenitiesFragment"
+        android:icon="@drawable/ic_nav_amenities"
+        android:iconTint="@color/white"
+        android:title="@string/amenities" />
+    <item
+        android:id="@+id/invoiceFragment"
+        android:icon="@drawable/ic_nav_invoice"
+        android:iconTint="@color/white"
+        android:title="@string/invoice" />
+    <item
+        android:id="@+id/homeFragment"
+        android:icon="@drawable/ic_nav_home"
+        android:iconTint="@color/white"
+        android:title="@string/home" />
+    <item
+        android:id="@+id/notificationFragment"
+        android:icon="@drawable/ic_notification"
+        android:iconTint="@color/white"
+        android:title="@string/notification" />
+    <item
+        android:id="@+id/requestFragment"
+        android:icon="@drawable/ic_nav_request"
+        android:iconTint="@color/white"
+        android:title="@string/request" />
+</menu>

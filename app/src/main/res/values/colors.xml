@@ -2,4 +2,30 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="background_real">#FFFFFFFF</color>
+    <color name="md_theme_primary">#415F91</color>
+    <color name="md_theme_onPrimary">#FFFFFF</color>
+    <color name="md_theme_primaryContainer">#D6E3FF</color>
+    <color name="md_theme_onPrimaryContainer">#284777</color>
+    <color name="md_theme_secondary">#565F71</color>
+    <color name="md_theme_onSecondary">#FFFFFF</color>
+    <color name="md_theme_secondaryContainer">#DAE2F9</color>
+    <color name="md_theme_onSecondaryContainer">#3E4759</color>
+    <color name="md_theme_error">#BA1A1A</color>
+    <color name="md_theme_onError">#FFFFFF</color>
+    <color name="md_theme_errorContainer">#FFDAD6</color>
+    <color name="md_theme_onErrorContainer">#93000A</color>
+    <color name="md_theme_outline">#74777F</color>
+    <color name="md_theme_outlineVariant">#C4C6D0</color>
+    <color name="checkbox_color">#0A305F</color>
+
+    <color name="main">#284777</color>
+    <color name="iconColorActive">@color/background_real</color>
+    <color name="iconColorInactive">#74777F</color>
+    <color name="gray">#808080</color>
+    <color name="text_primary">#000000</color>
+    <color name="text_secondary">#808080</color>
+
+
+
 </resources>
