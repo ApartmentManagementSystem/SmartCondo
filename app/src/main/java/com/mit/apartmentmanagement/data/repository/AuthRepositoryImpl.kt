@@ -5,6 +5,7 @@ import com.mit.apartmentmanagement.data.network.TokenManager
 import com.mit.apartmentmanagement.domain.repository.AuthRepository
 import com.mit.apartmentmanagement.domain.model.ChangePasswordRequest
 import com.mit.apartmentmanagement.domain.model.LoginRequest
+import com.mit.apartmentmanagement.domain.model.RecoveryPasswordRequest
 import com.mit.apartmentmanagement.domain.model.TokenResponse
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -12,105 +13,92 @@ import javax.inject.Singleton
 @Singleton
 class AuthRepositoryImpl @Inject constructor(
     private val remoteDataSource: AuthRemoteDataSource,
-    private val  tokenManager : TokenManager
+    private val tokenManager: TokenManager
 ) : AuthRepository {
 
-    override suspend fun login(request: LoginRequest): Result<TokenResponse> {
+    override suspend fun checkLoggedIn(): Result<Unit> {
+        try {
+            val response = remoteDataSource.loggedInCheck()
+            if (response.isSuccessful) {
+                return Result.success(Unit)
+            }
+            return Result.failure(Exception(response.message()))
+        } catch (e: Exception) {
+            return Result.failure(e)
+        }
+    }
+
+    override suspend fun login(request: LoginRequest): Result<Unit> {
         return try {
             val response = remoteDataSource.login(request)
-            val body = response.body()
-            if (response.isSuccessful && body?.status == 200) {
-                body.data?.let {
+            if (response.isSuccessful) {
+                response.body()?.let {
                     tokenManager.saveTokens(it.accessToken, it.refreshToken)
-                    return Result.success(it)
+                    return Result.success(Unit)
                 }
-                return Result.failure(Exception("Token không hợp lệ"))
+                return Result.failure(Exception("Server error"))
             }
-            val errorMessage = body?.message ?: response.errorBody()?.string() ?: "Lỗi không xác định"
-            Result.failure(Exception(errorMessage))
+            Result.failure(Exception(response.message()))
         } catch (e: Exception) {
             Result.failure(e)
         }
     }
 
-    override suspend fun loginCheck(): Boolean {
-        val token = tokenManager.getAccessToken() ?: return false
-        val response = remoteDataSource.loginCheck("Bearer $token")
-        return response.isSuccessful && response.body()?.data == true
+    override suspend fun checkRegisteredEmail(email: String): Result<Unit> {
+        return try {
+            val response = remoteDataSource.checkRegisteredEmail(email)
+            if (response.isSuccessful) {
+                Result.success(Unit)
+            } else {
+                val errorMsg = response.errorBody()?.string() ?: "Email is not registered"
+                Result.failure(Exception(errorMsg))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
     }
+
+    override suspend fun confirmCode(code: String): Result<Unit> {
+        return try {
+            val response = remoteDataSource.confirmCode(code)
+            if (response.isSuccessful) {
+                Result.success(Unit)
+            } else {
+                val errorMsg = response.errorBody()?.string() ?: "Invalid verification code"
+                Result.failure(Exception(errorMsg))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+
+    override suspend fun recoveryPassword(request: RecoveryPasswordRequest): Result<Unit> {
+        return try {
+            val response = remoteDataSource.recoveryPassword(request)
+            if (response.isSuccessful) {
+                Result.success(Unit)
+            } else {
+                val errorMsg = response.errorBody()?.string() ?: "Invalid password"
+                Result.failure(Exception(errorMsg))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
 
     override suspend fun logout(): Result<Unit> {
         return try {
-            //val token = tokenManager.getAccessToken() ?: return Result.failure(Exception("Token không tồn tại"))
             val response = remoteDataSource.logout()
-            val body = response.body()
-
-            if (response.isSuccessful && body?.status == 200) {
+            if (response.isSuccessful) {
                 tokenManager.clearTokens()
                 Result.success(Unit)
             } else {
-                val errorMessage = body?.message ?: "Lỗi không xác định "
-                Result.failure(Exception(errorMessage))
+                Result.failure(Exception("Error logging out"))
             }
         } catch (e: Exception) {
             Result.failure(e)
         }
     }
-
-    override suspend fun forgotPassword(email: String): Result<Unit> {
-        return try {
-            val response = remoteDataSource.forgotPassword(email)
-            val body = response.body()
-
-            if (response.isSuccessful && body?.status == 200) {
-                Result.success(Unit)
-            } else {
-                val errorMessage = body?.message ?: "Tài khoản chưa được đăng kí"
-                Result.failure(Exception(errorMessage))
-            }
-        } catch (e: Exception) {
-            Result.failure(e)
-        }
-
-    }
-
-    override suspend fun recoveryPassword(
-        code: String,
-        newPassword: String,
-        confirmPassword: String
-    ): Result<Unit> {
-        return try {
-            val response = remoteDataSource.recoveryPassword(code, newPassword, confirmPassword)
-            val body = response.body()
-
-            if (response.isSuccessful && body?.status == 200) {
-                Result.success(Unit)
-            } else {
-                val errorMessage = body?.message ?: "Lỗi không xác định"
-                Result.failure(Exception(errorMessage))
-            }
-        } catch (e: Exception) {
-            Result.failure(e)
-        }
-
-    }
-
-    override suspend fun changePassword(request: ChangePasswordRequest): Result<Unit> {
-        return try {
-           // val token = tokenManager.getAccessToken() ?: return Result.failure(Exception("Token không tồn tại"))
-            val response = remoteDataSource.changePassword(request)
-            val body = response.body()
-
-            if (response.isSuccessful && body?.status == 200) {
-                Result.success(Unit)
-            } else {
-                val errorMessage = body?.message ?: "Lỗi không xác định"
-                Result.failure(Exception(errorMessage))
-            }
-        } catch (e: Exception) {
-            Result.failure(e)
-        }
-    }
-
-
 }

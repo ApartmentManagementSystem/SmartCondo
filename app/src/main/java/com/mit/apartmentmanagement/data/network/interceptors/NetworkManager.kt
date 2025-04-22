@@ -10,7 +10,7 @@ class NetworkManager(context: Context) : Interceptor {
 
     private val appContext = context.applicationContext
 
-    fun isNetworkAvailable(): Boolean {
+    private fun isNetworkAvailable(): Boolean {
         val connectivityManager = appContext.getSystemService(
             Context.CONNECTIVITY_SERVICE
         ) as ConnectivityManager

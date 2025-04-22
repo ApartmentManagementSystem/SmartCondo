@@ -1,10 +1,12 @@
 package com.mit.apartmentmanagement.persentation.ui.auth
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.mit.apartmentmanagement.R
@@ -15,7 +17,7 @@ class ProfileUserActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //enableEdgeToEdge()
+        enableEdgeToEdge()
         binding = ActivityProfileUserBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -24,6 +26,7 @@ class ProfileUserActivity : AppCompatActivity() {
 
 
     }
+    @SuppressLint("ClickableViewAccessibility")
     private fun initController() {
         binding.iconBack.setOnTouchListener { v, event ->
             when (event.action) {

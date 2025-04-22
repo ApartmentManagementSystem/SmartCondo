@@ -24,7 +24,7 @@
             android:name=".persentation.ui.auth.RecoveryPasswordActivity"
             android:exported="false" />
         <activity
-            android:name=".persentation.ui.auth.ForgetPasswordActivity"
+            android:name=".persentation.ui.auth.SendCodeActivity"
             android:exported="false" />
         <activity
             android:name=".persentation.ui.auth.LoginActivity"

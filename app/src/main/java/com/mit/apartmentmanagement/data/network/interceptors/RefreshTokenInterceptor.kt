@@ -1,7 +1,8 @@
 package com.mit.apartmentmanagement.data.network.interceptors
 
-import com.mit.apartmentmanagement.data.apiservers.RefreshApi
+import com.mit.apartmentmanagement.data.apiservice.RefreshApi
 import com.mit.apartmentmanagement.data.network.TokenManager
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import okhttp3.Response
@@ -11,55 +12,48 @@ class RefreshTokenInterceptor @Inject constructor(
     private val tokenManager: TokenManager,
     private val refreshApi: RefreshApi
 ) : Interceptor {
+
     override fun intercept(chain: Interceptor.Chain): Response {
-        val response = chain.proceed(chain.request())
-        if (response.code == 401) { // Token expired
-            synchronized(this) {
-                val refreshToken = tokenManager.getRefreshToken() ?: return response
+        // Thực hiện request ban đầu
+        val originalResponse = chain.proceed(chain.request())
 
-                val newTokenResponse = runBlocking {
-                    refreshApi.refreshToken(refreshToken)
-                }
-
-                if (newTokenResponse.isSuccessful) {
-                    newTokenResponse.body()?.data?.let { tokenResponse ->
-                        // Save new tokens
-                        tokenManager.saveTokens(
-                            tokenResponse.accessToken,
-                            tokenResponse.refreshToken
-                        )
-                        // Retry original request with new token
-                        val newRequest = chain.request().newBuilder()
-                            .header("Authorization", "Bearer ${tokenResponse.accessToken}")
-                            .build()
-                        return chain.proceed(newRequest)
-                    }
-                } else {
-                    // Refresh token failed - logout user
-                    tokenManager.clearTokens()
-
-                }
-            }
-        }
-        return response
-
-    }
-
-    fun refreshToken(){
-        val refreshToken = tokenManager.getRefreshToken()?:""
-         val newTokenResponse=refreshApi.refreshToken(refreshToken)
-        if (newTokenResponse.isSuccessful) {
-            newTokenResponse.body()?.data?.let { tokenResponse ->
-                // Save new tokens
-                tokenManager.saveTokens(
-                    tokenResponse.accessToken,
-                    tokenResponse.refreshToken
-                )
-            }
-        } else {
-            // Refresh token failed - logout user
-            tokenManager.clearTokens()
+        // Kiểm tra lỗi 401 (Unauthorized)
+        if (originalResponse.code != 401) {
+            return originalResponse
         }
 
+        synchronized(this) {
+            // Kiểm tra xem đã refresh token chưa để tránh lặp vô hạn
+            if (originalResponse.request.header("Authorization")?.contains("Retry") == true) {
+                return originalResponse
+            }
+
+            val refreshToken = tokenManager.getRefreshToken() ?: run {
+                tokenManager.clearTokens()
+                return originalResponse
+            }
+
+            // Thực hiện refresh token trên background thread
+            val newTokenResponse = runBlocking(Dispatchers.IO) {
+                refreshApi.refreshToken(refreshToken)
+            }
+
+            if (!newTokenResponse.isSuccessful || newTokenResponse.body() == null) {
+                tokenManager.clearTokens()
+                return originalResponse
+            }
+
+            // Lưu token mới
+            val tokenData = newTokenResponse.body()!!
+            tokenManager.saveTokens(tokenData.accessToken, tokenData.refreshToken)
+
+            // Retry request với token mới (thêm header "Retry" để đánh dấu)
+            val newRequest = chain.request().newBuilder()
+                .header("Authorization", "Bearer ${tokenData.accessToken}")
+                .header("Retry", "1") // Ngăn chặn lặp vô hạn
+                .build()
+
+            return chain.proceed(newRequest)
+        }
     }
 }

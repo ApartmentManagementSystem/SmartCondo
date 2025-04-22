@@ -2,13 +2,16 @@ package com.mit.apartmentmanagement.domain.repository
 
 import com.mit.apartmentmanagement.domain.model.ChangePasswordRequest
 import com.mit.apartmentmanagement.domain.model.LoginRequest
+import com.mit.apartmentmanagement.domain.model.RecoveryPasswordRequest
 import com.mit.apartmentmanagement.domain.model.TokenResponse
 
 interface AuthRepository {
-    suspend fun login(request: LoginRequest): Result<TokenResponse>
-    suspend fun loginCheck(): Boolean
+
+    suspend fun checkLoggedIn(): Result<Unit>
+    suspend fun login(request: LoginRequest): Result<Unit>
+    suspend fun checkRegisteredEmail(email: String): Result<Unit>
+    suspend fun confirmCode(code: String): Result<Unit>
+    suspend fun recoveryPassword(request: RecoveryPasswordRequest): Result<Unit>
     suspend fun logout(): Result<Unit>
-    suspend fun forgotPassword(email: String): Result<Unit>
-    suspend fun recoveryPassword(code: String, newPassword: String, confirmPassword: String): Result<Unit>
-    suspend fun changePassword(request: ChangePasswordRequest): Result<Unit>
+
 }
