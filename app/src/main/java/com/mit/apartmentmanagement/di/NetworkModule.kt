@@ -1,19 +1,17 @@
 package com.mit.apartmentmanagement.di
 
 import android.content.Context
-import com.mit.apartmentmanagement.data.apiservers.ApartmentApi
-import com.mit.apartmentmanagement.data.apiservers.AuthApi
-import com.mit.apartmentmanagement.data.apiservers.OwnerApi
+import com.mit.apartmentmanagement.data.apiservice.ApartmentApi
+import com.mit.apartmentmanagement.data.apiservice.AuthApi
+import com.mit.apartmentmanagement.data.apiservice.NoAuthApi
+import com.mit.apartmentmanagement.data.apiservice.OwnerApi
 import com.mit.apartmentmanagement.data.network.interceptors.NetworkManager
-import com.mit.apartmentmanagement.data.apiservers.RefreshApi
+import com.mit.apartmentmanagement.data.apiservice.RefreshApi
 import com.mit.apartmentmanagement.data.network.TokenManager
 import com.mit.apartmentmanagement.data.network.interceptors.AuthInterceptor
 import com.mit.apartmentmanagement.data.network.interceptors.RefreshTokenInterceptor
-import com.mit.apartmentmanagement.data.network.util.NetworkStatus
-import com.mit.apartmentmanagement.data.network.util.NetworkStatusImpl
 import com.mit.apartmentmanagement.util.Constant.BASE_URL
 import com.mit.apartmentmanagement.util.Constant.NETWORK_TIMEOUT
-import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -61,9 +59,12 @@ object NetworkModule {
     @Provides
     @Singleton
     @Named("NoAuthClient")
-    fun provideNoAuthOkHttpClient(): OkHttpClient {
+    fun provideNoAuthOkHttpClient(
+        networkManager: NetworkManager
+    ): OkHttpClient {
         return OkHttpClient.Builder()
             .connectTimeout(NETWORK_TIMEOUT, TimeUnit.SECONDS)
+            .addInterceptor(networkManager)
             .build()
     }
 
@@ -92,7 +93,7 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    @Named("RefreshRetrofit")
+    @Named("NoAuthRetrofit")
     fun provideRefreshRetrofit(
         @Named("NoAuthClient") client: OkHttpClient,
         converterFactory: GsonConverterFactory
@@ -118,10 +119,12 @@ object NetworkModule {
             .build()
     }
 
+
+
     @Provides
     @Singleton
     fun provideRefreshApi(
-        @Named("RefreshRetrofit") retrofit: Retrofit
+        @Named("NoAuthRetrofit") retrofit: Retrofit
     ): RefreshApi {
         return retrofit.create(RefreshApi::class.java)
     }
@@ -130,6 +133,12 @@ object NetworkModule {
     @Singleton
     fun provideAuthApi(@Named("AuthRetrofit") retrofit: Retrofit): AuthApi {
         return retrofit.create(AuthApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideNoAuthApi(@Named("NoAuthRetrofit") retrofit: Retrofit): NoAuthApi {
+        return retrofit.create(NoAuthApi::class.java)
     }
 
     @Provides

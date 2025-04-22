@@ -1,4 +1,4 @@
-package com.mit.apartmentmanagement.data.apiservers
+package com.mit.apartmentmanagement.data.apiservice
 
 import com.mit.apartmentmanagement.data.model.notification.Notification
 import retrofit2.Response

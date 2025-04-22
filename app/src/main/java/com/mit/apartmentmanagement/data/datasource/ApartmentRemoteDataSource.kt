@@ -1,6 +1,6 @@
 package com.mit.apartmentmanagement.data.datasource
 
-import com.mit.apartmentmanagement.data.apiservers.ApartmentApi
+import com.mit.apartmentmanagement.data.apiservice.ApartmentApi
 import javax.inject.Inject
 
 class ApartmentRemoteDataSource @Inject constructor(

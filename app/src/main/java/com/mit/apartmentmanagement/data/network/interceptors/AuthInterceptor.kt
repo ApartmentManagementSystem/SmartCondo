@@ -4,15 +4,19 @@ import com.mit.apartmentmanagement.data.network.TokenManager
 import okhttp3.Interceptor
 import okhttp3.Response
 
-class AuthInterceptor(private val tokenManager: TokenManager):Interceptor {
+class AuthInterceptor(private val tokenManager: TokenManager) : Interceptor {
+
     override fun intercept(chain: Interceptor.Chain): Response {
-        val request = chain.request().newBuilder()
+        val request = chain.request()
+            .newBuilder()
+            .apply {
+                tokenManager.getAccessToken()?.let { token ->
+                    addHeader("Authorization", "Bearer $token")
+                }
+            }
+            .build()
 
-        tokenManager.getAccessToken()?.let { token ->
-            request.addHeader("Authorization", "Bearer $token")
-        }
-
-        return chain.proceed(request.build())
+        return chain.proceed(request)
     }
 
 }

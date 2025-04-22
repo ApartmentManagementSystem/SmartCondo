@@ -3,9 +3,10 @@
     <style name="Base.Theme.ApartmentManagement" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Màu chủ đạo của app -->
         <item name="colorPrimary">@color/md_theme_primary</item>
-        <!-- Màu của checkbox khi được chọn -->
-        <item name="colorControlActivated">@color/checkbox_color</item>
-        <item name="android:textViewStyle">@style/AppTextViewStyle</item>
+        <item name="textInputStyle">@style/AppTextInputLayoutStyle</item>
+        <item name="editTextStyle">@style/AppEditTextStyle</item>
+        <item name="fontFamily">@font/inter</item>
+        <item name="android:textColor">@color/text_primary</item>"
 
     </style>
 

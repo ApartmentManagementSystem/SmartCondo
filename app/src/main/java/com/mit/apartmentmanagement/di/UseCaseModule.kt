@@ -2,11 +2,8 @@ package com.mit.apartmentmanagement.di
 
 import com.mit.apartmentmanagement.domain.repository.AuthRepository
 import com.mit.apartmentmanagement.domain.repository.NotificationRepository
-import com.mit.apartmentmanagement.domain.usecase.auth.ChangePasswordUseCase
-import com.mit.apartmentmanagement.domain.usecase.auth.ForgetPasswordUseCase
 import com.mit.apartmentmanagement.domain.usecase.auth.LoginUseCase
 import com.mit.apartmentmanagement.domain.usecase.auth.LogoutUseCase
-import com.mit.apartmentmanagement.domain.usecase.auth.RecoveryPasswordUseCase
 import com.mit.apartmentmanagement.domain.usecase.notification.GetNotificationApiUseCase
 import com.mit.apartmentmanagement.domain.usecase.notification.ObserveStompNotificationUseCase
 import dagger.Module

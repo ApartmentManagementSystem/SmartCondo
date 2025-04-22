@@ -90,6 +90,8 @@ dependencies {
     // RxJava 2
     implementation ("io.reactivex.rxjava2:rxjava:2.2.21")
     implementation ("io.reactivex.rxjava2:rxandroid:2.1.1")
+    //ProcessBar
+    implementation("com.github.ybq:Android-SpinKit:1.4.0")
 
 }
 kapt {

@@ -12,4 +12,11 @@
     <string name="invoice">Invoice</string>
     <string name="home">Home</string>
     <string name="request">Request</string>
+    <string name="login">Login</string>
+    <string name="hi_welcome_back_to_smartcodon">Hi! Welcome back to SmartCodon</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="forgot_password">Forgot password ?</string>
+    <string name="agree_with_term_condition"><![CDATA[Agree with term & condition]]></string>
+    <string name="please_agree_to_our_terms_and_conditions">Please agree to our terms and conditions.</string>
 </resources>
