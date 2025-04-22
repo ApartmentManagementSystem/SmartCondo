@@ -1,10 +1,8 @@
-package com.mit.apartmentmanagement.persentation.ui.auth
+package com.mit.apartmentmanagement.persentation.ui.login
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.util.Patterns
-import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge

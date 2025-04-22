@@ -28,23 +28,23 @@ object UseCaseModule {
         return LogoutUseCase(authRepository)
     }
 
-    @Provides
-    @Singleton
-    fun provideForgetPasswordUseCase(authRepository: AuthRepository): ForgetPasswordUseCase {
-        return ForgetPasswordUseCase(authRepository)
-    }
-
-    @Provides
-    @Singleton
-    fun provideRecoveryPasswordUseCase(authRepository: AuthRepository): RecoveryPasswordUseCase {
-        return RecoveryPasswordUseCase(authRepository)
-    }
-
-    @Provides
-    @Singleton
-    fun provideChangePasswordUseCase(authRepository: AuthRepository): ChangePasswordUseCase {
-        return ChangePasswordUseCase(authRepository)
-    }
+//    @Provides
+//    @Singleton
+//    fun provideForgetPasswordUseCase(authRepository: AuthRepository): ForgetPasswordUseCase {
+//        return ForgetPasswordUseCase(authRepository)
+//    }
+//
+//    @Provides
+//    @Singleton
+//    fun provideRecoveryPasswordUseCase(authRepository: AuthRepository): RecoveryPasswordUseCase {
+//        return RecoveryPasswordUseCase(authRepository)
+//    }
+//
+//    @Provides
+//    @Singleton
+//    fun provideChangePasswordUseCase(authRepository: AuthRepository): ChangePasswordUseCase {
+//        return ChangePasswordUseCase(authRepository)
+//    }
 
     @Provides
     @Singleton

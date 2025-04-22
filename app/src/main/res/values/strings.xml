@@ -19,4 +19,10 @@
     <string name="forgot_password">Forgot password ?</string>
     <string name="agree_with_term_condition"><![CDATA[Agree with term & condition]]></string>
     <string name="please_agree_to_our_terms_and_conditions">Please agree to our terms and conditions.</string>
+    <string name="verify_email">Verify Email</string>
+    <string name="send_code">Send code</string>
+    <string name="already_remember_account">Already remember account ?</string>
+    <string name="sign_in">Sign In</string>
+    <string name="please_enter_your_email">Please enter your email</string>
+    <string name="invalid_email_format">Invalid email format</string>
 </resources>

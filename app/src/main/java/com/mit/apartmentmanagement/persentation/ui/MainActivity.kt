@@ -1,23 +1,20 @@
 package com.mit.apartmentmanagement.persentation.ui
 
 import android.content.Intent
-import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.mit.apartmentmanagement.R
 import com.mit.apartmentmanagement.databinding.ActivityMainBinding
-import com.mit.apartmentmanagement.persentation.ui.auth.LoginActivity
+import com.mit.apartmentmanagement.persentation.ui.login.LoginActivity
 import com.mit.apartmentmanagement.persentation.ui.auth.ProfileUserActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
