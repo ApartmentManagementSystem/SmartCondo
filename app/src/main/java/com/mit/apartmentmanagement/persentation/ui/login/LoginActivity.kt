@@ -1,7 +1,9 @@
-package com.mit.apartmentmanagement.persentation.ui.auth
+package com.mit.apartmentmanagement.persentation.ui.login
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.util.Patterns
 import android.view.View
 import android.widget.Toast
@@ -12,6 +14,7 @@ import com.mit.apartmentmanagement.R
 import com.mit.apartmentmanagement.databinding.ActivityLoginBinding
 import com.mit.apartmentmanagement.domain.model.LoginRequest
 import com.mit.apartmentmanagement.persentation.ui.MainActivity
+import com.mit.apartmentmanagement.persentation.ui.verify_email.VerifyEmailActivity
 import com.mit.apartmentmanagement.persentation.util.NetworkResult
 import com.mit.apartmentmanagement.presentation.viewmodels.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -41,6 +44,7 @@ class LoginActivity : AppCompatActivity() {
                 }
 
                 is NetworkResult.Error -> {
+                    hideProcessBar()
                     Toast.makeText(this, result.message, Toast.LENGTH_SHORT).show()
                 }
 
@@ -53,33 +57,28 @@ class LoginActivity : AppCompatActivity() {
 
     }
 
+    private fun Context.toast(message: CharSequence) =
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+
     private fun setupUI() {
         binding.apply {
             btnLogin.setOnClickListener {
-                if (checkBox.isChecked) {
-                    val email = edtEmail.text.toString().trim()
-                    val password = edtPassword.text.toString().trim()
-                    val (isValid, errorMessage) = validateCredentials(email, password)
-                    if (!isValid) {
-                        val loginRequest = LoginRequest(email, password)
-                        loginViewModel.login(loginRequest)
-                        showProcessBar()
-                    } else {
-                        Toast.makeText(
-                            this@LoginActivity,
-                            errorMessage,
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                } else {
-                    Toast.makeText(
-                        this@LoginActivity,
-                        getString(R.string.please_agree_to_our_terms_and_conditions),
-                        Toast.LENGTH_SHORT
-                    ).show()
+                if (!checkBox.isChecked) {
+                    toast(getString(R.string.please_agree_to_our_terms_and_conditions))
+                    return@setOnClickListener
                 }
+                val email = edtEmail.text.toString().trim()
+                val password = edtPassword.text.toString().trim()
+                validateCredentials(email, password)?.let { errorMsg ->
+                    Log.d("LoginActivity", errorMsg)
+                    Toast.makeText(this@LoginActivity, errorMsg, Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+                loginViewModel.login(LoginRequest(email, password))
             }
-
+            tvForgotPassword.setOnClickListener {
+                startActivity(Intent(this@LoginActivity, VerifyEmailActivity::class.java))
+            }
         }
     }
 
@@ -94,40 +93,18 @@ class LoginActivity : AppCompatActivity() {
     }
 
 
-    private fun validateCredentials(email: String, password: String): Pair<Boolean, String> {
-        // 1. Không để trống
-        if (email.isBlank()) {
-            return false to "Email must not be empty"
-        }
-        if (password.isBlank()) {
-            return false to "Password must not be empty"
-        }
+    private fun validateCredentials(email: String, password: String): String? {
+        if (email.isBlank()) return getString(R.string.email_must_not_be_empty)
+        if (password.isBlank()) return getString(R.string.password_must_not_be_empty)
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches())
+            return getString(R.string.invalid_email_format)
+        if (password.length < 6) return getString(R.string.password_must_be_at_least_6_characters)
 
-        // 2. Email phải đúng định dạng
-        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            return false to "Invalid email format"
-        }
+        val forbidden = listOf(";", "--", "'", "\"", "/*", "*/", "DROP ", "SELECT ")
+        if (forbidden.any { it in email || it in password })
+            return getString(R.string.input_contains_invalid_characters)
 
-        // 3. Password tối thiểu 6 ký tự
-        if (password.length < 6) {
-            return false to "Password must be at least 6 characters"
-        }
-
-        // 4. Ngăn chặn ký tự nguy hiểm dễ dẫn đến SQL Injection
-        //    (trong client chỉ mang tính cảnh báo, backend vẫn phải dùng parameterized query)
-        val forbiddenPatterns = listOf(";", "--", "'", "\"", "/*", "*/", "DROP ", "SELECT ")
-        forbiddenPatterns.forEach { pat ->
-            if (email.contains(pat, ignoreCase = true) || password.contains(
-                    pat,
-                    ignoreCase = true
-                )
-            ) {
-                return false to "Input contains invalid characters"
-            }
-        }
-
-        // Nếu qua hết, hợp lệ
-        return true to ""
+        return null
     }
 
 //    private fun initController() {

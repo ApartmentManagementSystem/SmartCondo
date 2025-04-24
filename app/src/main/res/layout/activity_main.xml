@@ -59,6 +59,7 @@
         <androidx.cardview.widget.CardView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:elevation="12dp"
             app:cardElevation="12dp"
             app:cardCornerRadius="0dp"
             app:cardBackgroundColor="@color/white"
@@ -76,6 +77,7 @@
                 app:itemIconTint="@drawable/bottom_nav_color_selector"
                 app:itemPaddingTop="15dp"
                 app:itemIconSize="25dp"
+                android:elevation="8dp"
                 app:itemPaddingBottom="15dp"
                 app:itemTextColor="@drawable/bottom_nav_color_selector"
                 app:layout_constraintStart_toStartOf="parent"

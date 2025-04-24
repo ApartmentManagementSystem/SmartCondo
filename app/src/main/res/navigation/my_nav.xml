@@ -7,27 +7,27 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.mit.apartmentmanagement.ui.home.HomeFragment"
+        android:name="com.mit.apartmentmanagement.persentation.ui.home.HomeFragment"
         android:label="@string/app_name"
         tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/notificationFragment"
-        android:name="com.mit.apartmentmanagement.ui.notification.NotificationFragment"
+        android:name="com.mit.apartmentmanagement.persentation.ui.notification.NotificationFragment"
         android:label="@string/notification"
         tools:layout="@layout/fragment_notification" />
     <fragment
         android:id="@+id/invoiceFragment"
-        android:name="com.mit.apartmentmanagement.ui.invoice.InvoiceFragment"
+        android:name="com.mit.apartmentmanagement.persentation.ui.invoice.InvoiceFragment"
         android:label="@string/invoice"
         tools:layout="@layout/fragment_invoice" />
     <fragment
         android:id="@+id/requestFragment"
-        android:name="com.mit.apartmentmanagement.ui.request.RequestFragment"
+        android:name="com.mit.apartmentmanagement.persentation.ui.request.RequestFragment"
         android:label="@string/invoice"
         tools:layout="@layout/fragment_request" />
     <fragment
         android:id="@+id/amenitiesFragment"
-        android:name="com.mit.apartmentmanagement.ui.amenity.AmenitiesFragment"
+        android:name="com.mit.apartmentmanagement.persentation.ui.amenity.AmenitiesFragment"
         android:label="@string/amenities"
         tools:layout="@layout/fragment_amenities" />
 </navigation>

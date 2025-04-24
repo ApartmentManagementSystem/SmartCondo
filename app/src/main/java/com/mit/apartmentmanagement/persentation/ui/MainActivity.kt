@@ -1,36 +1,27 @@
 package com.mit.apartmentmanagement.persentation.ui
 
 import android.content.Intent
-import android.content.res.Configuration
 import android.os.Bundle
-import android.util.Log
-import android.view.View
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.mit.apartmentmanagement.R
 import com.mit.apartmentmanagement.databinding.ActivityMainBinding
-import com.mit.apartmentmanagement.persentation.ui.auth.LoginActivity
 import com.mit.apartmentmanagement.persentation.ui.auth.ProfileUserActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class MainActivity: AppCompatActivity(){
+class MainActivity: BaseActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
-    private val authViewModel: AuthViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         binding = ActivityMainBinding.inflate(layoutInflater)
         val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.fragmentContainerView) as NavHostFragment
@@ -44,16 +35,16 @@ class MainActivity: AppCompatActivity(){
         setupTiltle()
         setContentView(binding.root)
 
-        authViewModel.logoutResult.observe(this) { result ->
-            result.onSuccess {
-                Toast.makeText(this, "Đăng xuất thành công!", Toast.LENGTH_SHORT).show()
-                Log.d("LoginViewModel", "Đăng xuất thành công")
-                startActivity(Intent(this, LoginActivity::class.java))
-                finish()
-            }.onFailure { error ->
-                Toast.makeText(this, "Lỗi: ${error.message}", Toast.LENGTH_SHORT).show()
-            }
-        }
+//        authViewModel.logoutResult.observe(this) { result ->
+//            result.onSuccess {
+//                Toast.makeText(this, "Đăng xuất thành công!", Toast.LENGTH_SHORT).show()
+//                Log.d("LoginViewModel", "Đăng xuất thành công")
+//                startActivity(Intent(this, LoginActivity::class.java))
+//                finish()
+//            }.onFailure { error ->
+//                Toast.makeText(this, "Lỗi: ${error.message}", Toast.LENGTH_SHORT).show()
+//            }
+//        }
 
     }
 
@@ -136,7 +127,7 @@ class MainActivity: AppCompatActivity(){
             .setMessage("Bạn có chắc chắn muốn đăng xuất không?")
             .setPositiveButton("Đăng xuất") { _, _ ->
                 lifecycleScope.launch {
-                    authViewModel.logout()
+                    //authViewModel.logout()
                 }
             }
             .setNegativeButton("Hủy", null)

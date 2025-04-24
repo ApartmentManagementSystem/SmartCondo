@@ -1,5 +1,6 @@
 package com.mit.apartmentmanagement.data.datasource
 
+import android.util.Log
 import com.mit.apartmentmanagement.data.apiservice.AuthApi
 import com.mit.apartmentmanagement.data.apiservice.NoAuthApi
 import com.mit.apartmentmanagement.domain.model.ChangePasswordRequest
@@ -16,6 +17,7 @@ class AuthRemoteDataSource @Inject constructor(
 ) {
 
     suspend fun loggedInCheck(): Response<Unit> {
+        Log.d("AuthRemoteDataSource", "loggedInCheck() called")
         return authApi.checkLoggedIn()
     }
 

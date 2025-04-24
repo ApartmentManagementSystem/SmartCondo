@@ -1,27 +1,19 @@
 package com.mit.apartmentmanagement.persentation.ui.auth
 
-import android.annotation.SuppressLint
 import android.content.Intent
-import android.content.res.Configuration
 import android.os.Bundle
-import android.util.Patterns
-import android.view.MotionEvent
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
-import com.mit.apartmentmanagement.R
 import com.mit.apartmentmanagement.databinding.ActivityRecoveryPasswordBinding
-import com.mit.apartmentmanagement.domain.model.LoginRequest
 import com.mit.apartmentmanagement.domain.model.RecoveryPasswordRequest
-import com.mit.apartmentmanagement.persentation.ui.MainActivity
+import com.mit.apartmentmanagement.persentation.ui.login.LoginActivity
 import com.mit.apartmentmanagement.persentation.util.NetworkResult
 import com.mit.apartmentmanagement.persentation.viewmodels.RecoveryPasswordViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.android.lifecycle.HiltViewModel
-import retrofit2.http.Header
 
 @AndroidEntryPoint
 class RecoveryPasswordActivity : AppCompatActivity() {
@@ -39,10 +31,12 @@ class RecoveryPasswordActivity : AppCompatActivity() {
     private fun setupUI() {
         binding.apply {
             btnConfirm.setOnClickListener {
-
                 val resetCode = edtResetCode.text.toString().trim()
                 val newPassword = edtNewPassword.text.toString().trim()
                 val confirmPassword = edtConfirmPassword.text.toString().trim()
+//                val recoveryPasswordRequest = RecoveryPasswordRequest(resetCode,newPassword,confirmPassword)
+//                recoveryPasswordViewModel.recoveryPassword(recoveryPasswordRequest)
+
                 val (isValid, errorMessage) = validateCredentials(resetCode,newPassword,confirmPassword)
                 if (!isValid) {
                     val recoveryPasswordRequest = RecoveryPasswordRequest(resetCode,newPassword,confirmPassword)
@@ -72,7 +66,9 @@ class RecoveryPasswordActivity : AppCompatActivity() {
                 }
 
                 is NetworkResult.Error -> {
+                    hideProcessBar()
                     Toast.makeText(this, result.message, Toast.LENGTH_SHORT).show()
+                    Log.d("RecoveryPasswordViewModel", result.message ?: "Unknown error")
                 }
 
                 is NetworkResult.Loading -> {

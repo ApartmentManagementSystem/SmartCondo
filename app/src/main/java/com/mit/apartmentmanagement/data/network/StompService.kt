@@ -81,7 +81,7 @@ class StompService @Inject constructor(
 
     private fun handleTokenExpiration() {
         disconnect()
-        refreshTokenInterceptor.refreshToken()
+        //refreshTokenInterceptor.refreshToken()
         connect()
     }
 
