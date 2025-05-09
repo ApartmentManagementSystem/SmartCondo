@@ -1,12 +1,13 @@
 package com.mit.apartmentmanagement.di
 
 import android.content.Context
-import com.mit.apartmentmanagement.data.apiservice.ApartmentApi
-import com.mit.apartmentmanagement.data.apiservice.AuthApi
-import com.mit.apartmentmanagement.data.apiservice.NoAuthApi
-import com.mit.apartmentmanagement.data.apiservice.OwnerApi
+import com.mit.apartmentmanagement.data.apiservice.auth.ApartmentApi
+import com.mit.apartmentmanagement.data.apiservice.auth.AuthApi
+import com.mit.apartmentmanagement.data.apiservice.auth.InvoiceApi
+import com.mit.apartmentmanagement.data.apiservice.noauth.NoAuthApi
+import com.mit.apartmentmanagement.data.apiservice.auth.OwnerApi
 import com.mit.apartmentmanagement.data.network.interceptors.NetworkManager
-import com.mit.apartmentmanagement.data.apiservice.RefreshApi
+import com.mit.apartmentmanagement.data.apiservice.noauth.RefreshApi
 import com.mit.apartmentmanagement.data.network.TokenManager
 import com.mit.apartmentmanagement.data.network.interceptors.AuthInterceptor
 import com.mit.apartmentmanagement.data.network.interceptors.RefreshTokenInterceptor
@@ -120,7 +121,6 @@ object NetworkModule {
     }
 
 
-
     @Provides
     @Singleton
     fun provideRefreshApi(
@@ -151,6 +151,12 @@ object NetworkModule {
     @Singleton
     fun provideOwnerApi(@Named("AuthRetrofit") retrofit: Retrofit): OwnerApi {
         return retrofit.create(OwnerApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideInvoiceApi(@Named("AuthRetrofit") retrofit: Retrofit): InvoiceApi {
+        return retrofit.create(InvoiceApi::class.java)
     }
 
 

@@ -1,4 +1,4 @@
-package com.mit.apartmentmanagement.data.apiservice
+package com.mit.apartmentmanagement.data.apiservice.auth
 
 import com.mit.apartmentmanagement.data.model.apartment.Apartment
 import retrofit2.Response

@@ -1,12 +1,14 @@
 package com.mit.apartmentmanagement.di
 
 import com.mit.apartmentmanagement.domain.repository.AuthRepository
+import com.mit.apartmentmanagement.domain.repository.InvoiceRepository
 import com.mit.apartmentmanagement.domain.repository.NotificationRepository
 import com.mit.apartmentmanagement.domain.usecase.auth.LoginUseCase
 import com.mit.apartmentmanagement.domain.usecase.auth.LogoutUseCase
 import com.mit.apartmentmanagement.domain.usecase.auth.RecoveryPasswordUseCase
+import com.mit.apartmentmanagement.domain.usecase.invoice.GetInvoiceMonthlyUseCase
 import com.mit.apartmentmanagement.domain.usecase.notification.GetNotificationApiUseCase
-import com.mit.apartmentmanagement.domain.usecase.notification.ObserveStompNotificationUseCase
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -53,13 +55,16 @@ object UseCaseModule {
         return GetNotificationApiUseCase(notificationRepository)
     }
 
-    @Provides
+//    @Provides
+//    @Singleton
+//    fun provideObserveStompNotificationUseCase(notificationRepository: NotificationRepository): ObserveStompNotificationUseCase {
+//        return ObserveStompNotificationUseCase(notificationRepository)
+//    }
+
+    @Binds
     @Singleton
-    fun provideObserveStompNotificationUseCase(notificationRepository: NotificationRepository): ObserveStompNotificationUseCase {
-        return ObserveStompNotificationUseCase(notificationRepository)
+    fun bindGetInvoiceMonthlyUseCase(invoiceRepository: InvoiceRepository): GetInvoiceMonthlyUseCase {
+        return GetInvoiceMonthlyUseCase(invoiceRepository)
     }
-
-
-
 
 }

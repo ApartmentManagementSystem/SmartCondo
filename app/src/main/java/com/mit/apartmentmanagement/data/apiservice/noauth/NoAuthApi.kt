@@ -1,4 +1,4 @@
-package com.mit.apartmentmanagement.data.apiservice
+package com.mit.apartmentmanagement.data.apiservice.noauth
 
 import com.mit.apartmentmanagement.domain.model.LoginRequest
 import com.mit.apartmentmanagement.domain.model.RecoveryPasswordRequest

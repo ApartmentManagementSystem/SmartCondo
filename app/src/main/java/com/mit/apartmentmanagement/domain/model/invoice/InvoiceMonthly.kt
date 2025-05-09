@@ -1,9 +1,9 @@
-package com.mit.apartmentmanagement.data.model.invoice
+package com.mit.apartmentmanagement.domain.model.invoice
 
 import com.google.gson.annotations.SerializedName
 import java.time.LocalDateTime
 
-data class InvoiceMonthy(
+data class InvoiceMonthly(
     @SerializedName("monthyInvoiceId")
     val monthlyInvoiceId: String,
     @SerializedName("apartmentId")
@@ -17,9 +17,9 @@ data class InvoiceMonthy(
     @SerializedName("createdAt")
     val createdAt: LocalDateTime,
     @SerializedName("waterInvoice")
-    val waterInvoice:WaterInvoice,
+    val waterInvoice: WaterInvoice,
     @SerializedName("electricityInvoice")
-    val electricityInvoice:ElectricityInvoice,
+    val electricityInvoice: ElectricityInvoice,
     @SerializedName("parkingInvoice")
-    val parkingInvoice:ParkingInvoice
+    val parkingInvoice: ParkingInvoice
     )

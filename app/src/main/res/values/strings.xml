@@ -33,4 +33,6 @@
     <string name="already_remember_account">Already remember account ?</string>
     <string name="sign_in">Sign In</string>
     <string name="please_enter_your_email">Please enter your email</string>
+    <string name="enter_your_email_here">Enter your email here.</string>
+    <string name="enter_your_password_here">Enter your password here.</string>
 </resources>

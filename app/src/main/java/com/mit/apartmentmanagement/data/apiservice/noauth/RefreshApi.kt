@@ -1,6 +1,5 @@
-package com.mit.apartmentmanagement.data.apiservice
+package com.mit.apartmentmanagement.data.apiservice.noauth
 
-import com.mit.apartmentmanagement.domain.model.ApiResponse
 import com.mit.apartmentmanagement.domain.model.TokenResponse
 import retrofit2.Response
 import retrofit2.http.Body

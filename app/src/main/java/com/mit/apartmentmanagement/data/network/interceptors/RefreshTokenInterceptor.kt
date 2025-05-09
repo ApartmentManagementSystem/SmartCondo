@@ -1,6 +1,6 @@
 package com.mit.apartmentmanagement.data.network.interceptors
 
-import com.mit.apartmentmanagement.data.apiservice.RefreshApi
+import com.mit.apartmentmanagement.data.apiservice.noauth.RefreshApi
 import com.mit.apartmentmanagement.data.network.TokenManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
