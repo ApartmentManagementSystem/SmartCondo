@@ -7,8 +7,8 @@ import com.mit.apartmentmanagement.domain.usecase.auth.LoginUseCase
 import com.mit.apartmentmanagement.domain.usecase.auth.LogoutUseCase
 import com.mit.apartmentmanagement.domain.usecase.auth.RecoveryPasswordUseCase
 import com.mit.apartmentmanagement.domain.usecase.invoice.GetInvoiceMonthlyUseCase
+import com.mit.apartmentmanagement.domain.usecase.invoice.SearchInvoiceUseCase
 import com.mit.apartmentmanagement.domain.usecase.notification.GetNotificationApiUseCase
-import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -61,10 +61,16 @@ object UseCaseModule {
 //        return ObserveStompNotificationUseCase(notificationRepository)
 //    }
 
-    @Binds
+    @Provides
     @Singleton
-    fun bindGetInvoiceMonthlyUseCase(invoiceRepository: InvoiceRepository): GetInvoiceMonthlyUseCase {
+    fun provideGetInvoiceMonthlyUseCase(invoiceRepository: InvoiceRepository): GetInvoiceMonthlyUseCase {
         return GetInvoiceMonthlyUseCase(invoiceRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideSearchInvoiceUseCase(invoiceRepository: InvoiceRepository): SearchInvoiceUseCase {
+        return SearchInvoiceUseCase(invoiceRepository)
     }
 
 }

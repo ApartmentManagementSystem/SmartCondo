@@ -106,44 +106,4 @@ class LoginActivity : AppCompatActivity() {
 
         return null
     }
-
-//    private fun initController() {
-//        binding.btnSignIn.setOnClickListener {
-//            val email = binding.txtEmail.text.toString().trim()
-//            val password = binding.txtPassword.text.toString().trim()
-//
-//            if (email.isEmpty() || password.isEmpty()) {
-//                Toast.makeText(this, "Vui lòng nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show()
-//                return@setOnClickListener
-//            }
-//            authViewModel.login(LoginRequest(email,password))
-//        }
-//        authViewModel.loginResult.observe(this) { result ->
-//            result.onSuccess { token ->
-//                Toast.makeText(this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show()
-//                Log.d("LoginViewModel", "Đăng nhập thành công: $token")
-//                startActivity(Intent(this, MainActivity::class.java))
-//                finish()
-//            }.onFailure { error ->
-//                Toast.makeText(this, "Lỗi: ${error.message}", Toast.LENGTH_SHORT).show()
-//            }
-//        }
-//        binding.txtForgotPassword.setOnTouchListener { v, event ->
-//            when (event.action) {
-//                MotionEvent.ACTION_DOWN -> {
-//                    v.animate().scaleX(0.95f).scaleY(0.95f).setDuration(100).start()
-//                }
-//                MotionEvent.ACTION_UP -> {
-//                    v.animate().scaleX(1f).scaleY(1f).setDuration(100).withEndAction {
-//                    startActivity(Intent(this, ForgetPasswordActivity::class.java))
-//                    }.start()
-//                }
-//                MotionEvent.ACTION_CANCEL -> {
-//                    v.animate().scaleX(1f).scaleY(1f).setDuration(100).start()
-//                }
-//            }
-//            true // Trả về true để không bị override bởi onClick khác
-//        }
-
-
 }
