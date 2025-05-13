@@ -7,15 +7,14 @@ plugins {
 
 android {
     namespace = "com.mit.apartmentmanagement"
-    compileSdk = 35
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.mit.apartmentmanagement"
         minSdk = 26
-        targetSdk = 35
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -38,21 +37,15 @@ android {
 
     buildFeatures {
         viewBinding = true
-
-    }
-
-    buildFeatures {
         dataBinding = true
     }
 }
 
-
 dependencies {
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
-    implementation(libs.androidx.activity)
+    implementation("androidx.activity:activity:1.8.2")
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
@@ -66,55 +59,60 @@ dependencies {
     // ViewModel & LiveData
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
-    implementation("androidx.activity:activity-ktx:1.7.2")
+    implementation("androidx.activity:activity-ktx:1.8.2")
+
     // Retrofit
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("com.squareup.okhttp3:logging-interceptor:4.11.0")
+
     // GSON
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+
     // Coroutine
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2")
-    //Moshi
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+
+    // Moshi
     implementation("com.squareup.moshi:moshi-kotlin:1.15.0")
-    //Dagger-Hilt
+
+    // Dagger Hilt
     implementation("com.google.dagger:hilt-android:2.51.1")
     kapt("com.google.dagger:hilt-android-compiler:2.51.1")
+
     // Secure storage
     implementation("androidx.security:security-crypto:1.1.0-alpha06")
-    //Circle ImageView
+
+    // Circle ImageView
     implementation(libs.circleimageview)
-    //Websocket
-    implementation("com.squareup.okhttp3:okhttp:4.9.1")
-    //STOMP
-    implementation ("com.github.NaikSoftware:StompProtocolAndroid:1.6.6")
+
+    // Websocket
+    implementation("com.squareup.okhttp3:okhttp:4.11.0")
+
+    // STOMP
+    implementation("com.github.NaikSoftware:StompProtocolAndroid:1.6.6")
     implementation("org.java-websocket:Java-WebSocket:1.5.3")
+
     // RxJava 2
-    implementation ("io.reactivex.rxjava2:rxjava:2.2.21")
-    implementation ("io.reactivex.rxjava2:rxandroid:2.1.1")
-    //ProcessBar
+    implementation("io.reactivex.rxjava2:rxjava:2.2.21")
+    implementation("io.reactivex.rxjava2:rxandroid:2.1.1")
+
+    // ProcessBar
     implementation("com.github.ybq:Android-SpinKit:1.4.0")
-    val paging_version = "3.3.2"
 
-    implementation("androidx.paging:paging-runtime:$paging_version")
-
-    // alternatively - without Android dependencies for tests
-    testImplementation("androidx.paging:paging-common:$paging_version")
-
-    // optional - RxJava2 support
-    implementation("androidx.paging:paging-rxjava2:$paging_version")
-
-    // optional - RxJava3 support
-    implementation("androidx.paging:paging-rxjava3:$paging_version")
-
-    // optional - Guava ListenableFuture support
-    implementation("androidx.paging:paging-guava:$paging_version")
-
-    // optional - Jetpack Compose integration
+    // Paging
+    val pagingVersion = "3.3.2"
+    implementation("androidx.paging:paging-runtime:$pagingVersion")
+    testImplementation("androidx.paging:paging-common:$pagingVersion")
+    implementation("androidx.paging:paging-rxjava2:$pagingVersion")
+    implementation("androidx.paging:paging-rxjava3:$pagingVersion")
+    implementation("androidx.paging:paging-guava:$pagingVersion")
     implementation("androidx.paging:paging-compose:3.3.2")
-
 }
+
 kapt {
     correctErrorTypes = true
+    arguments {
+        arg("dagger.hilt.android.internal.disableAndroidSuperclassValidation", "true")
+    }
 }

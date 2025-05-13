@@ -6,6 +6,7 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.mit.apartmentmanagement.databinding.ItemInvoiceBinding
+import com.mit.apartmentmanagement.domain.model.PaymentStatus
 import com.mit.apartmentmanagement.domain.model.invoice.InvoiceMonthly
 import java.time.format.DateTimeFormatter
 
@@ -31,9 +32,9 @@ class InvoiceAdapter(
             binding.apply {
                 tvInvoiceTitle.text = "Hóa đơn tháng $monthYear"
                 tvInvoiceId.text = "Mã đơn: ${invoice.monthlyInvoiceId}"
-                tvStatus.text = if (invoice.status) "Đã thanh toán" else "Chưa thanh toán"
+                tvStatus.text = if (invoice.status == PaymentStatus.PAID) "Đã thanh toán" else "Chưa thanh toán"
                 tvStatus.setTextColor(
-                    if (invoice.status) 
+                    if (invoice.status == PaymentStatus.UNPAID)
                         android.graphics.Color.parseColor("#4CAF50") // Green
                     else 
                         android.graphics.Color.parseColor("#F44336") // Red

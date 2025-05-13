@@ -10,7 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mit.apartmentmanagement.databinding.FragmentInvoiceBinding
-import com.mit.apartmentmanagement.domain.model.ServiceType
+import com.mit.apartmentmanagement.domain.model.InvoiceType
 import com.mit.apartmentmanagement.persentation.ui.adapter.InvoiceAdapter
 import com.mit.apartmentmanagement.persentation.ui.adapter.ServiceAdapter
 import com.mit.apartmentmanagement.persentation.ui.invoice.detail.DetailMonthlyActivity
@@ -18,6 +18,7 @@ import com.mit.apartmentmanagement.persentation.ui.invoice.electricity.Electrici
 import com.mit.apartmentmanagement.persentation.ui.invoice.monthly.MonthlyInvoiceActivity
 import com.mit.apartmentmanagement.persentation.ui.invoice.parking.ParkingInvoiceActivity
 import com.mit.apartmentmanagement.persentation.ui.invoice.water.WaterInvoiceActivity
+import com.mit.apartmentmanagement.persentation.util.SpaceItemDecoration
 import com.mit.apartmentmanagement.persentation.viewmodels.InvoiceViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -55,35 +56,43 @@ class InvoiceFragment : Fragment() {
     }
 
     private fun setupServices() {
-        val services = ServiceType.values().toList()
+        val services = InvoiceType.entries
         val serviceAdapter = ServiceAdapter(services) { service ->
             when (service) {
-                ServiceType.ELECTRICITY -> startActivity(
+                InvoiceType.ELECTRICITY -> startActivity(
                     Intent(
                         requireContext(),
                         ElectricityInvoiceActivity::class.java
                     )
                 )
 
-                ServiceType.WATER -> startActivity(
+                InvoiceType.WATER -> startActivity(
                     Intent(
                         requireContext(),
                         WaterInvoiceActivity::class.java
                     )
                 )
 
-                ServiceType.PARKING -> startActivity(
+                InvoiceType.PARKING -> startActivity(
                     Intent(
                         requireContext(),
                         ParkingInvoiceActivity::class.java
                     )
                 )
 
-                ServiceType.COMMON -> {
+                InvoiceType.SERVICE -> {
                     // Handle common service click
                 }
             }
         }
+        binding.rvServices.addItemDecoration(
+            SpaceItemDecoration(
+                requireContext(),
+                8,
+                8,
+                serviceAdapter.itemCount
+            )
+        )
         binding.rvServices.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             adapter = serviceAdapter

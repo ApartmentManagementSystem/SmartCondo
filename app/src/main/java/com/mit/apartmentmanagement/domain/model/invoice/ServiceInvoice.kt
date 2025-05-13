@@ -3,22 +3,17 @@ package com.mit.apartmentmanagement.domain.model.invoice
 import com.google.gson.annotations.SerializedName
 import com.mit.apartmentmanagement.domain.model.PaymentStatus
 
-data class ParkingInvoice(
+data class ServiceInvoice (
     @SerializedName("id")
     val id: String,
-
-    @SerializedName("licensePlate")
-    val licensePlate: String,
-
     @SerializedName("unitPrice")
     val unitPrice: Double,
-
-    @SerializedName("apartmentId")
-    val apartmentId: String,
-
-    @SerializedName("billingTime")
-    val billingTime: String,
-
+    @SerializedName("totalPrice")
+    val totalPrice: Double,
+    @SerializedName("apartmentName")
+    val apartmentName: String,
+    @SerializedName("type")
+    val type: ServiceTypeInvoice,
     @SerializedName("status")
     val status: PaymentStatus
 )

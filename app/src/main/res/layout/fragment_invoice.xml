@@ -17,6 +17,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:padding="8dp"
+            android:clipToPadding="true"
             android:orientation="horizontal"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:itemCount="4"
@@ -32,7 +34,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Hóa đơn mới"
+                android:text="Recent Invoices"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -41,7 +43,7 @@
                 android:id="@+id/tvViewAll"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Xem tất cả"
+                android:text="See all"
                 android:textColor="@color/blue"
                 android:textSize="14sp" />
 
@@ -54,7 +56,7 @@
             android:layout_marginTop="16dp"
             android:nestedScrollingEnabled="false"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:itemCount="3"
+            tools:itemCount="4"
             tools:listitem="@layout/item_invoice" />
 
     </LinearLayout>

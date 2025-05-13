@@ -4,11 +4,11 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mit.apartmentmanagement.databinding.ItemServiceBinding
-import com.mit.apartmentmanagement.domain.model.ServiceType
+import com.mit.apartmentmanagement.domain.model.InvoiceType
 
 class ServiceAdapter(
-    private val services: List<ServiceType>,
-    private val onServiceClick: (ServiceType) -> Unit
+    private val services: List<InvoiceType>,
+    private val onServiceClick: (InvoiceType) -> Unit
 ) : RecyclerView.Adapter<ServiceAdapter.ServiceViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ServiceViewHolder {
@@ -23,7 +23,7 @@ class ServiceAdapter(
     override fun getItemCount() = services.size
 
     inner class ServiceViewHolder(private val binding: ItemServiceBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(service: ServiceType) {
+        fun bind(service: InvoiceType) {
             binding.apply {
                 ivServiceIcon.setImageResource(service.iconRes)
                 tvServiceName.text = service.title

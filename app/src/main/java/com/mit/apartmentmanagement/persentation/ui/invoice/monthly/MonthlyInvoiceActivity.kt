@@ -65,7 +65,7 @@ class MonthlyInvoiceActivity : AppCompatActivity() {
     }
 
     private fun observeInvoices() {
-       lifecycleScope.launch {
+        lifecycleScope.launch {
             viewModel.allInvoices
                 .distinctUntilChanged()
                 .collectLatest { pagingData ->
