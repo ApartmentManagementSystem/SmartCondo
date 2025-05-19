@@ -1,8 +1,9 @@
 package com.mit.apartmentmanagement.domain.repository
 
-import com.mit.apartmentmanagement.data.model.apartment.Apartment
-import retrofit2.Response
+import com.mit.apartmentmanagement.domain.model.Apartment
+import com.mit.apartmentmanagement.domain.util.Result
+import kotlinx.coroutines.flow.Flow
 
 interface ApartmentRepository {
-    suspend fun getApartments(): Response<List<Apartment>>
+    suspend fun getApartments(): Flow<Result<List<Apartment>>>
 }

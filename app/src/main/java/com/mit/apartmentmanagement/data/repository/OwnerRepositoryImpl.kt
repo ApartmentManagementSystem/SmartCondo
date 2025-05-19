@@ -1,9 +1,8 @@
 package com.mit.apartmentmanagement.data.repository
 
 import com.mit.apartmentmanagement.data.datasource.OwnerRemoteDataSource
-import com.mit.apartmentmanagement.data.model.owner.Owner
+import com.mit.apartmentmanagement.domain.model.Owner
 import com.mit.apartmentmanagement.data.network.interceptors.NetworkManager
-import com.mit.apartmentmanagement.data.network.util.NetworkStatus
 import com.mit.apartmentmanagement.domain.repository.OwnerRepository
 import javax.inject.Inject
 

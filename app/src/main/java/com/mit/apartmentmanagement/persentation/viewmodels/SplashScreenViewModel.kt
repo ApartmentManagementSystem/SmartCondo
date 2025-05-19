@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mit.apartmentmanagement.domain.usecase.auth.CheckLoggedInUseCase
-import com.mit.apartmentmanagement.persentation.util.NetworkResult
+import com.mit.apartmentmanagement.domain.util.NetworkResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -18,7 +18,7 @@ class SplashScreenViewModel @Inject constructor(
     private val checkLoggedInUseCase: CheckLoggedInUseCase,
 ) : ViewModel() {
 
-    private val _isLoggedIn = MutableLiveData<NetworkResult<Boolean> >()
+    private val _isLoggedIn = MutableLiveData<NetworkResult<Boolean>>()
     val isLoggedIn: LiveData<NetworkResult<Boolean>> get() = _isLoggedIn
 
     fun checkLoggedIn() {

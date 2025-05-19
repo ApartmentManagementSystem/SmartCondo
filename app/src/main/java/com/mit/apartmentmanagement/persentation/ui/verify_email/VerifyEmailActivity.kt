@@ -14,7 +14,7 @@ import com.google.android.material.textfield.TextInputLayout
 import com.mit.apartmentmanagement.R
 import com.mit.apartmentmanagement.databinding.ActivityVerifyEmailBinding
 import com.mit.apartmentmanagement.persentation.ui.auth.RecoveryPasswordActivity
-import com.mit.apartmentmanagement.persentation.util.NetworkResult
+import com.mit.apartmentmanagement.domain.util.NetworkResult
 import com.mit.apartmentmanagement.persentation.viewmodels.VerifyEmailViewModel
 import dagger.hilt.android.AndroidEntryPoint
 

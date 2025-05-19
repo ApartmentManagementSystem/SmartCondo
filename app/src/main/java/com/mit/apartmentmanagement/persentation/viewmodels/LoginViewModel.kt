@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mit.apartmentmanagement.domain.model.LoginRequest
 import com.mit.apartmentmanagement.domain.usecase.auth.LoginUseCase
-import com.mit.apartmentmanagement.persentation.util.NetworkResult
+import com.mit.apartmentmanagement.domain.util.NetworkResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

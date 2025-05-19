@@ -1,6 +1,6 @@
 package com.mit.apartmentmanagement.data.datasource
 
-import com.mit.apartmentmanagement.data.apiservice.OwnerApi
+import com.mit.apartmentmanagement.data.apiservice.auth.OwnerApi
 import com.mit.apartmentmanagement.domain.model.ChangePasswordRequest
 import javax.inject.Inject
 
