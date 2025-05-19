@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.mit.apartmentmanagement.databinding.ActivityRecoveryPasswordBinding
 import com.mit.apartmentmanagement.domain.model.RecoveryPasswordRequest
 import com.mit.apartmentmanagement.persentation.ui.login.LoginActivity
-import com.mit.apartmentmanagement.persentation.util.NetworkResult
+import com.mit.apartmentmanagement.domain.util.NetworkResult
 import com.mit.apartmentmanagement.persentation.viewmodels.RecoveryPasswordViewModel
 import dagger.hilt.android.AndroidEntryPoint
 

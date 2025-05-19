@@ -1,15 +1,18 @@
 package com.mit.apartmentmanagement.data.repository
 
+import android.util.Log
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.mit.apartmentmanagement.data.apiservice.auth.InvoiceApi
-import com.mit.apartmentmanagement.data.datasource.InvoiceMonthlyPagingSource
-import com.mit.apartmentmanagement.data.datasource.SearchInvoicePagingSource
+import com.mit.apartmentmanagement.data.paging.InvoiceMonthlyPagingSource
+import com.mit.apartmentmanagement.data.paging.SearchInvoicePagingSource
 import com.mit.apartmentmanagement.domain.model.invoice.InvoiceMonthly
 import com.mit.apartmentmanagement.domain.repository.InvoiceRepository
+import com.mit.apartmentmanagement.domain.util.Result
 import com.mit.apartmentmanagement.util.Constant.PAGE_SIZE
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class InvoiceRepositoryImpl @Inject constructor(
@@ -31,5 +34,35 @@ class InvoiceRepositoryImpl @Inject constructor(
         }.flow
     }
 
+    override suspend fun getSixInvoiceMonthly(): Flow<Result<List<InvoiceMonthly>>> = flow {
+        emit(Result.Loading)
+        try {
+            val response = invoiceApi.getSixInvoiceMonthly()
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    emit(Result.Success(it))
+                } ?: emit(Result.Error("Empty response"))
+            } else {
+                emit(Result.Error("Error: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            emit(Result.Error(e.message ?: "Unknown error"))
+        }
+    }
 
+    override suspend fun getInvoiceDetail(invoiceId: String): Flow<Result<InvoiceMonthly>> = flow {
+        emit(Result.Loading)
+        try {
+            val response = invoiceApi.getInvoiceDetail(invoiceId)
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    emit(Result.Success(it))
+                } ?: emit(Result.Error("Empty response"))
+            } else {
+                emit(Result.Error("Error: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            emit(Result.Error(e.message ?: "Unknown error"))
+        }
+    }
 }

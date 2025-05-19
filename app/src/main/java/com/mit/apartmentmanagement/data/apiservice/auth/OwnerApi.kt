@@ -1,6 +1,6 @@
 package com.mit.apartmentmanagement.data.apiservice.auth
 
-import com.mit.apartmentmanagement.data.model.owner.Owner
+import com.mit.apartmentmanagement.domain.model.Owner
 import com.mit.apartmentmanagement.domain.model.ChangePasswordRequest
 import retrofit2.Response
 import retrofit2.http.Body

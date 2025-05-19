@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     id("kotlin-kapt")
     id("com.google.dagger.hilt.android")
+    id ("kotlin-parcelize")
 }
 
 android {
@@ -108,6 +109,13 @@ dependencies {
     implementation("androidx.paging:paging-rxjava3:$pagingVersion")
     implementation("androidx.paging:paging-guava:$pagingVersion")
     implementation("androidx.paging:paging-compose:3.3.2")
+
+    // MPAndroidChart
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+
+    // Glide for image loading
+    implementation("com.github.bumptech.glide:glide:4.16.0")
+    kapt("com.github.bumptech.glide:compiler:4.16.0")
 }
 
 kapt {

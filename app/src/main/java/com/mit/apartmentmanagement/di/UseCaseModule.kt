@@ -1,14 +1,16 @@
 package com.mit.apartmentmanagement.di
 
+import com.mit.apartmentmanagement.domain.repository.ApartmentRepository
 import com.mit.apartmentmanagement.domain.repository.AuthRepository
 import com.mit.apartmentmanagement.domain.repository.InvoiceRepository
 import com.mit.apartmentmanagement.domain.repository.NotificationRepository
+import com.mit.apartmentmanagement.domain.usecase.apartment.GetApartmentsUseCase
 import com.mit.apartmentmanagement.domain.usecase.auth.LoginUseCase
 import com.mit.apartmentmanagement.domain.usecase.auth.LogoutUseCase
 import com.mit.apartmentmanagement.domain.usecase.auth.RecoveryPasswordUseCase
 import com.mit.apartmentmanagement.domain.usecase.invoice.GetInvoiceMonthlyUseCase
 import com.mit.apartmentmanagement.domain.usecase.invoice.SearchInvoiceUseCase
-import com.mit.apartmentmanagement.domain.usecase.notification.GetNotificationApiUseCase
+import com.mit.apartmentmanagement.domain.usecase.notification.GetNotificationsUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -51,8 +53,8 @@ object UseCaseModule {
 
     @Provides
     @Singleton
-    fun provideGetNotificationApiUseCase(notificationRepository: NotificationRepository): GetNotificationApiUseCase {
-        return GetNotificationApiUseCase(notificationRepository)
+    fun provideGetNotificationApiUseCase(notificationRepository: NotificationRepository): GetNotificationsUseCase {
+        return GetNotificationsUseCase(notificationRepository)
     }
 
 //    @Provides
@@ -72,5 +74,11 @@ object UseCaseModule {
     fun provideSearchInvoiceUseCase(invoiceRepository: InvoiceRepository): SearchInvoiceUseCase {
         return SearchInvoiceUseCase(invoiceRepository)
     }
+    @Provides
+    @Singleton
+    fun provideGetApartmentUseCase(apartmentRepository: ApartmentRepository): GetApartmentsUseCase {
+        return GetApartmentsUseCase(apartmentRepository)
+    }
+
 
 }

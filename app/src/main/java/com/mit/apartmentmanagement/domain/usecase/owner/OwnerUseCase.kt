@@ -1,6 +1,6 @@
 package com.mit.apartmentmanagement.domain.usecase.owner
 
-import com.mit.apartmentmanagement.data.model.owner.Owner
+import com.mit.apartmentmanagement.domain.model.Owner
 import com.mit.apartmentmanagement.domain.repository.OwnerRepository
 import javax.inject.Inject
 

@@ -24,6 +24,7 @@ class MonthlyInvoiceActivity : AppCompatActivity() {
         })
     })
     private lateinit var binding: ActivityMonthyInvoiceBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()

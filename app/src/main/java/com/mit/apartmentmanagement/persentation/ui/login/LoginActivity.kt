@@ -15,7 +15,7 @@ import com.mit.apartmentmanagement.databinding.ActivityLoginBinding
 import com.mit.apartmentmanagement.domain.model.LoginRequest
 import com.mit.apartmentmanagement.persentation.ui.MainActivity
 import com.mit.apartmentmanagement.persentation.ui.verify_email.VerifyEmailActivity
-import com.mit.apartmentmanagement.persentation.util.NetworkResult
+import com.mit.apartmentmanagement.domain.util.NetworkResult
 import com.mit.apartmentmanagement.presentation.viewmodels.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
 

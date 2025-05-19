@@ -1,6 +1,6 @@
 package com.mit.apartmentmanagement.domain.repository
 
-import com.mit.apartmentmanagement.data.model.owner.Owner
+import com.mit.apartmentmanagement.domain.model.Owner
 
 
 interface OwnerRepository {

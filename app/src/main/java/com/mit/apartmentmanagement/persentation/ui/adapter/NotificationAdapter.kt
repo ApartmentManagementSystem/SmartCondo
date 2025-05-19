@@ -1,76 +1,117 @@
 package com.mit.apartmentmanagement.persentation.ui.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.mit.apartmentmanagement.data.model.notification.Notification
+import com.mit.apartmentmanagement.R
 import com.mit.apartmentmanagement.databinding.ItemNotificationBinding
-import com.mit.apartmentmanagement.persentation.util.GenericDiffUtil
+import com.mit.apartmentmanagement.domain.model.Notification
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+import java.util.concurrent.TimeUnit
 
-class NotificationAdapter() : RecyclerView.Adapter<NotificationAdapter.MyViewHolder>() {
-    private var notificationList: List<Notification> = emptyList()
-    private var notificationFilterList: List<Notification> = emptyList()
+class NotificationAdapter(
+    private val onNotificationClicked: (Notification) -> Unit
+) : PagingDataAdapter<Notification, NotificationAdapter.NotificationViewHolder>(DIFF_CALLBACK) {
 
-    class MyViewHolder(private val binding: ItemNotificationBinding) :
-        RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: Notification) {
-            binding.notification = item
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotificationViewHolder {
+        return NotificationViewHolder(
+            ItemNotificationBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
+    }
+
+    override fun onBindViewHolder(holder: NotificationViewHolder, position: Int) {
+        getItem(position)?.let { notification ->
+            holder.bind(notification)
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val binding =
-            ItemNotificationBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return MyViewHolder(binding)
-    }
+    inner class NotificationViewHolder(
+        private val binding: ItemNotificationBinding
+    ) : RecyclerView.ViewHolder(binding.root) {
 
-    override fun getItemCount(): Int {
-        return notificationFilterList.size
-    }
-
-    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        return holder.bind(notificationFilterList[position])
-    }
-
-    fun setData(newData: List<Notification>) {
-        Log.d("ServiceAdapter", "Number of services received: ${newData.size}")
-        val notificationDiffUtil = GenericDiffUtil(
-            oldList = notificationList,
-            newList = newData,
-            areItemsTheSame = { old, new -> old.notificationId == new.notificationId },
-            areContentsTheSame = { old, new -> old == new }
-        )
-        val diffUtilResult = DiffUtil.calculateDiff(notificationDiffUtil)
-        notificationList = newData
-        notificationFilterList = newData
-        diffUtilResult.dispatchUpdatesTo(this)
-    }
-
-    fun filterData(query: String) {
-        val filterListNew = if (query.isEmpty()) {
-            notificationList
-        } else {
-            notificationList.filter { notification ->
-                notification.title.contains(query, true) || notification.content.contains(
-                    query,
-                    true
-                )
-                        || notification.topic.contains(
-                    query,
-                    true
-                ) || notification.createdAt.toString().contains(query, true)
+        init {
+            binding.root.setOnClickListener {
+                val position = bindingAdapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    getItem(position)?.let { notification ->
+                        onNotificationClicked(notification)
+                    }
+                }
             }
         }
-        val notificationDiffUtil = GenericDiffUtil(oldList = notificationFilterList,
-            newList = filterListNew,
-            areItemsTheSame = { old, new -> old.notificationId == new.notificationId },
-            areContentsTheSame = { old, new -> old == new }
-        )
-        val diffUtilResult = DiffUtil.calculateDiff(notificationDiffUtil)
-        notificationFilterList = filterListNew
-        diffUtilResult.dispatchUpdatesTo(this)
+
+        fun bind(notification: Notification) {
+            binding.apply {
+                notificationTitle.text = notification.title
+                notificationContent.text = notification.content
+                notificationTime.text = getFormattedTime(notification.createdAt)
+
+                // Set background color based on read status
+                val backgroundColor = if (notification.isRead) {
+                    R.color.notification_read_background
+                } else {
+                    R.color.notification_unread_background
+                }
+                root.setCardBackgroundColor(
+                    ContextCompat.getColor(root.context, backgroundColor)
+                )
+
+                // Set unread indicator
+                notificationUnreadIndicator.isVisible = !notification.isRead
+            }
+        }
+
+        private fun getFormattedTime(createdAt: String): String {
+            try {
+                val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
+                val date = dateFormat.parse(createdAt) ?: return createdAt
+                val now = Date()
+                val diffInMillis = now.time - date.time
+
+                return when {
+                    diffInMillis < TimeUnit.MINUTES.toMillis(1) -> "Just now"
+                    diffInMillis < TimeUnit.HOURS.toMillis(1) -> {
+                        val minutes = TimeUnit.MILLISECONDS.toMinutes(diffInMillis)
+                        "$minutes minutes ago"
+                    }
+                    diffInMillis < TimeUnit.DAYS.toMillis(1) -> {
+                        val hours = TimeUnit.MILLISECONDS.toHours(diffInMillis)
+                        "$hours hours ago"
+                    }
+                    diffInMillis < TimeUnit.DAYS.toMillis(7) -> {
+                        val days = TimeUnit.MILLISECONDS.toDays(diffInMillis)
+                        "$days days ago"
+                    }
+                    else -> {
+                        val outputFormat = SimpleDateFormat("MMM dd, yyyy", Locale.getDefault())
+                        outputFormat.format(date)
+                    }
+                }
+            } catch (e: Exception) {
+                return createdAt
+            }
+        }
     }
 
+    companion object {
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Notification>() {
+            override fun areItemsTheSame(oldItem: Notification, newItem: Notification): Boolean {
+                return oldItem.notificationId == newItem.notificationId
+            }
+
+            override fun areContentsTheSame(oldItem: Notification, newItem: Notification): Boolean {
+                return oldItem == newItem
+            }
+        }
+    }
 }

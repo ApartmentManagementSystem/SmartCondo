@@ -18,9 +18,14 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".persentation.ui.ApartmentDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".persentation.ui.notification.NotificationDetailActivity"
+            android:exported="false" />
+        <activity
             android:name=".persentation.ui.invoice.water.WaterInvoiceActivity"
             android:exported="false" />
-
         <activity
             android:name=".persentation.ui.invoice.electricity.ElectricityInvoiceActivity"
             android:exported="false" />

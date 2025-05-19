@@ -1,9 +1,8 @@
 package com.mit.apartmentmanagement.domain.model.invoice
 
 import com.google.gson.annotations.SerializedName
-import com.mit.apartmentmanagement.domain.model.PaymentMethod
-import com.mit.apartmentmanagement.domain.model.PaymentStatus
-import java.time.LocalDateTime
+import com.mit.apartmentmanagement.domain.model.invoice.payment.PaymentMethod
+import com.mit.apartmentmanagement.domain.model.invoice.payment.PaymentStatus
 import java.util.Date
 
 data class InvoiceMonthly(
@@ -14,7 +13,7 @@ data class InvoiceMonthly(
     @SerializedName("paymentDate")
     val paymentDate: Date,
     @SerializedName("billingTime")
-    val billingTime: String,
+    val invoiceTime: String,
     @SerializedName("dueDate")
     val dueDate: Date,
     @SerializedName("method")

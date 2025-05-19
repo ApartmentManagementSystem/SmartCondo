@@ -12,8 +12,7 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:background="@color/mainColor"
-
-        android:src="@drawable/avata_header"
+        android:src="@drawable/avt_header"
         app:civ_border_color="#055FF4"
         app:civ_border_width="2dp"
         app:layout_constraintStart_toStartOf="parent"

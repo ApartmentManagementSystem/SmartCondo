@@ -1,7 +1,7 @@
 package com.mit.apartmentmanagement.domain.model.invoice
 
 import com.google.gson.annotations.SerializedName
-import com.mit.apartmentmanagement.domain.model.PaymentStatus
+import com.mit.apartmentmanagement.domain.model.invoice.payment.PaymentStatus
 
 data class WaterInvoice(
     @SerializedName("id")

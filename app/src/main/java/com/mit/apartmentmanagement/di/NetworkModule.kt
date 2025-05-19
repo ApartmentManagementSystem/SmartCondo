@@ -24,6 +24,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Named
 import javax.inject.Singleton
+import com.mit.apartmentmanagement.data.apiservice.auth.AmenitiesApi
+import com.mit.apartmentmanagement.data.apiservice.auth.NotificationApi
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -159,5 +161,16 @@ object NetworkModule {
         return retrofit.create(InvoiceApi::class.java)
     }
 
+    @Provides
+    @Singleton
+    fun provideNotificationApi(@Named("AuthRetrofit") retrofit: Retrofit): NotificationApi {
+        return retrofit.create(NotificationApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideAmenitiesApi(@Named("AuthRetrofit") retrofit: Retrofit): AmenitiesApi {
+        return retrofit.create(AmenitiesApi::class.java)
+    }
 
 }

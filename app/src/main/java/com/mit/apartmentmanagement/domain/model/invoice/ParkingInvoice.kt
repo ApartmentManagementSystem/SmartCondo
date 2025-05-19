@@ -1,7 +1,7 @@
 package com.mit.apartmentmanagement.domain.model.invoice
 
 import com.google.gson.annotations.SerializedName
-import com.mit.apartmentmanagement.domain.model.PaymentStatus
+import com.mit.apartmentmanagement.domain.model.invoice.payment.PaymentStatus
 
 data class ParkingInvoice(
     @SerializedName("id")
@@ -9,6 +9,9 @@ data class ParkingInvoice(
 
     @SerializedName("licensePlate")
     val licensePlate: String,
+
+    @SerializedName("type")
+    val type: String,
 
     @SerializedName("unitPrice")
     val unitPrice: Double,

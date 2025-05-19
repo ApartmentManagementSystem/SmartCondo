@@ -1,10 +1,34 @@
 package com.mit.apartmentmanagement.data.apiservice.auth
 
-import com.mit.apartmentmanagement.data.model.notification.Notification
+import com.mit.apartmentmanagement.data.model.PageResponse
+import com.mit.apartmentmanagement.domain.model.Notification
 import retrofit2.Response
-import retrofit2.http.GET
+import retrofit2.http.*
 
 interface NotificationApi {
     @GET("api/notifications")
-    suspend fun getNotifications(): Response<List<Notification>>
+    suspend fun getNotifications(
+        @Query("page") page: Int,
+        @Query("size") size: Int = 10
+    ): Response<PageResponse<Notification>>
+
+    @GET("api/notifications/search")
+    suspend fun searchNotifications(
+        @Query("query") query: String,
+        @Query("page") page: Int,
+        @Query("size") size: Int = 10
+    ): Response<PageResponse<Notification>>
+
+    @GET("api/notifications/top-5-notifications")
+    suspend fun getFiveNotification(): Response<List<Notification>>
+
+    @PUT("api/notifications/change-is-read/{notificationId}")
+    suspend fun markNotificationAsRead(
+        @Path("notificationId") notificationId: Int
+    ): Response<Unit>
+
+    @DELETE("api/notifications/{notificationId}")
+    suspend fun deleteNotification(
+        @Path("notificationId") notificationId: Int
+    ): Response<Unit>
 }

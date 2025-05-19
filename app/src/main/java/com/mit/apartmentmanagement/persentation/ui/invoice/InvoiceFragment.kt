@@ -2,6 +2,7 @@ package com.mit.apartmentmanagement.persentation.ui.invoice
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -113,6 +114,7 @@ class InvoiceFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.allInvoices.collectLatest { pagingData ->
                 invoiceAdapter.submitData(pagingData)
+                Log.d("InvoiceFragment", "Observed invoices: $pagingData")
             }
         }
     }
