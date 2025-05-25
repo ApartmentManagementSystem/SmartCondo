@@ -8,6 +8,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.mit.apartmentmanagement.databinding.ActivityNotificationDetailBinding
 import com.mit.apartmentmanagement.domain.model.Notification
+import com.mit.apartmentmanagement.persentation.viewmodels.NotificationViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -45,7 +46,6 @@ class NotificationDetailActivity : AppCompatActivity() {
                 notificationTitle.text = it.title
                 notificationContent.text = it.content
                 notificationTime.text = it.createdAt
-                notificationTopic.text = it.topic
             }
             viewModel.markNotificationAsRead(it.notificationId)
         }

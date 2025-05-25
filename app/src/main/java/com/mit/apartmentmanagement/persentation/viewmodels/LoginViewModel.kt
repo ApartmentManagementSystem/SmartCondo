@@ -26,7 +26,6 @@ class LoginViewModel @Inject constructor(
             if (result.isSuccess) {
                 _loginResult.value = NetworkResult.Success(Unit)
             } else {
-
                 _loginResult.value = NetworkResult.Error(result.exceptionOrNull()?.message ?: "Unknown error")
             }
         }

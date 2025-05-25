@@ -10,7 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import com.mit.apartmentmanagement.databinding.ActivityMonthyInvoiceBinding
 import com.mit.apartmentmanagement.persentation.ui.adapter.InvoiceAdapter
-import com.mit.apartmentmanagement.persentation.ui.invoice.detail.DetailMonthlyActivity
+import com.mit.apartmentmanagement.persentation.ui.invoice.detail.DetailInvoiceMonthlyActivity
 import com.mit.apartmentmanagement.persentation.viewmodels.InvoiceViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -19,7 +19,7 @@ import kotlinx.coroutines.launch
 class MonthlyInvoiceActivity : AppCompatActivity() {
     private val viewModel: InvoiceViewModel by viewModels()
     private val adapter = InvoiceAdapter(onItemClick = { invoice ->
-        startActivity(Intent(this, DetailMonthlyActivity::class.java).apply {
+        startActivity(Intent(this, DetailInvoiceMonthlyActivity::class.java).apply {
             putExtra("invoice_id", invoice.monthlyInvoiceId)
         })
     })

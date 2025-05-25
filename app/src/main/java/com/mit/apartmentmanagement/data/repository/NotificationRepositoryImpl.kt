@@ -1,5 +1,6 @@
 package com.mit.apartmentmanagement.data.repository
 
+import android.util.Log
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
@@ -24,6 +25,7 @@ class NotificationRepositoryImpl @Inject constructor(
             if (response.isSuccessful) {
                 response.body()?.let {
                     emit(Result.Success(it))
+                    Log.d("NotificationRepositoryImpl", "getFiveNotification: $it")
                 } ?: emit(Result.Error("Empty response"))
             } else {
                 emit(Result.Error("Error: ${response.code()}"))
@@ -35,6 +37,7 @@ class NotificationRepositoryImpl @Inject constructor(
     }
 
     override fun getNotifications(): Flow<PagingData<Notification>> {
+        Log.d("NotificationRepositoryImpl", "getNotifications: ")
         return Pager(
             config = PagingConfig(
                 pageSize = 10,
@@ -60,11 +63,8 @@ class NotificationRepositoryImpl @Inject constructor(
         ).flow
     }
 
-    override suspend fun markNotificationAsRead(notificationId: Int) {
+    override suspend fun markNotificationAsRead(notificationId: String) {
         notificationApi.markNotificationAsRead(notificationId)
     }
 
-    override suspend fun deleteNotification(notificationId: Int) {
-        notificationApi.deleteNotification(notificationId)
-    }
 }

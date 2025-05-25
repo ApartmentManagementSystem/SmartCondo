@@ -1,4 +1,4 @@
-package com.mit.apartmentmanagement.persentation.ui.notification
+package com.mit.apartmentmanagement.persentation.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -6,6 +6,9 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.mit.apartmentmanagement.domain.model.Notification
 import com.mit.apartmentmanagement.domain.repository.NotificationRepository
+import com.mit.apartmentmanagement.domain.usecase.notification.GetNotificationsUseCase
+import com.mit.apartmentmanagement.domain.usecase.notification.MarkNotificationAsReadUseCase
+import com.mit.apartmentmanagement.domain.usecase.notification.SearchNotificationsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -15,7 +18,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class NotificationViewModel @Inject constructor(
-    private val notificationRepository: NotificationRepository
+    private val getNotificationsUseCase: GetNotificationsUseCase,
+    private val searchNotificationsUseCase: SearchNotificationsUseCase,
+    private val markNotificationAsReadUseCase: MarkNotificationAsReadUseCase,
 ) : ViewModel() {
 
     private val _notifications = MutableStateFlow<PagingData<Notification>>(PagingData.empty())
@@ -37,7 +42,7 @@ class NotificationViewModel @Inject constructor(
         viewModelScope.launch {
             _isLoading.value = true
             try {
-                notificationRepository.getNotifications()
+               getNotificationsUseCase()
                     .cachedIn(viewModelScope)
                     .catch { e ->
                         _error.value = e.message
@@ -53,14 +58,13 @@ class NotificationViewModel @Inject constructor(
             }
         }
     }
-
     fun searchNotifications(query: String) {
         if (query == currentQuery) return
         currentQuery = query
         viewModelScope.launch {
             _isLoading.value = true
             try {
-                notificationRepository.searchNotifications(query)
+                searchNotificationsUseCase(query)
                     .cachedIn(viewModelScope)
                     .catch { e ->
                         _error.value = e.message
@@ -76,23 +80,10 @@ class NotificationViewModel @Inject constructor(
             }
         }
     }
-
-    fun markNotificationAsRead(notificationId: Int) {
+    fun markNotificationAsRead(notificationId: String) {
         viewModelScope.launch {
             try {
-                notificationRepository.markNotificationAsRead(notificationId)
-            } catch (e: Exception) {
-                _error.value = e.message
-            }
-        }
-    }
-
-    fun deleteNotification(notificationId: Int) {
-        viewModelScope.launch {
-            try {
-                notificationRepository.deleteNotification(notificationId)
-                // Refresh the list after deletion
-                loadNotifications()
+               markNotificationAsReadUseCase(notificationId)
             } catch (e: Exception) {
                 _error.value = e.message
             }

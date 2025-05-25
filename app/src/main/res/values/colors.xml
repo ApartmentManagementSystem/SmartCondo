@@ -29,8 +29,13 @@
 
     <!-- Notification colors -->
     <color name="notification_unread_background">#FFFFFF</color>
-    <color name="notification_read_background">#F5F5F5</color>
-    <color name="notification_unread_indicator">#2196F3</color>
 
     <color name="delete_background">#FFE53935</color>
+
+    <!-- Topic Colors -->
+    <color name="topic_payment">#FF1976D2</color>
+    <color name="topic_maintenance">#FFFF9800</color>
+    <color name="topic_announcement">#FF4CAF50</color>
+    <color name="topic_reminder">#FF9C27B0</color>
+    <color name="topic_security">#FFF44336</color>
 </resources>

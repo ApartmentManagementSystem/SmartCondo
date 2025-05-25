@@ -14,7 +14,7 @@ import com.mit.apartmentmanagement.databinding.FragmentInvoiceBinding
 import com.mit.apartmentmanagement.domain.model.InvoiceType
 import com.mit.apartmentmanagement.persentation.ui.adapter.InvoiceAdapter
 import com.mit.apartmentmanagement.persentation.ui.adapter.ServiceAdapter
-import com.mit.apartmentmanagement.persentation.ui.invoice.detail.DetailMonthlyActivity
+import com.mit.apartmentmanagement.persentation.ui.invoice.detail.DetailInvoiceMonthlyActivity
 import com.mit.apartmentmanagement.persentation.ui.invoice.electricity.ElectricityInvoiceActivity
 import com.mit.apartmentmanagement.persentation.ui.invoice.monthly.MonthlyInvoiceActivity
 import com.mit.apartmentmanagement.persentation.ui.invoice.parking.ParkingInvoiceActivity
@@ -33,7 +33,7 @@ class InvoiceFragment : Fragment() {
     private val viewModel: InvoiceViewModel by viewModels()
     private val invoiceAdapter = InvoiceAdapter(
         onItemClick = { invoice ->
-            startActivity(Intent(requireContext(), DetailMonthlyActivity::class.java).apply {
+            startActivity(Intent(requireContext(), DetailInvoiceMonthlyActivity::class.java).apply {
                 putExtra("invoice_id", invoice.monthlyInvoiceId)
             })
         }

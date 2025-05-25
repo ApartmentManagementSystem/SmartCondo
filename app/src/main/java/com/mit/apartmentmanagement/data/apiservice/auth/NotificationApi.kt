@@ -6,7 +6,7 @@ import retrofit2.Response
 import retrofit2.http.*
 
 interface NotificationApi {
-    @GET("api/notifications")
+    @GET("api/notifications/my-notifications")
     suspend fun getNotifications(
         @Query("page") page: Int,
         @Query("size") size: Int = 10
@@ -24,11 +24,6 @@ interface NotificationApi {
 
     @PUT("api/notifications/change-is-read/{notificationId}")
     suspend fun markNotificationAsRead(
-        @Path("notificationId") notificationId: Int
-    ): Response<Unit>
-
-    @DELETE("api/notifications/{notificationId}")
-    suspend fun deleteNotification(
-        @Path("notificationId") notificationId: Int
+        @Path("notificationId") notificationId: String
     ): Response<Unit>
 }

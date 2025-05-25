@@ -33,7 +33,7 @@
             android:name=".persentation.ui.invoice.parking.ParkingInvoiceActivity"
             android:exported="false" />
         <activity
-            android:name=".persentation.ui.invoice.detail.DetailMonthlyActivity"
+            android:name=".persentation.ui.invoice.detail.DetailInvoiceMonthlyActivity"
             android:exported="false" />
         <activity
             android:name=".persentation.ui.invoice.monthly.MonthlyInvoiceActivity"

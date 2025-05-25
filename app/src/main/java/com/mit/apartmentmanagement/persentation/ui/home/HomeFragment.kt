@@ -3,17 +3,26 @@ package com.mit.apartmentmanagement.persentation.ui.home
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.LinearLayout
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import androidx.viewpager2.widget.ViewPager2
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.mit.apartmentmanagement.R
 import com.mit.apartmentmanagement.databinding.FragmentHomeBinding
 import com.mit.apartmentmanagement.domain.model.invoice.InvoiceMonthly
@@ -21,12 +30,10 @@ import com.mit.apartmentmanagement.persentation.ui.ApartmentDetailActivity
 import com.mit.apartmentmanagement.persentation.ui.adapter.AmenityAdapter
 import com.mit.apartmentmanagement.persentation.viewmodels.HomeViewModel
 import com.mit.apartmentmanagement.persentation.ui.adapter.ApartmentAdapter
-import com.mit.apartmentmanagement.persentation.ui.adapter.NotificationAdapter
+import com.mit.apartmentmanagement.persentation.ui.adapter.NotificationViewPagerAdapter
 import com.mit.apartmentmanagement.persentation.ui.notification.NotificationDetailActivity
 import dagger.hilt.android.AndroidEntryPoint
 import java.time.LocalTime
-import java.util.Timer
-import java.util.TimerTask
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -36,8 +43,17 @@ class HomeFragment : Fragment() {
     private val viewModel: HomeViewModel by viewModels()
     private lateinit var amenityAdapter: AmenityAdapter
     private lateinit var apartmentAdapter: ApartmentAdapter
-    private lateinit var notificationAdapter: NotificationAdapter
-    private var notificationTimer: Timer? = null
+    private lateinit var notificationViewPagerAdapter: NotificationViewPagerAdapter
+    private lateinit var bottomNav: BottomNavigationView
+    
+    // Auto-scroll handling
+    private val autoScrollHandler = Handler(Looper.getMainLooper())
+    private var autoScrollRunnable: Runnable? = null
+    private val autoScrollDelay = 4000L
+    private var isUserInteracting = false
+    
+    // Page indicators
+    private val pageIndicators = mutableListOf<ImageView>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -57,6 +73,8 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupUI() {
+        bottomNav= requireActivity().findViewById(R.id.bottom_nav_menu)
+
         // Setup apartments recycler view
         apartmentAdapter = ApartmentAdapter(
             onApartmentClicked = {
@@ -67,14 +85,15 @@ class HomeFragment : Fragment() {
         )
         binding.apartmentsRecyclerView.adapter = apartmentAdapter
 
-        // Setup notifications view pager
-        notificationAdapter = NotificationAdapter(onNotificationClicked = {
-            val intent= Intent(requireContext(), NotificationDetailActivity::class.java)
+        // Setup notifications view pager with new adapter
+        notificationViewPagerAdapter = NotificationViewPagerAdapter(onNotificationClicked = {
+            val intent = Intent(requireContext(), NotificationDetailActivity::class.java)
             intent.putExtra("notification", it)
+            startActivity(intent)
         })
 
-        binding.notificationsViewPager.adapter = notificationAdapter
-        setupAutomaticNotificationScroll()
+        binding.notificationsViewPager.adapter = notificationViewPagerAdapter
+        setupNotificationViewPager()
 
         // Setup amenities recycler view
         amenityAdapter = AmenityAdapter(onAmenityClicked = {
@@ -84,8 +103,61 @@ class HomeFragment : Fragment() {
         })
         binding.amenitiesRecyclerView.adapter = amenityAdapter
 
+        binding.seeAllNotification.setOnClickListener {
+            navigateNotificationFragment()
+        }
+
         // Setup bills chart
         setupInvoiceChart()
+    }
+
+    private fun navigateNotificationFragment() {
+        bottomNav.selectedItemId = R.id.notificationFragment
+    }
+
+    private fun setupNotificationViewPager() {
+        binding.notificationsViewPager.apply {
+            // Enable smooth scrolling
+            offscreenPageLimit = 1
+            
+            // Add page transformer for smooth transitions
+            setPageTransformer { page, position ->
+                page.apply {
+                    when {
+                        position < -1 -> alpha = 0f
+                        position <= 1 -> {
+                            alpha = 1f
+                            translationX = 0f
+                            scaleX = 1f
+                            scaleY = 1f
+                        }
+                        else -> alpha = 0f
+                    }
+                }
+            }
+            
+            // Register page change callback to handle user interaction
+            registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+                override fun onPageScrollStateChanged(state: Int) {
+                    super.onPageScrollStateChanged(state)
+                    when (state) {
+                        ViewPager2.SCROLL_STATE_DRAGGING -> {
+                            isUserInteracting = true
+                            stopAutoScroll()
+                        }
+                        ViewPager2.SCROLL_STATE_IDLE -> {
+                            isUserInteracting = false
+                            startAutoScroll()
+                        }
+                    }
+                }
+                
+                override fun onPageSelected(position: Int) {
+                    super.onPageSelected(position)
+                    updatePageIndicators(position)
+                }
+            })
+        }
     }
 
     private fun setupObservers() {
@@ -93,9 +165,12 @@ class HomeFragment : Fragment() {
             apartmentAdapter.submitList(apartments)
         }
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.notifications.collect { notifications ->
-                notificationAdapter.submitData(notifications)
+        // Observe recent notifications for ViewPager2
+        viewModel.recentNotifications.observe(viewLifecycleOwner) { notifications ->
+            notificationViewPagerAdapter.submitList(notifications)
+            setupPageIndicators(notifications.size)
+            if (notifications.isNotEmpty()) {
+                startAutoScroll()
             }
         }
 
@@ -119,18 +194,32 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun setupAutomaticNotificationScroll() {
-        notificationTimer?.cancel()
-        notificationTimer = Timer()
-        notificationTimer?.schedule(object : TimerTask() {
-            override fun run() {
-                activity?.runOnUiThread {
-                    if ((binding.notificationsViewPager.adapter?.itemCount ?: 0) > 0) {
-                        binding.notificationsViewPager.currentItem += 1
-                    }
+    private fun startAutoScroll() {
+        if (isUserInteracting) return
+        
+        stopAutoScroll()
+        autoScrollRunnable = Runnable {
+            if (!isUserInteracting && isAdded) {
+                val adapter = notificationViewPagerAdapter
+                val itemCount = adapter.itemCount
+                if (itemCount > 1) {
+                    val currentItem = binding.notificationsViewPager.currentItem
+                    val nextItem = if (currentItem == itemCount - 1) 0 else currentItem + 1
+                    binding.notificationsViewPager.setCurrentItem(nextItem, true)
                 }
+                startAutoScroll() // Schedule next scroll
             }
-        }, 3000, 3000)
+        }
+        autoScrollRunnable?.let {
+            autoScrollHandler.postDelayed(it, autoScrollDelay)
+        }
+    }
+
+    private fun stopAutoScroll() {
+        autoScrollRunnable?.let {
+            autoScrollHandler.removeCallbacks(it)
+        }
+        autoScrollRunnable = null
     }
 
     private fun setupInvoiceChart() {
@@ -189,10 +278,64 @@ class HomeFragment : Fragment() {
         binding.headerBackground.setBackgroundResource(backgroundResId)
     }
 
+    override fun onResume() {
+        super.onResume()
+        if (notificationViewPagerAdapter.itemCount > 1) {
+            startAutoScroll()
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        stopAutoScroll()
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
-        notificationTimer?.cancel()
-        notificationTimer = null
+        stopAutoScroll()
         _binding = null
+    }
+
+    private fun setupPageIndicators(count: Int) {
+        pageIndicators.clear()
+        binding.pageIndicatorContainer.removeAllViews()
+        
+        if (count <= 1) {
+            binding.pageIndicatorContainer.visibility = View.GONE
+            return
+        }
+        
+        binding.pageIndicatorContainer.visibility = View.VISIBLE
+        
+        for (i in 0 until count) {
+            val indicator = ImageView(requireContext())
+            val layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            )
+            layoutParams.setMargins(8, 0, 8, 0)
+            indicator.layoutParams = layoutParams
+            
+            indicator.setImageDrawable(
+                ContextCompat.getDrawable(
+                    requireContext(),
+                    if (i == 0) R.drawable.page_indicator_active else R.drawable.page_indicator_inactive
+                )
+            )
+            
+            pageIndicators.add(indicator)
+            binding.pageIndicatorContainer.addView(indicator)
+        }
+    }
+    
+    private fun updatePageIndicators(position: Int) {
+        pageIndicators.forEachIndexed { index, indicator ->
+            indicator.setImageDrawable(
+                ContextCompat.getDrawable(
+                    requireContext(),
+                    if (index == position) R.drawable.page_indicator_active else R.drawable.page_indicator_inactive
+                )
+            )
+        }
     }
 } 

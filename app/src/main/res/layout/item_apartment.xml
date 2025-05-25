@@ -8,15 +8,14 @@
     app:cardCornerRadius="12dp"
     app:cardElevation="4dp">
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
         <ImageView
             android:id="@+id/apartmentImage"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="match_parent"
             android:scaleType="centerCrop"
             tools:src="@tools:sample/backgrounds/scenic" />
 
@@ -24,24 +23,36 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:padding="8dp">
+            android:padding="8dp"
+            android:gravity="bottom"
+            android:background="@android:color/transparent">
 
             <TextView
                 android:id="@+id/apartmentName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
                 android:textSize="16sp"
                 android:textStyle="bold"
+                android:shadowColor="#80000000"
+                android:shadowDx="0"
+                android:shadowDy="0"
+                android:shadowRadius="4"
                 tools:text="Apartment Name" />
 
             <TextView
                 android:id="@+id/apartmentAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:maxLines="1"
+                android:textColor="@android:color/white"
                 android:textSize="14sp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:shadowColor="#80000000"
+                android:shadowDx="0"
+                android:shadowDy="0"
+                android:shadowRadius="4"
                 tools:text="123 Street Name, City" />
         </LinearLayout>
-    </LinearLayout>
-</androidx.cardview.widget.CardView> 
+    </FrameLayout>
+</androidx.cardview.widget.CardView>

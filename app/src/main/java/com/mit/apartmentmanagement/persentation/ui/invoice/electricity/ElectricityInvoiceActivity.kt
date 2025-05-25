@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.mit.apartmentmanagement.databinding.ActivityElectricityInvoiceBinding
 import com.mit.apartmentmanagement.persentation.ui.adapter.InvoiceAdapter
-import com.mit.apartmentmanagement.persentation.ui.invoice.detail.DetailMonthlyActivity
+import com.mit.apartmentmanagement.persentation.ui.invoice.detail.DetailInvoiceMonthlyActivity
 import com.mit.apartmentmanagement.persentation.viewmodels.ElectricityInvoiceViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -20,7 +20,7 @@ class ElectricityInvoiceActivity : AppCompatActivity() {
     private val viewModel: ElectricityInvoiceViewModel by viewModels()
     private val adapter = InvoiceAdapter(
         onItemClick = { invoice ->
-            startActivity(Intent(this, DetailMonthlyActivity::class.java).apply {
+            startActivity(Intent(this, DetailInvoiceMonthlyActivity::class.java).apply {
                 putExtra("invoice_id", invoice.monthlyInvoiceId)
             })
         }

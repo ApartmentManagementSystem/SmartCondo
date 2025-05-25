@@ -2,23 +2,26 @@ package com.mit.apartmentmanagement.persentation.ui
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
+import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
 
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.mit.apartmentmanagement.R
 import com.mit.apartmentmanagement.databinding.ActivityMainBinding
+import com.mit.apartmentmanagement.domain.util.NetworkResult
 import com.mit.apartmentmanagement.persentation.ui.auth.ProfileUserActivity
+import com.mit.apartmentmanagement.persentation.ui.login.LoginActivity
+import com.mit.apartmentmanagement.persentation.viewmodels.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class MainActivity: BaseActivity() {
+class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
+    private val mainViewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,107 +35,119 @@ class MainActivity: BaseActivity() {
         }
         setUptNavigationView()
         setupBottomNavigation()
-        setupTiltle()
+        setupTitle()
+        observerLogoutResult()
         setContentView(binding.root)
-
-//        authViewModel.logoutResult.observe(this) { result ->
-//            result.onSuccess {
-//                Toast.makeText(this, "Đăng xuất thành công!", Toast.LENGTH_SHORT).show()
-//                Log.d("LoginViewModel", "Đăng xuất thành công")
-//                startActivity(Intent(this, LoginActivity::class.java))
-//                finish()
-//            }.onFailure { error ->
-//                Toast.makeText(this, "Lỗi: ${error.message}", Toast.LENGTH_SHORT).show()
-//            }
-//        }
-
     }
 
-
-
-
-    private fun setupTiltle() {
-        navController.addOnDestinationChangedListener { _, destination, _ ->
-            binding.tvHeader.text = destination.label
-        }
-    }
-    private fun setUptNavigationView() {
-        binding.navigationView.setNavigationItemSelectedListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.my_profile -> {
-                    startActivity(Intent(this, ProfileUserActivity::class.java))
-                    true
+    private fun observerLogoutResult() {
+        mainViewModel.logoutResult.observe(this) { result ->
+            when (result) {
+                is NetworkResult.Success -> {
+                    startActivity(Intent(this, LoginActivity::class.java))
+                    finish()
                 }
-                R.id.notification -> {
-                    //navController.navigate(R.id.notificationFragment)
-                    binding.main.close()
-                    true
+                is NetworkResult.Error -> {
+                    Toast.makeText(this, result.message, Toast.LENGTH_SHORT).show()
                 }
-                R.id.language -> {
-                    // navController.navigate(R.id.languageFragment)
-                    binding.main.close()
-                    true
+                is NetworkResult.Loading -> {
+                    //showLoading
                 }
-                R.id.contact -> {
-                    //navController.navigate(R.id.contactFragment)
-                    binding.main.close()
-                    true
-                }
-                R.id.logout -> {
-                    handleLogout()
-                    true
-                }
-                else -> false
-            }
-        }
-
-
-    }
-    private fun setupBottomNavigation() {
-        binding.bottomNavMenu.setOnItemSelectedListener {
-            when (it.itemId) {
-                R.id.amenitiesFragment -> {
-                    navController.navigate(R.id.amenitiesFragment)
-                    true
-                }
-
-                R.id.invoiceFragment -> {
-                    navController.navigate(R.id.invoiceFragment)
-                    true
-                }
-
-                R.id.homeFragment -> {
-                    navController.navigate(R.id.homeFragment)
-                    true
-                }
-
-                R.id.notificationFragment -> {
-                    navController.navigate(R.id.notificationFragment)
-                    true
-                }
-
-                R.id.requestFragment -> {
-                    navController.navigate(R.id.requestFragment)
-                    true
-                }
-
-                else -> false
             }
 
         }
     }
+
+
+
+
+private fun setupTitle() {
+    navController.addOnDestinationChangedListener { _, destination, _ ->
+        binding.tvHeader.text = destination.label
+    }
+}
+
+private fun setUptNavigationView() {
+    binding.navigationView.setNavigationItemSelectedListener { menuItem ->
+        when (menuItem.itemId) {
+            R.id.my_profile -> {
+                startActivity(Intent(this, ProfileUserActivity::class.java))
+                true
+            }
+
+            R.id.notification -> {
+                //navController.navigate(R.id.notificationFragment)
+                binding.main.close()
+                true
+            }
+
+            R.id.language -> {
+                // navController.navigate(R.id.languageFragment)
+                binding.main.close()
+                true
+            }
+
+            R.id.contact -> {
+                //navController.navigate(R.id.contactFragment)
+                binding.main.close()
+                true
+            }
+
+            R.id.logout -> {
+                handleLogout()
+                true
+            }
+
+            else -> false
+        }
+    }
+
+
+}
+
+private fun setupBottomNavigation() {
+    binding.bottomNavMenu.setOnItemSelectedListener {
+        when (it.itemId) {
+            R.id.amenitiesFragment -> {
+                navController.navigate(R.id.amenitiesFragment)
+                true
+            }
+
+            R.id.invoiceFragment -> {
+                navController.navigate(R.id.invoiceFragment)
+                true
+            }
+
+            R.id.homeFragment -> {
+                navController.navigate(R.id.homeFragment)
+                true
+            }
+
+            R.id.notificationFragment -> {
+                navController.navigate(R.id.notificationFragment)
+                true
+            }
+
+            R.id.requestFragment -> {
+                navController.navigate(R.id.requestFragment)
+                true
+            }
+
+            else -> false
+        }
+
+    }
+}
+
     private fun handleLogout() {
         AlertDialog.Builder(this)
-            .setTitle("Đăng xuất")
-            .setMessage("Bạn có chắc chắn muốn đăng xuất không?")
-            .setPositiveButton("Đăng xuất") { _, _ ->
-                lifecycleScope.launch {
-                    //authViewModel.logout()
-                }
+            .setTitle("Logout")
+            .setMessage("Are you sure you want to log out?")
+            .setPositiveButton("Log out") { _, _ ->
+                mainViewModel.logout()
             }
-            .setNegativeButton("Hủy", null)
+            .setNegativeButton("Cancel", null)
             .show()
-
-
     }
+
 }

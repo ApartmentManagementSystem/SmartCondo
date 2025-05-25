@@ -8,20 +8,22 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.mit.apartmentmanagement.R
-import com.mit.apartmentmanagement.databinding.ItemNotificationBinding
+import com.mit.apartmentmanagement.databinding.ItemNotificationListBinding
 import com.mit.apartmentmanagement.domain.model.Notification
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import java.util.concurrent.TimeUnit
 
-class NotificationAdapter(
-    private val onNotificationClicked: (Notification) -> Unit
-) : PagingDataAdapter<Notification, NotificationAdapter.NotificationViewHolder>(DIFF_CALLBACK) {
+class NotificationListAdapter(
+    private val onNotificationClicked: (Notification) -> Unit,
+    private val onMarkAsReadClicked: (Notification) -> Unit = {},
+    private val onViewDetailsClicked: (Notification) -> Unit = {}
+) : PagingDataAdapter<Notification, NotificationListAdapter.NotificationViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotificationViewHolder {
         return NotificationViewHolder(
-            ItemNotificationBinding.inflate(
+            ItemNotificationListBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
@@ -36,7 +38,7 @@ class NotificationAdapter(
     }
 
     inner class NotificationViewHolder(
-        private val binding: ItemNotificationBinding
+        private val binding: ItemNotificationListBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
         init {
@@ -48,6 +50,24 @@ class NotificationAdapter(
                     }
                 }
             }
+
+            binding.btnMarkAsRead.setOnClickListener {
+                val position = bindingAdapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    getItem(position)?.let { notification ->
+                        onMarkAsReadClicked(notification)
+                    }
+                }
+            }
+
+            binding.btnViewDetails.setOnClickListener {
+                val position = bindingAdapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    getItem(position)?.let { notification ->
+                        onViewDetailsClicked(notification)
+                    }
+                }
+            }
         }
 
         fun bind(notification: Notification) {
@@ -55,19 +75,14 @@ class NotificationAdapter(
                 notificationTitle.text = notification.title
                 notificationContent.text = notification.content
                 notificationTime.text = getFormattedTime(notification.createdAt)
-
-                // Set background color based on read status
-                val backgroundColor = if (notification.isRead) {
-                    R.color.notification_read_background
+                // Set read status icon
+                notificationStatusIcon.isVisible = notification.isRead
+                // Update button text based on read status
+                if (!notification.isRead) {
+                    btnMarkAsRead.text = "Mark as Read"
                 } else {
-                    R.color.notification_unread_background
+                    btnMarkAsRead.text = "Mark as Unread"
                 }
-                root.setCardBackgroundColor(
-                    ContextCompat.getColor(root.context, backgroundColor)
-                )
-
-                // Set unread indicator
-                notificationUnreadIndicator.isVisible = !notification.isRead
             }
         }
 
@@ -82,18 +97,18 @@ class NotificationAdapter(
                     diffInMillis < TimeUnit.MINUTES.toMillis(1) -> "Just now"
                     diffInMillis < TimeUnit.HOURS.toMillis(1) -> {
                         val minutes = TimeUnit.MILLISECONDS.toMinutes(diffInMillis)
-                        "$minutes minutes ago"
+                        "${minutes}m ago"
                     }
                     diffInMillis < TimeUnit.DAYS.toMillis(1) -> {
                         val hours = TimeUnit.MILLISECONDS.toHours(diffInMillis)
-                        "$hours hours ago"
+                        "${hours}h ago"
                     }
                     diffInMillis < TimeUnit.DAYS.toMillis(7) -> {
                         val days = TimeUnit.MILLISECONDS.toDays(diffInMillis)
-                        "$days days ago"
+                        "${days}d ago"
                     }
                     else -> {
-                        val outputFormat = SimpleDateFormat("MMM dd, yyyy", Locale.getDefault())
+                        val outputFormat = SimpleDateFormat("dd/MMM/yyyy", Locale.getDefault())
                         outputFormat.format(date)
                     }
                 }
@@ -114,4 +129,4 @@ class NotificationAdapter(
             }
         }
     }
-}
+} 
