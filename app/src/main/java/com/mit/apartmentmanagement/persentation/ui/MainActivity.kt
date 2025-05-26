@@ -106,6 +106,7 @@ private fun setUptNavigationView() {
 }
 
 private fun setupBottomNavigation() {
+    binding.bottomNavMenu.selectedItemId = R.id.homeFragment
     binding.bottomNavMenu.setOnItemSelectedListener {
         when (it.itemId) {
             R.id.amenitiesFragment -> {

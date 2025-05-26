@@ -108,7 +108,7 @@ class NotificationListAdapter(
                         "${days}d ago"
                     }
                     else -> {
-                        val outputFormat = SimpleDateFormat("dd/MMM/yyyy", Locale.getDefault())
+                        val outputFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
                         outputFormat.format(date)
                     }
                 }

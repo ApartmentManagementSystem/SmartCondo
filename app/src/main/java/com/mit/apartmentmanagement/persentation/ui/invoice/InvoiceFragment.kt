@@ -9,7 +9,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.facebook.shimmer.ShimmerFrameLayout
 import com.mit.apartmentmanagement.databinding.FragmentInvoiceBinding
 import com.mit.apartmentmanagement.domain.model.InvoiceType
 import com.mit.apartmentmanagement.persentation.ui.adapter.InvoiceAdapter
@@ -102,6 +104,21 @@ class InvoiceFragment : Fragment() {
 
     private fun setupInvoices() {
         binding.rvInvoices.adapter = invoiceAdapter
+        
+        // Handle loading states with shimmer
+        invoiceAdapter.addLoadStateListener { loadState ->
+            when (loadState.refresh) {
+                is LoadState.Loading -> {
+                    showShimmer()
+                }
+                is LoadState.NotLoading -> {
+                    hideShimmer()
+                }
+                is LoadState.Error -> {
+                    hideShimmer()
+                }
+            }
+        }
     }
 
     private fun setupViewAll() {
@@ -119,8 +136,18 @@ class InvoiceFragment : Fragment() {
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+
+    private fun showShimmer() {
+       val shimmerInvoices=binding.shimmerInvoices
+         binding.rvInvoices.visibility= View.GONE
+        binding.shimmerInvoices.shimmerFrameLayout.visibility = View.VISIBLE
+        shimmerInvoices.shimmerFrameLayout.startShimmer()
+    }
+
+    private fun hideShimmer() {
+        val shimmerServices = binding.shimmerInvoices
+        binding.rvInvoices.visibility = View.VISIBLE
+        binding.shimmerInvoices.shimmerFrameLayout.visibility = View.GONE
+        shimmerServices.shimmerFrameLayout.stopShimmer()
     }
 }

@@ -37,7 +37,7 @@
     <fragment
         android:id="@+id/requestFragment"
         android:name="com.mit.apartmentmanagement.persentation.ui.request.RequestFragment"
-        android:label="@string/invoice"
+        android:label="@string/request"
         tools:layout="@layout/fragment_request" />
     <fragment
         android:id="@+id/amenitiesFragment"

@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.mit.apartmentmanagement.databinding.ItemInvoiceBinding
+import com.mit.apartmentmanagement.databinding.ItemMonthlyInvoiceBinding
 import com.mit.apartmentmanagement.domain.model.invoice.payment.PaymentStatus
 import com.mit.apartmentmanagement.domain.model.invoice.InvoiceMonthly
 import java.time.format.DateTimeFormatter
@@ -15,7 +15,7 @@ class InvoiceAdapter(
 ) : PagingDataAdapter<InvoiceMonthly, InvoiceAdapter.InvoiceViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): InvoiceViewHolder {
-        val binding = ItemInvoiceBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ItemMonthlyInvoiceBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return InvoiceViewHolder(binding)
     }
 
@@ -24,7 +24,7 @@ class InvoiceAdapter(
         invoice?.let { holder.bind(it) }
     }
 
-    inner class InvoiceViewHolder(private val binding: ItemInvoiceBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class InvoiceViewHolder(private val binding: ItemMonthlyInvoiceBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(invoice: InvoiceMonthly) {
             val formatter = DateTimeFormatter.ofPattern("MM/yyyy")
             val monthYear = invoice.invoiceTime.format(formatter)

@@ -15,6 +15,7 @@ import com.mit.apartmentmanagement.domain.model.invoice.InvoiceMonthly
 import com.mit.apartmentmanagement.domain.usecase.amenities.GetAllAmenitiesUseCase
 import com.mit.apartmentmanagement.domain.usecase.apartment.GetApartmentsUseCase
 import com.mit.apartmentmanagement.domain.usecase.invoice.GetSixInvoiceMonthlyUseCase
+import com.mit.apartmentmanagement.domain.usecase.invoice.GetInvoiceForChartUseCase
 import com.mit.apartmentmanagement.domain.usecase.notification.GetFiveNotificationUseCase
 import com.mit.apartmentmanagement.domain.usecase.notification.GetNotificationsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -29,7 +30,8 @@ class HomeViewModel @Inject constructor(
     private val getApartmentUseCase: GetApartmentsUseCase,
     private val getSixInvoiceMonthlyUseCase: GetSixInvoiceMonthlyUseCase,
     private val getAllAmenitiesUseCase: GetAllAmenitiesUseCase,
-    private val getFiveNotificationUseCase: GetFiveNotificationUseCase
+    private val getFiveNotificationUseCase: GetFiveNotificationUseCase,
+    private val getInvoiceForChartUseCase: GetInvoiceForChartUseCase
 ) : ViewModel() {
 
     private val _apartments = MutableLiveData<List<Apartment>>()
@@ -41,6 +43,16 @@ class HomeViewModel @Inject constructor(
 
     private val _invoices = MutableLiveData<List<InvoiceMonthly>>()
     val invoices: LiveData<List<InvoiceMonthly>> = _invoices
+
+
+
+    // Grouped invoices by apartment name for ViewPager2
+    private val _groupedInvoices = MutableLiveData<Map<String, List<InvoiceMonthly>>>()
+    val groupedInvoices: LiveData<Map<String, List<InvoiceMonthly>>> = _groupedInvoices
+
+    // List of apartment names for ViewPager2 tabs
+    private val _apartmentNames = MutableLiveData<List<String>>()
+    val apartmentNames: LiveData<List<String>> = _apartmentNames
 
     private val _greeting = MutableLiveData<String>()
     val greeting: LiveData<String> = _greeting
@@ -88,10 +100,12 @@ class HomeViewModel @Inject constructor(
                     }
                     Log.d("HomeViewModel", "Loaded recent notifications: ${_recentNotifications.value}")
                 }
-                
-                getSixInvoiceMonthlyUseCase().collect { result ->
-                    when(result){
-                        is Result.Success -> _invoices.value = result.data
+                // Load chart invoices
+                getInvoiceForChartUseCase().collect { result ->
+                    when(result) {
+                        is Result.Success -> {
+                            processChartInvoices(result.data)
+                        }
                         is Result.Error -> _error.value = result.message
                         is Result.Loading -> _isLoading.value = true
                     }
@@ -113,5 +127,22 @@ class HomeViewModel @Inject constructor(
 
     fun refreshData() {
         loadData()
+    }
+
+    private fun processChartInvoices(invoices: List<InvoiceMonthly>) {
+        // Group invoices by apartment name
+        val grouped = invoices.groupBy { it.apartmentName }
+        _groupedInvoices.value = grouped
+        
+        // Extract apartment names
+        val apartmentNames = grouped.keys.toList().sorted()
+        _apartmentNames.value = apartmentNames
+        
+        Log.d("HomeViewModel", "Processed ${invoices.size} invoices into ${apartmentNames.size} apartments")
+        Log.d("HomeViewModel", "Apartment names: $apartmentNames")
+    }
+
+    fun getInvoicesForApartment(apartmentName: String): List<InvoiceMonthly> {
+        return _groupedInvoices.value?.get(apartmentName) ?: emptyList()
     }
 } 

@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
-    android:background="@color/background_real"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background_real"
     tools:context=".persentation.ui.MainActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -58,33 +58,34 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/btn_menu"
             app:navGraph="@navigation/my_nav" />
+
         <androidx.cardview.widget.CardView
             android:id="@+id/cardViewBottomNav"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:elevation="12dp"
-            app:cardElevation="12dp"
-            app:cardCornerRadius="0dp"
             app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="0dp"
+            app:cardElevation="12dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
             <com.google.android.material.bottomnavigation.BottomNavigationView
                 android:id="@+id/bottom_nav_menu"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="68dp"
                 android:background="@android:color/transparent"
+                android:elevation="8dp"
+                app:itemActiveIndicatorStyle="@color/background_real"
+                app:itemIconSize="25dp"
+                app:itemIconTint="@drawable/bottom_nav_color_selector"
+                app:itemPaddingBottom="12dp"
+                app:itemPaddingTop="8dp"
+                app:itemTextColor="@drawable/bottom_nav_color_selector"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:itemActiveIndicatorStyle="@color/background_real"
-                app:itemIconTint="@drawable/bottom_nav_color_selector"
-                app:itemPaddingTop="15dp"
-                app:itemIconSize="25dp"
-                android:elevation="8dp"
-                app:itemPaddingBottom="15dp"
-                app:itemTextColor="@drawable/bottom_nav_color_selector"
                 app:layout_constraintStart_toStartOf="parent"
-                app:itemBackground="@drawable/bottom_nav_item_background"
                 app:menu="@menu/bottom_nav_menu" />
         </androidx.cardview.widget.CardView>
 
@@ -97,7 +98,7 @@
         android:layout_width="320dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
+        android:layout_marginBottom="0dp"
         app:headerLayout="@layout/nav_view_header"
-        app:menu="@menu/nav_view_menu"
-        android:layout_marginBottom="0dp"/>
+        app:menu="@menu/nav_view_menu" />
 </androidx.drawerlayout.widget.DrawerLayout>

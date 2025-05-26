@@ -31,6 +31,7 @@ import com.mit.apartmentmanagement.persentation.ui.adapter.AmenityAdapter
 import com.mit.apartmentmanagement.persentation.viewmodels.HomeViewModel
 import com.mit.apartmentmanagement.persentation.ui.adapter.ApartmentAdapter
 import com.mit.apartmentmanagement.persentation.ui.adapter.NotificationViewPagerAdapter
+import com.mit.apartmentmanagement.persentation.ui.adapter.InvoiceChartPagerAdapter
 import com.mit.apartmentmanagement.persentation.ui.notification.NotificationDetailActivity
 import dagger.hilt.android.AndroidEntryPoint
 import java.time.LocalTime
@@ -44,6 +45,7 @@ class HomeFragment : Fragment() {
     private lateinit var amenityAdapter: AmenityAdapter
     private lateinit var apartmentAdapter: ApartmentAdapter
     private lateinit var notificationViewPagerAdapter: NotificationViewPagerAdapter
+    private lateinit var invoiceChartPagerAdapter: InvoiceChartPagerAdapter
     private lateinit var bottomNav: BottomNavigationView
     
     // Auto-scroll handling
@@ -54,6 +56,7 @@ class HomeFragment : Fragment() {
     
     // Page indicators
     private val pageIndicators = mutableListOf<ImageView>()
+    private val chartPageIndicators = mutableListOf<ImageView>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -107,8 +110,10 @@ class HomeFragment : Fragment() {
             navigateNotificationFragment()
         }
 
-        // Setup bills chart
-        setupInvoiceChart()
+        // Setup invoice charts ViewPager2
+        invoiceChartPagerAdapter = InvoiceChartPagerAdapter()
+        binding.invoiceChartsViewPager.adapter = invoiceChartPagerAdapter
+        setupInvoiceChartsViewPager()
     }
 
     private fun navigateNotificationFragment() {
@@ -178,8 +183,25 @@ class HomeFragment : Fragment() {
             amenityAdapter.submitList(amenities)
         }
 
-        viewModel.invoices.observe(viewLifecycleOwner) { invoices ->
-            updateInvoicesChart(invoices)
+
+
+        // Observe chart data
+        viewModel.groupedInvoices.observe(viewLifecycleOwner) { groupedInvoices ->
+            viewModel.apartmentNames.value?.let { apartmentNames ->
+                invoiceChartPagerAdapter.submitData(groupedInvoices, apartmentNames)
+                setupChartPageIndicators(apartmentNames.size)
+                updateChartVisibility(apartmentNames.isNotEmpty())
+                updateCurrentApartmentDisplay()
+            }
+        }
+
+        viewModel.apartmentNames.observe(viewLifecycleOwner) { apartmentNames ->
+            viewModel.groupedInvoices.value?.let { groupedInvoices ->
+                invoiceChartPagerAdapter.submitData(groupedInvoices, apartmentNames)
+                setupChartPageIndicators(apartmentNames.size)
+                updateChartVisibility(apartmentNames.isNotEmpty())
+                updateCurrentApartmentDisplay()
+            }
         }
 
         viewModel.greeting.observe(viewLifecycleOwner) { greeting ->
@@ -222,49 +244,59 @@ class HomeFragment : Fragment() {
         autoScrollRunnable = null
     }
 
-    private fun setupInvoiceChart() {
-        binding.invoicesChart.apply {
-            description.isEnabled = false
-            legend.isEnabled = false
-            setDrawGridBackground(false)
-            setDrawBorders(false)
+    private fun setupInvoiceChartsViewPager() {
+        binding.invoiceChartsViewPager.apply {
+            // Enable smooth scrolling
+            offscreenPageLimit = 1
             
-            xAxis.apply {
-                position = XAxis.XAxisPosition.BOTTOM
-                setDrawGridLines(false)
-                granularity = 1f
+            // Add page transformer for smooth transitions
+            setPageTransformer { page, position ->
+                page.apply {
+                    when {
+                        position < -1 -> alpha = 0f
+                        position <= 1 -> {
+                            alpha = 1f
+                            translationX = 0f
+                            scaleX = 1f
+                            scaleY = 1f
+                        }
+                        else -> alpha = 0f
+                    }
+                }
             }
             
-            axisLeft.apply {
-                setDrawGridLines(true)
-                setDrawAxisLine(false)
-            }
-            
-            axisRight.isEnabled = false
-            
-            setTouchEnabled(true)
-            isDragEnabled = true
-            setScaleEnabled(false)
+            // Register page change callback
+            registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+                override fun onPageSelected(position: Int) {
+                    super.onPageSelected(position)
+                    updateChartPageIndicators(position)
+                    updateCurrentApartmentDisplay()
+                }
+            })
         }
     }
 
-    private fun updateInvoicesChart(invoices: List<InvoiceMonthly>) {
-        val entries = invoices.mapIndexed { index, invoice ->
-            BarEntry(index.toFloat(), invoice.totalPrice.toFloat())
+    private fun updateChartVisibility(hasData: Boolean) {
+        if (hasData) {
+            binding.invoiceChartsViewPager.visibility = View.VISIBLE
+            binding.chartPageIndicatorContainer.visibility = View.VISIBLE
+            binding.noBillsText.visibility = View.GONE
+        } else {
+            binding.invoiceChartsViewPager.visibility = View.GONE
+            binding.chartPageIndicatorContainer.visibility = View.GONE
+            binding.noBillsText.visibility = View.VISIBLE
         }
+    }
 
-        val months = invoices.map { it.invoiceTime }
-        
-        val dataSet = BarDataSet(entries, "Invoice").apply {
-            color = Color.BLUE
-            valueTextColor = Color.BLACK
-            valueTextSize = 10f
-        }
-
-        binding.invoicesChart.apply {
-            data = BarData(dataSet)
-            xAxis.valueFormatter = IndexAxisValueFormatter(months)
-            invalidate()
+    private fun updateCurrentApartmentDisplay() {
+        val apartmentNames = viewModel.apartmentNames.value
+        if (apartmentNames != null && apartmentNames.isNotEmpty()) {
+            val currentPosition = binding.invoiceChartsViewPager.currentItem
+            val displayText = "${currentPosition + 1}/${apartmentNames.size}"
+            binding.tvCurrentApartment.text = displayText
+            binding.tvCurrentApartment.visibility = View.VISIBLE
+        } else {
+            binding.tvCurrentApartment.visibility = View.GONE
         }
     }
 
@@ -330,6 +362,49 @@ class HomeFragment : Fragment() {
     
     private fun updatePageIndicators(position: Int) {
         pageIndicators.forEachIndexed { index, indicator ->
+            indicator.setImageDrawable(
+                ContextCompat.getDrawable(
+                    requireContext(),
+                    if (index == position) R.drawable.page_indicator_active else R.drawable.page_indicator_inactive
+                )
+            )
+        }
+    }
+
+    private fun setupChartPageIndicators(count: Int) {
+        chartPageIndicators.clear()
+        binding.chartPageIndicatorContainer.removeAllViews()
+        
+        if (count <= 1) {
+            binding.chartPageIndicatorContainer.visibility = View.GONE
+            return
+        }
+        
+        binding.chartPageIndicatorContainer.visibility = View.VISIBLE
+        
+        for (i in 0 until count) {
+            val indicator = ImageView(requireContext())
+            val layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            )
+            layoutParams.setMargins(8, 0, 8, 0)
+            indicator.layoutParams = layoutParams
+            
+            indicator.setImageDrawable(
+                ContextCompat.getDrawable(
+                    requireContext(),
+                    if (i == 0) R.drawable.page_indicator_active else R.drawable.page_indicator_inactive
+                )
+            )
+            
+            chartPageIndicators.add(indicator)
+            binding.chartPageIndicatorContainer.addView(indicator)
+        }
+    }
+    
+    private fun updateChartPageIndicators(position: Int) {
+        chartPageIndicators.forEachIndexed { index, indicator ->
             indicator.setImageDrawable(
                 ContextCompat.getDrawable(
                     requireContext(),

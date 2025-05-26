@@ -14,15 +14,18 @@ interface InvoiceApi {
         @Query("limit") size: Int,
     ): Response<PageResponse<InvoiceMonthly>>
 
-    @GET("api/invoices/search")
+    @GET("api/monthly-invoice/my-invoices")
     suspend fun searchInvoicesByDate(
         @Query("search") search: String,
         @Query("page") page: Int,
-        @Query("size") size: Int
+        @Query("limit") size: Int
     ): Response<PageResponse<InvoiceMonthly>>
 
-    @GET("api/invoices/monthly")
-    suspend fun getSixInvoiceMonthly(): Response<List<InvoiceMonthly>>
+    @GET("api/monthly-invoice/my-invoices?page=1&limit=6")
+    suspend fun getSixInvoiceMonthly(): Response<PageResponse<InvoiceMonthly>>
+
+    @GET("api/monthly-invoice/invoices-charts")
+    suspend fun getInvoiceForChart(): Response<List<InvoiceMonthly>>
 
     @GET("api/monthly-invoice/{invoiceId}")
     suspend fun getInvoiceDetail(

@@ -14,6 +14,8 @@ interface InvoiceRepository {
     ): Flow<PagingData<InvoiceMonthly>>
 
     suspend fun getSixInvoiceMonthly(): Flow<Result<List<InvoiceMonthly>>>
+
+    suspend fun getInvoiceForChart(): Flow<Result<List<InvoiceMonthly>>>
     
     suspend fun getInvoiceDetail(invoiceId: String): Flow<Result<InvoiceMonthly>>
 }

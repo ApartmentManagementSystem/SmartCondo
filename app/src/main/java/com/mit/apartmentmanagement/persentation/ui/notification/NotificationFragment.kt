@@ -75,7 +75,7 @@ class NotificationFragment : Fragment() {
 
         notificationListAdapter.addLoadStateListener { loadState ->
             binding.apply {
-                progressBar.isVisible = loadState.source.refresh is LoadState.Loading
+
                 emptyState.isVisible = loadState.source.refresh is LoadState.NotLoading &&
                         notificationListAdapter.itemCount == 0
                 recyclerView.isVisible = loadState.source.refresh is LoadState.NotLoading

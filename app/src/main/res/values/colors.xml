@@ -38,4 +38,8 @@
     <color name="topic_announcement">#FF4CAF50</color>
     <color name="topic_reminder">#FF9C27B0</color>
     <color name="topic_security">#FFF44336</color>
+    
+    <!-- Shimmer Colors -->
+    <color name="shimmer_placeholder">#E0E0E0</color>
+    <color name="shimmer_highlight">#F5F5F5</color>
 </resources>

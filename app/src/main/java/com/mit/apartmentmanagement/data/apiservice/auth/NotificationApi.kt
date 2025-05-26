@@ -12,7 +12,7 @@ interface NotificationApi {
         @Query("size") size: Int = 10
     ): Response<PageResponse<Notification>>
 
-    @GET("api/notifications/search")
+    @GET("api/notifications/my-notifications")
     suspend fun searchNotifications(
         @Query("query") query: String,
         @Query("page") page: Int,

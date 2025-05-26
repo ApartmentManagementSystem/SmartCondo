@@ -78,7 +78,7 @@ class NotificationViewPagerAdapter(
                         "$days days ago"
                     }
                     else -> {
-                        val outputFormat = SimpleDateFormat("MMM dd, yyyy", Locale.getDefault())
+                        val outputFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
                         outputFormat.format(date)
                     }
                 }
