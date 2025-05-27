@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="4dp"
+    android:layout_marginVertical="6dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="4dp"
+    android:foreground="?android:attr/selectableItemBackground">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <!-- Request Icon -->
+        <ImageView
+            android:id="@+id/ivRequestIcon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/bg_icon_circular"
+            android:padding="8dp"
+            android:src="@drawable/ic_repair"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/ic_nav_request" />
+
+        <!-- Request Title -->
+        <TextView
+            android:id="@+id/tvRequestTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="8dp"
+            android:textColor="@color/text_primary"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:maxLines="1"
+            android:ellipsize="end"
+            app:layout_constraintEnd_toStartOf="@+id/tvRequestStatus"
+            app:layout_constraintStart_toEndOf="@+id/ivRequestIcon"
+            app:layout_constraintTop_toTopOf="@+id/ivRequestIcon"
+            tools:text="Water leakage in bathroom" />
+
+        <!-- Request Type -->
+        <TextView
+            android:id="@+id/tvRequestType"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="4dp"
+            android:textColor="@color/text_secondary"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="@+id/tvRequestTitle"
+            app:layout_constraintStart_toEndOf="@+id/ivRequestIcon"
+            app:layout_constraintTop_toBottomOf="@+id/tvRequestTitle"
+            tools:text="Repair and Maintenance" />
+
+        <!-- Status Badge -->
+        <TextView
+            android:id="@+id/tvRequestStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_status_received"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="4dp"
+            android:textColor="@color/status_received_text"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Received" />
+
+        <!-- Request Content -->
+        <TextView
+            android:id="@+id/tvRequestContent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:textColor="@color/text_secondary"
+            android:textSize="14sp"
+            android:maxLines="2"
+            android:ellipsize="end"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/ivRequestIcon"
+            app:layout_constraintTop_toBottomOf="@+id/ivRequestIcon"
+            tools:text="There is a water leak in the bathroom ceiling that needs immediate attention" />
+
+        <!-- Apartment Name -->
+        <TextView
+            android:id="@+id/tvApartmentName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/bg_apartment_name"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="4dp"
+            android:textColor="@color/primary"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/tvRequestContent"
+            app:layout_constraintTop_toBottomOf="@+id/tvRequestContent"
+            tools:text="A-101" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView> 

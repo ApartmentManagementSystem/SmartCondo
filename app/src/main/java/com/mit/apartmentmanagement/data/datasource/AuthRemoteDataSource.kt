@@ -1,9 +1,8 @@
 package com.mit.apartmentmanagement.data.datasource
 
 import android.util.Log
-import com.mit.apartmentmanagement.data.apiservice.AuthApi
-import com.mit.apartmentmanagement.data.apiservice.NoAuthApi
-import com.mit.apartmentmanagement.domain.model.ChangePasswordRequest
+import com.mit.apartmentmanagement.data.apiservice.auth.AuthApi
+import com.mit.apartmentmanagement.data.apiservice.noauth.NoAuthApi
 import com.mit.apartmentmanagement.domain.model.LoginRequest
 import com.mit.apartmentmanagement.domain.model.RecoveryPasswordRequest
 import com.mit.apartmentmanagement.domain.model.TokenResponse
@@ -21,11 +20,9 @@ class AuthRemoteDataSource @Inject constructor(
         return authApi.checkLoggedIn()
     }
 
-
     suspend fun login(request: LoginRequest): Response<TokenResponse> {
         return noAuthApi.login(request)
     }
-
 
     suspend fun checkRegisteredEmail(email: String): Response<Unit> {
         return noAuthApi.checkRegisteredEmail(email)

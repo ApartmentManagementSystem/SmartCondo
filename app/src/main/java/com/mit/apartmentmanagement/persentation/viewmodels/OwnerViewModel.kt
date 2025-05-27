@@ -1,15 +1,8 @@
 package com.mit.apartmentmanagement.persentation.viewmodels
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.mit.apartmentmanagement.data.model.owner.Owner
-import com.mit.apartmentmanagement.domain.model.ChangePasswordRequest
 import com.mit.apartmentmanagement.domain.usecase.owner.OwnerUseCase
-import com.mit.apartmentmanagement.persentation.util.NetworkResult
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel

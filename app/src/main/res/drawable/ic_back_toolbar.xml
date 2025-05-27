@@ -1,0 +1,12 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Vòng tròn nền -->
+    <item
+        android:width="48dp"
+        android:height="48dp">
+        <shape android:shape="oval">
+            <solid android:color="#EDEDF4"/>
+        </shape>
+    </item>
+    <item android:drawable="@drawable/ic_back2"
+        android:gravity="center" />
+</layer-list>

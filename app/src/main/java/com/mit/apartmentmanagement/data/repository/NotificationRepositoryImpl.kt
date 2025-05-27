@@ -1,23 +1,70 @@
 package com.mit.apartmentmanagement.data.repository
 
-import com.mit.apartmentmanagement.data.network.StompService
-import com.mit.apartmentmanagement.data.apiservice.NotificationApi
-import com.mit.apartmentmanagement.data.model.notification.Notification
+import android.util.Log
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import com.mit.apartmentmanagement.data.apiservice.auth.NotificationApi
+import com.mit.apartmentmanagement.data.paging.NotificationPagingSource
+import com.mit.apartmentmanagement.domain.model.Notification
 import com.mit.apartmentmanagement.domain.repository.NotificationRepository
 import kotlinx.coroutines.flow.Flow
-import retrofit2.Response
+import com.mit.apartmentmanagement.domain.util.Result
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class NotificationRepositoryImpl @Inject constructor(
     private val notificationApi: NotificationApi,
-    private val stompService: StompService,
 ) : NotificationRepository {
-    override suspend fun getNotificationsFromApi(): Response<List<Notification>> {
-        return notificationApi.getNotifications()
+
+
+    override suspend fun getFiveNotification(): Flow<Result<List<Notification>>> = flow {
+        emit(Result.Loading)
+        try {
+            val response = notificationApi.getFiveNotification()
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    emit(Result.Success(it))
+                    Log.d("NotificationRepositoryImpl", "getFiveNotification: $it")
+                } ?: emit(Result.Error("Empty response"))
+            } else {
+                emit(Result.Error("Error: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            emit(Result.Error(e.message ?: "Unknown error"))
+        }
+
     }
 
-    override fun observeNotificationMessages(): Flow<Notification> {
-        return stompService.observeNotificationUpdates()
+    override fun getNotifications(): Flow<PagingData<Notification>> {
+        Log.d("NotificationRepositoryImpl", "getNotifications: ")
+        return Pager(
+            config = PagingConfig(
+                pageSize = 10,
+                enablePlaceholders = false,
+                prefetchDistance = 2
+            ),
+            pagingSourceFactory = {
+                NotificationPagingSource(notificationApi)
+            }
+        ).flow
+    }
+
+    override fun searchNotifications(query: String): Flow<PagingData<Notification>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = 10,
+                enablePlaceholders = false,
+                prefetchDistance = 2
+            ),
+            pagingSourceFactory = {
+                NotificationPagingSource(notificationApi, query)
+            }
+        ).flow
+    }
+
+    override suspend fun markNotificationAsRead(notificationId: String) {
+        notificationApi.markNotificationAsRead(notificationId)
     }
 
 }

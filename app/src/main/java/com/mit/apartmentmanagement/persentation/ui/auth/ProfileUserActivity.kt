@@ -51,16 +51,9 @@ class ProfileUserActivity : AppCompatActivity() {
 
     private fun controlStatusBar() {
         val window = window
-        window.statusBarColor = ContextCompat.getColor(this, R.color.background_real)
+        window.statusBarColor = ContextCompat.getColor(this, R.color.mainColor)
 
-        // Kiểm tra chế độ Dark Mode
-        val nightModeFlags = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
-        if (nightModeFlags == Configuration.UI_MODE_NIGHT_YES) {
-            // Nếu đang ở Dark Mode -> Chữ status bar là trắng
-            window.decorView.systemUiVisibility = 0
-        } else {
-            // Nếu đang ở Light Mode -> Chữ status bar là đen
-            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-        }
+        // Đặt icon status bar thành màu trắng vì background là màu tối
+        window.decorView.systemUiVisibility = 0
     }
 }

@@ -3,5 +3,9 @@
     <style name="Base.Theme.ApartmentManagement" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your dark theme here. -->
         <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+        
+        <!-- Thiết lập màu status bar cùng màu chính cho dark mode -->
+        <item name="android:statusBarColor">@color/mainColor</item>
+        <item name="android:windowLightStatusBar">false</item>
     </style>
 </resources>

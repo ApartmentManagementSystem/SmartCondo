@@ -3,19 +3,16 @@ package com.mit.apartmentmanagement.persentation.ui
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
 import com.mit.apartmentmanagement.R
 import com.mit.apartmentmanagement.databinding.ActivitySplashBinding
 import com.mit.apartmentmanagement.persentation.ui.login.LoginActivity
-import com.mit.apartmentmanagement.persentation.util.NetworkResult
+import com.mit.apartmentmanagement.domain.util.NetworkResult
 import com.mit.apartmentmanagement.persentation.viewmodels.SplashScreenViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 @SuppressLint("CustomSplashScreen")
 @AndroidEntryPoint
@@ -26,11 +23,11 @@ class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        
         binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
         addObservers()
         splashViewModel.checkLoggedIn()
-
     }
 
     private fun addObservers() {

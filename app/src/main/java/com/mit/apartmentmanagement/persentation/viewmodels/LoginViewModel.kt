@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mit.apartmentmanagement.domain.model.LoginRequest
 import com.mit.apartmentmanagement.domain.usecase.auth.LoginUseCase
-import com.mit.apartmentmanagement.persentation.util.NetworkResult
+import com.mit.apartmentmanagement.domain.util.NetworkResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -26,7 +26,6 @@ class LoginViewModel @Inject constructor(
             if (result.isSuccess) {
                 _loginResult.value = NetworkResult.Success(Unit)
             } else {
-
                 _loginResult.value = NetworkResult.Error(result.exceptionOrNull()?.message ?: "Unknown error")
             }
         }
