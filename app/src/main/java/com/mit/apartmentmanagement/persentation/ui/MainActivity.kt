@@ -61,84 +61,84 @@ class MainActivity : AppCompatActivity() {
 
 
 
-private fun setupTitle() {
-    navController.addOnDestinationChangedListener { _, destination, _ ->
-        binding.tvHeader.text = destination.label
-    }
-}
-
-private fun setUptNavigationView() {
-    binding.navigationView.setNavigationItemSelectedListener { menuItem ->
-        when (menuItem.itemId) {
-            R.id.my_profile -> {
-                startActivity(Intent(this, ProfileUserActivity::class.java))
-                true
-            }
-
-            R.id.notification -> {
-                //navController.navigate(R.id.notificationFragment)
-                binding.main.close()
-                true
-            }
-
-            R.id.language -> {
-                // navController.navigate(R.id.languageFragment)
-                binding.main.close()
-                true
-            }
-
-            R.id.contact -> {
-                //navController.navigate(R.id.contactFragment)
-                binding.main.close()
-                true
-            }
-
-            R.id.logout -> {
-                handleLogout()
-                true
-            }
-
-            else -> false
+    private fun setupTitle() {
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            binding.tvHeader.text = destination.label
         }
     }
 
+    private fun setUptNavigationView() {
+        binding.navigationView.setNavigationItemSelectedListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.my_profile -> {
+                    startActivity(Intent(this, ProfileUserActivity::class.java))
+                    true
+                }
 
-}
+                R.id.notification -> {
+                    //navController.navigate(R.id.notificationFragment)
+                    binding.main.close()
+                    true
+                }
 
-private fun setupBottomNavigation() {
-    binding.bottomNavMenu.selectedItemId = R.id.homeFragment
-    binding.bottomNavMenu.setOnItemSelectedListener {
-        when (it.itemId) {
-            R.id.amenitiesFragment -> {
-                navController.navigate(R.id.amenitiesFragment)
-                true
+                R.id.language -> {
+                    // navController.navigate(R.id.languageFragment)
+                    binding.main.close()
+                    true
+                }
+
+                R.id.contact -> {
+                    //navController.navigate(R.id.contactFragment)
+                    binding.main.close()
+                    true
+                }
+
+                R.id.logout -> {
+                    handleLogout()
+                    true
+                }
+
+                else -> false
             }
-
-            R.id.invoiceFragment -> {
-                navController.navigate(R.id.invoiceFragment)
-                true
-            }
-
-            R.id.homeFragment -> {
-                navController.navigate(R.id.homeFragment)
-                true
-            }
-
-            R.id.notificationFragment -> {
-                navController.navigate(R.id.notificationFragment)
-                true
-            }
-
-            R.id.requestFragment -> {
-                navController.navigate(R.id.requestFragment)
-                true
-            }
-
-            else -> false
         }
 
+
     }
-}
+
+    private fun setupBottomNavigation() {
+        binding.bottomNavMenu.selectedItemId = R.id.homeFragment
+        binding.bottomNavMenu.setOnItemSelectedListener {
+            when (it.itemId) {
+                R.id.amenitiesFragment -> {
+                    navController.navigate(R.id.amenitiesFragment)
+                    true
+                }
+
+                R.id.invoiceFragment -> {
+                    navController.navigate(R.id.invoiceFragment)
+                    true
+                }
+
+                R.id.homeFragment -> {
+                    navController.navigate(R.id.homeFragment)
+                    true
+                }
+
+                R.id.notificationFragment -> {
+                    navController.navigate(R.id.notificationFragment)
+                    true
+                }
+
+                R.id.requestFragment -> {
+                    navController.navigate(R.id.requestFragment)
+                    true
+                }
+
+                else -> false
+            }
+
+        }
+    }
 
     private fun handleLogout() {
         AlertDialog.Builder(this)

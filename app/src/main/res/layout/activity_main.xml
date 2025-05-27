@@ -38,7 +38,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/inter_bold"
             android:text="@string/appName"
-            android:textColor="@color/mainColor"
+            android:textColor="@color/main"
             android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/btn_menu"

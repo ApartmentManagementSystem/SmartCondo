@@ -36,9 +36,9 @@ class RecoveryPasswordActivity : BaseActivity() {
 //                recoveryPasswordViewModel.recoveryPassword(recoveryPasswordRequest)
 
                 val (isValid, errorMessage) = validateCredentials(resetCode,newPassword,confirmPassword)
-                    val recoveryPasswordRequest = RecoveryPasswordRequest(resetCode,newPassword,confirmPassword)
-                    recoveryPasswordViewModel.recoveryPassword(recoveryPasswordRequest)
-                    showProcessBar()
+                val recoveryPasswordRequest = RecoveryPasswordRequest(resetCode,newPassword,confirmPassword)
+                recoveryPasswordViewModel.recoveryPassword(recoveryPasswordRequest)
+                showProcessBar()
             }
 
         }
@@ -93,7 +93,7 @@ class RecoveryPasswordActivity : BaseActivity() {
             return false to "Password must be at least 6 characters"
         }
         if (newPassword!=confirmPassword) {
-          return false to "Password not match"
+            return false to "Password not match"
         }
 
         return true to ""

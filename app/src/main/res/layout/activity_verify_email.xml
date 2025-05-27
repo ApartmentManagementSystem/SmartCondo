@@ -24,7 +24,7 @@
         android:layout_marginTop="56dp"
         android:fontFamily="@font/inter_bold"
         android:text="@string/verify_email"
-        android:textColor="@color/mainColor"
+        android:textColor="@color/main"
         android:textSize="@dimen/text_huge"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -38,7 +38,7 @@
         android:layout_marginTop="56dp"
         android:fontFamily="@font/inter_medium"
         android:text="@string/email"
-        android:textColor="@color/mainColor"
+        android:textColor="@color/main"
         android:textSize="@dimen/text_normal"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
@@ -65,7 +65,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
-        android:backgroundTint="@color/mainColor"
+        android:backgroundTint="@color/main"
         android:text="@string/send_code"
         android:textColor="@color/white"
         android:textSize="@dimen/text_big"
@@ -94,7 +94,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:text="@string/sign_in"
-            android:textColor="@color/mainColor" />
+            android:textColor="@color/main" />
 
     </LinearLayout>
 
@@ -111,8 +111,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:visibility="invisible"
-        app:SpinKit_Color="@color/mainColor"
+        app:SpinKit_Color="@color/main"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

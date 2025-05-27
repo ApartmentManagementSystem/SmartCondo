@@ -14,6 +14,7 @@ import com.mit.apartmentmanagement.R
 import com.mit.apartmentmanagement.data.network.TokenManager
 import com.mit.apartmentmanagement.databinding.ActivityChangePasswordBinding
 import com.mit.apartmentmanagement.domain.model.ChangePasswordRequest
+import com.mit.apartmentmanagement.persentation.ui.login.LoginActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

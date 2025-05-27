@@ -39,7 +39,6 @@ class VerifyEmailActivity : BaseActivity() {
                 }
 
                 is NetworkResult.Error -> {
-                    hideProcessBar()
                     Toast.makeText(this, result.message, Toast.LENGTH_SHORT).show()
                 }
 

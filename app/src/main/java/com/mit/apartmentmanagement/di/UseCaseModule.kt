@@ -7,7 +7,6 @@ import com.mit.apartmentmanagement.domain.repository.NotificationRepository
 import com.mit.apartmentmanagement.domain.usecase.apartment.GetApartmentsUseCase
 import com.mit.apartmentmanagement.domain.usecase.auth.LoginUseCase
 import com.mit.apartmentmanagement.domain.usecase.auth.LogoutUseCase
-import com.mit.apartmentmanagement.domain.usecase.auth.RecoveryPasswordUseCase
 import com.mit.apartmentmanagement.domain.usecase.invoice.GetInvoiceMonthlyUseCase
 import com.mit.apartmentmanagement.domain.usecase.invoice.PayInvoiceMonthlyUseCase
 import com.mit.apartmentmanagement.domain.usecase.invoice.SearchInvoiceUseCase
@@ -39,13 +38,13 @@ object UseCaseModule {
 //    fun provideForgetPasswordUseCase(authRepository: AuthRepository): ForgetPasswordUseCase {
 //        return ForgetPasswordUseCase(authRepository)
 //    }
-
-    @Provides
-    @Singleton
-    fun provideRecoveryPasswordUseCase(authRepository: AuthRepository): RecoveryPasswordUseCase {
-        return RecoveryPasswordUseCase(authRepository)
-    }
-
+//
+//    @Provides
+//    @Singleton
+//    fun provideRecoveryPasswordUseCase(authRepository: AuthRepository): RecoveryPasswordUseCase {
+//        return RecoveryPasswordUseCase(authRepository)
+//    }
+//
 //    @Provides
 //    @Singleton
 //    fun provideChangePasswordUseCase(authRepository: AuthRepository): ChangePasswordUseCase {
