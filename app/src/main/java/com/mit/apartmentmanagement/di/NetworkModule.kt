@@ -26,6 +26,7 @@ import javax.inject.Named
 import javax.inject.Singleton
 import com.mit.apartmentmanagement.data.apiservice.auth.AmenitiesApi
 import com.mit.apartmentmanagement.data.apiservice.auth.NotificationApi
+import com.mit.apartmentmanagement.data.apiservice.auth.RequestApi
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -171,6 +172,12 @@ object NetworkModule {
     @Singleton
     fun provideAmenitiesApi(@Named("AuthRetrofit") retrofit: Retrofit): AmenitiesApi {
         return retrofit.create(AmenitiesApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideRequestApi(@Named("AuthRetrofit") retrofit: Retrofit): RequestApi {
+        return retrofit.create(RequestApi::class.java)
     }
 
 }

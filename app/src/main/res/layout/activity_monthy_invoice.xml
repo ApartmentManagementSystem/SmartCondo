@@ -28,6 +28,7 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fillViewport="true"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
@@ -59,7 +60,7 @@
                         android:id="@+id/etSearch"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Search invoices by date (MM/yyyy)"
+                        android:hint="Tìm hóa đơn theo tháng (MM/yyyy)"
                         android:inputType="text"
                         android:maxLines="1"
                         android:textColor="@color/text_primary"
@@ -83,19 +84,11 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="16dp"
-                        android:text="Invoice List"
-                        android:textColor="@color/mainColor"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-
                     <!-- Invoice List Container -->
                     <FrameLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:minHeight="200dp">
 
                         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
                             android:id="@+id/swipeRefresh"
@@ -107,7 +100,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:clipToPadding="false"
-                                android:nestedScrollingEnabled="false"
+                                android:nestedScrollingEnabled="true"
                                 android:paddingHorizontal="8dp"
                                 android:paddingVertical="8dp"
                                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -122,7 +115,6 @@
                             layout="@layout/shimmer_invoice_list"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="8dp"
                             android:visibility="gone" />
 
                     </FrameLayout>
@@ -152,7 +144,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="No invoices found"
+                    android:text="Không tìm thấy hóa đơn"
                     android:textColor="@color/text_secondary"
                     android:textSize="16sp" />
 
@@ -160,7 +152,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="Try adjusting your search criteria"
+                    android:text="Hãy thử điều chỉnh tiêu chí tìm kiếm"
                     android:textColor="@color/text_secondary"
                     android:textSize="14sp" />
 

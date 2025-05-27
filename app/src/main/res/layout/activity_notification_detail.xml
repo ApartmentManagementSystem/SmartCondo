@@ -12,7 +12,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
+            android:background="@color/mainColor"
             app:navigationIcon="@drawable/ic_back"
             app:titleCentered="true"
             app:titleTextColor="@color/white" />

@@ -18,9 +18,9 @@ class NotificationViewPagerTest {
     @Test
     fun notificationList_hasItems_shouldReturnCorrectCount() {
         val notifications = listOf(
-            createMockNotification(1, "Title 1"),
-            createMockNotification(2, "Title 2"),
-            createMockNotification(3, "Title 3")
+            createMockNotification("1", "Title 1"),
+            createMockNotification("2", "Title 2"),
+            createMockNotification("3", "Title 3")
         )
         assertEquals("List should have count 3", 3, notifications.size)
     }
@@ -31,13 +31,12 @@ class NotificationViewPagerTest {
         assertTrue("Auto-scroll delay should be reasonable", delay in 100L..2000L)
     }
     
-    private fun createMockNotification(id: Int, title: String): Notification {
+    private fun createMockNotification(id: String, title: String): Notification {
         return Notification(
             notificationId = id,
             title = title,
             content = "Test content",
             createdAt = "2024-01-01T00:00:00",
-            topic = "Test topic",
             image = "test_image.jpg",
             isRead = false
         )

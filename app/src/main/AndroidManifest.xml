@@ -17,6 +17,11 @@
         android:theme="@style/Theme.ApartmentManagement"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <activity android:name=".persentation.ui.auth.ProfileUserActivity"
+            android:exported="false" />
+        <activity
+            android:name=".persentation.ui.request.AddRequestActivity"
+            android:exported="false" />
         <activity
             android:name=".persentation.ui.ApartmentDetailActivity"
             android:exported="false" />

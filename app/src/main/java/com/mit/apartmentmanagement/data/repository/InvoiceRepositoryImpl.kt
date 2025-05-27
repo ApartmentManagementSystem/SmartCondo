@@ -33,21 +33,6 @@ class InvoiceRepositoryImpl @Inject constructor(
         }.flow
     }
 
-    override suspend fun getSixInvoiceMonthly(): Flow<Result<List<InvoiceMonthly>>> = flow {
-        emit(Result.Loading)
-        try {
-            val response = invoiceApi.getSixInvoiceMonthly()
-            if (response.isSuccessful) {
-                response.body()?.let {
-                    emit(Result.Success(it.content))
-                } ?: emit(Result.Error("Empty response"))
-            } else {
-                emit(Result.Error("Error: ${response.code()}"))
-            }
-        } catch (e: Exception) {
-            emit(Result.Error(e.message ?: "Unknown error"))
-        }
-    }
 
     override suspend fun getInvoiceForChart(): Flow<Result<List<InvoiceMonthly>>> = flow {
         emit(Result.Loading)
@@ -80,4 +65,23 @@ class InvoiceRepositoryImpl @Inject constructor(
             emit(Result.Error(e.message ?: "Unknown error"))
         }
     }
+
+    override suspend fun payInvoiceMonthly(id: String): Flow<Result<InvoiceMonthly>> = flow {
+        emit(Result.Loading)
+        try {
+            val response = invoiceApi.payInvoiceMonthly(id)
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    emit(Result.Success(it))
+                } ?: emit(Result.Error("Empty response"))
+            } else {
+                emit(Result.Error("Error: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            emit(Result.Error(e.message ?: "Unknown error"))
+
+        }
+    }
+
+
 }

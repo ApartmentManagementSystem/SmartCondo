@@ -1,14 +1,20 @@
 package com.mit.apartmentmanagement.persentation.ui.invoice.monthly
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.facebook.shimmer.ShimmerFrameLayout
+import com.mit.apartmentmanagement.R
 import com.mit.apartmentmanagement.databinding.ActivityMonthyInvoiceBinding
 import com.mit.apartmentmanagement.persentation.ui.adapter.InvoiceAdapter
 import com.mit.apartmentmanagement.persentation.ui.invoice.detail.DetailInvoiceMonthlyActivity
@@ -20,24 +26,40 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MonthlyInvoiceActivity : AppCompatActivity() {
+
+    private lateinit var resultLauncher: ActivityResultLauncher<Intent>
+
     private val viewModel: InvoiceViewModel by viewModels()
     private val adapter = InvoiceAdapter(onItemClick = { invoice ->
-        startActivity(Intent(this, DetailInvoiceMonthlyActivity::class.java).apply {
-            putExtra("invoice_id", invoice.monthlyInvoiceId)
+        val intent=Intent(this, DetailInvoiceMonthlyActivity::class.java)
+           intent. putExtra("invoice_id", invoice.monthlyInvoiceId)
+        resultLauncher.launch(intent)
         })
-    })
     private lateinit var binding: ActivityMonthyInvoiceBinding
+    private var shimmerInvoices: ShimmerFrameLayout? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMonthyInvoiceBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                loadData()
+            }
+        }
+        
+        shimmerInvoices = findViewById(R.id.shimmerInvoices)
         
         setupToolbar()
         setupRecyclerView()
         setupSearch()
         setupSwipeRefresh()
         observeInvoices()
+    }
+
+    private fun loadData() {
+        TODO("Not yet implemented")
     }
 
     private fun setupToolbar() {
@@ -49,7 +71,12 @@ class MonthlyInvoiceActivity : AppCompatActivity() {
     }
 
     private fun setupRecyclerView() {
+        // Explicitly set LayoutManager to ensure proper functioning
+        binding.rvInvoices.layoutManager = LinearLayoutManager(this)
         binding.rvInvoices.adapter = adapter
+        
+        // Enable nested scrolling for better performance with paging
+        binding.rvInvoices.isNestedScrollingEnabled = true
 
         // Handle loading states with shimmer
         adapter.addLoadStateListener { loadState ->
@@ -70,13 +97,23 @@ class MonthlyInvoiceActivity : AppCompatActivity() {
                     hideShimmer()
                     binding.swipeRefresh.isRefreshing = false
                     binding.loadingProgress.visibility = View.GONE
-                    binding.emptyStateLayout.visibility = if (isEmpty) View.VISIBLE else View.GONE
+                    
+                    // Show empty state only if there are no items and no error
+                    if (isEmpty) {
+                        binding.emptyStateLayout.visibility = View.VISIBLE
+                        Log.d("MonthlyInvoiceActivity", "No items in adapter")
+                    } else {
+                        binding.emptyStateLayout.visibility = View.GONE
+                        Log.d("MonthlyInvoiceActivity", "Items loaded: ${adapter.itemCount}")
+                    }
                 }
                 is LoadState.Error -> {
+                    val error = (loadState.refresh as LoadState.Error).error
                     hideShimmer()
                     binding.swipeRefresh.isRefreshing = false
                     binding.loadingProgress.visibility = View.GONE
                     binding.emptyStateLayout.visibility = View.VISIBLE
+                    Log.e("MonthlyInvoiceActivity", "Error loading invoices", error)
                 }
             }
         }
@@ -111,51 +148,46 @@ class MonthlyInvoiceActivity : AppCompatActivity() {
             viewModel.allInvoices
                 .distinctUntilChanged()
                 .collectLatest { pagingData ->
+                    Log.d("MonthlyInvoiceActivity", "Collecting new paging data")
                     adapter.submitData(pagingData)
                 }
         }
     }
 
     private fun showShimmer() {
-        val shimmerInvoices = findViewById<ShimmerFrameLayout>(com.mit.apartmentmanagement.R.id.shimmerInvoices)
-        
-        shimmerInvoices?.visibility = View.VISIBLE
-        binding.swipeRefresh.visibility = View.GONE
-        shimmerInvoices?.startShimmer()
+        shimmerInvoices?.let {
+            it.visibility = View.VISIBLE
+            binding.swipeRefresh.visibility = View.GONE
+            it.startShimmer()
+        }
     }
 
     private fun hideShimmer() {
-        val shimmerInvoices = findViewById<ShimmerFrameLayout>(com.mit.apartmentmanagement.R.id.shimmerInvoices)
-        
-        shimmerInvoices?.visibility = View.GONE
-        binding.swipeRefresh.visibility = View.VISIBLE
-        shimmerInvoices?.stopShimmer()
+        shimmerInvoices?.let {
+            it.visibility = View.GONE
+            binding.swipeRefresh.visibility = View.VISIBLE
+            it.stopShimmer()
+        }
     }
 
     override fun onResume() {
         super.onResume()
         if (::binding.isInitialized) {
-            val shimmerInvoices = findViewById<ShimmerFrameLayout>(com.mit.apartmentmanagement.R.id.shimmerInvoices)
-            if (shimmerInvoices?.visibility == View.VISIBLE) {
-                shimmerInvoices.startShimmer()
+            shimmerInvoices?.let { 
+                if (it.visibility == View.VISIBLE) {
+                    it.startShimmer()
+                }
             }
         }
     }
 
     override fun onPause() {
         super.onPause()
-        if (::binding.isInitialized) {
-            val shimmerInvoices = findViewById<ShimmerFrameLayout>(com.mit.apartmentmanagement.R.id.shimmerInvoices)
-            shimmerInvoices?.stopShimmer()
-        }
+        shimmerInvoices?.stopShimmer()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        if (::binding.isInitialized) {
-            val shimmerInvoices = findViewById<ShimmerFrameLayout>(com.mit.apartmentmanagement.R.id.shimmerInvoices)
-            shimmerInvoices?.stopShimmer()
-        }
+        shimmerInvoices?.stopShimmer()
     }
-
 }

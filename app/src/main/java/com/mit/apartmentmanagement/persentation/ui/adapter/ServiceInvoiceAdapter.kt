@@ -7,8 +7,12 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.mit.apartmentmanagement.databinding.ItemServiceInvoiceBinding
 import com.mit.apartmentmanagement.domain.model.invoice.ServiceInvoice
+import java.text.NumberFormat
+import java.util.Locale
 
 class ServiceInvoiceAdapter : ListAdapter<ServiceInvoice, ServiceInvoiceAdapter.ServiceInvoiceViewHolder>(DIFF_CALLBACK) {
+
+    private val currencyFormatter = NumberFormat.getCurrencyInstance(Locale("vi", "VN"))
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ServiceInvoiceViewHolder {
         val binding = ItemServiceInvoiceBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -16,14 +20,22 @@ class ServiceInvoiceAdapter : ListAdapter<ServiceInvoice, ServiceInvoiceAdapter.
     }
 
     override fun onBindViewHolder(holder: ServiceInvoiceViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        holder.bind(getItem(position), currencyFormatter)
     }
 
     class ServiceInvoiceViewHolder(private val binding: ItemServiceInvoiceBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(invoice: ServiceInvoice) {
+        fun bind(invoice: ServiceInvoice, currencyFormatter: NumberFormat) {
             binding.apply {
                 tvServiceType.text = invoice.type.name
-                tvServiceAmount.text = "Số tiền: $${invoice.totalPrice}"
+                tvServiceAmount.text = formatCurrency(invoice.unitPrice, currencyFormatter)
+            }
+        }
+
+        private fun formatCurrency(amount: Double, formatter: NumberFormat): String {
+            return try {
+                formatter.format(amount).replace("₫", "VND")
+            } catch (e: Exception) {
+                "${amount.toLong()} VND"
             }
         }
     }

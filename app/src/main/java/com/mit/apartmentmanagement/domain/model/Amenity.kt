@@ -20,13 +20,5 @@ data class Amenity(
     val lastMaintenanceDate: String,
     val notes: String? = null,
     val unavailableSlots: List<String> = emptyList()
-): Parcelable {
-    enum class AmenityType {
-        SPORT,
-        ENTERTAINMENT,
-        RELAXATION,
-        COMMUNITY,
-        OTHER
-    }
-}
+): Parcelable
 

@@ -14,7 +14,6 @@ import com.mit.apartmentmanagement.domain.model.Notification
 import com.mit.apartmentmanagement.domain.model.invoice.InvoiceMonthly
 import com.mit.apartmentmanagement.domain.usecase.amenities.GetAllAmenitiesUseCase
 import com.mit.apartmentmanagement.domain.usecase.apartment.GetApartmentsUseCase
-import com.mit.apartmentmanagement.domain.usecase.invoice.GetSixInvoiceMonthlyUseCase
 import com.mit.apartmentmanagement.domain.usecase.invoice.GetInvoiceForChartUseCase
 import com.mit.apartmentmanagement.domain.usecase.notification.GetFiveNotificationUseCase
 import com.mit.apartmentmanagement.domain.usecase.notification.GetNotificationsUseCase
@@ -28,7 +27,6 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val getApartmentUseCase: GetApartmentsUseCase,
-    private val getSixInvoiceMonthlyUseCase: GetSixInvoiceMonthlyUseCase,
     private val getAllAmenitiesUseCase: GetAllAmenitiesUseCase,
     private val getFiveNotificationUseCase: GetFiveNotificationUseCase,
     private val getInvoiceForChartUseCase: GetInvoiceForChartUseCase
@@ -43,8 +41,6 @@ class HomeViewModel @Inject constructor(
 
     private val _invoices = MutableLiveData<List<InvoiceMonthly>>()
     val invoices: LiveData<List<InvoiceMonthly>> = _invoices
-
-
 
     // Grouped invoices by apartment name for ViewPager2
     private val _groupedInvoices = MutableLiveData<Map<String, List<InvoiceMonthly>>>()
@@ -116,6 +112,8 @@ class HomeViewModel @Inject constructor(
                         is Result.Error -> _error.value = result.message
                         is Result.Loading -> _isLoading.value = true
                     }
+
+                    Log.d("HomeViewModel", "Loaded amenities: ${_amenities.value}")
                 }
             } catch (e: Exception) {
                 _error.value = e.message

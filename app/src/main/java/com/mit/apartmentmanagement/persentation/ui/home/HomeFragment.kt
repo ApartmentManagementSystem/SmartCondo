@@ -181,6 +181,7 @@ class HomeFragment : Fragment() {
 
         viewModel.amenities.observe(viewLifecycleOwner) { amenities ->
             amenityAdapter.submitList(amenities)
+            Log.d("HomeFragment", "Amenities received: $amenities")
         }
 
 
