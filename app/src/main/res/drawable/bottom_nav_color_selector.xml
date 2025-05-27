@@ -1,5 +1,5 @@
 <!-- res/color/bottom_nav_color_selector.xml -->
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:color="@color/main" android:state_checked="true" />
+    <item android:color="@color/mainColor" android:state_checked="true" />
     <item android:color="@color/iconColorInactive" />
 </selector>

@@ -17,6 +17,7 @@
         android:theme="@style/Theme.ApartmentManagement"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+
         <activity
             android:name=".persentation.ui.verify_email.VerifyEmailActivity"
             android:exported="false" />

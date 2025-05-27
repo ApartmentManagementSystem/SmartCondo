@@ -20,7 +20,6 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class ChangePasswordActivity : AppCompatActivity() {
     private lateinit var binding: ActivityChangePasswordBinding
-    private val authViewModel: AuthViewModel by viewModels()
     private val tokenManager: TokenManager by lazy { TokenManager(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,35 +48,35 @@ class ChangePasswordActivity : AppCompatActivity() {
             }
             true
         }
-        binding.btnChangePassword.setOnClickListener {
-            val currentPassword = binding.txtCurrentPassword.text.toString().trim()
-            val newPassword = binding.txtNewPassword.text.toString().trim()
-            val confirmPassword = binding.txtConfirmPassword.text.toString().trim()
-
-            if (currentPassword.isEmpty() || newPassword.isEmpty() || confirmPassword.isEmpty()) {
-                showToast("Vui lòng nhập đầy đủ thông tin")
-                return@setOnClickListener
-            }
-
-            if (newPassword != confirmPassword) {
-                showToast("Mật khẩu mới không khớp")
-                return@setOnClickListener
-            }
-            authViewModel.changePassword(ChangePasswordRequest(currentPassword,newPassword,confirmPassword))
-
-        }
-        authViewModel.changePasswordResult.observe(this) { result ->
-            result.onSuccess {
-                Toast.makeText(this, "Đổi mật khẩu mới thành công!", Toast.LENGTH_SHORT).show()
-                tokenManager.clearTokens()
-                val intent = Intent(this, LoginActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                startActivity(intent)
-                finishAffinity()
-            }.onFailure { error ->
-                Toast.makeText(this, "Lỗi: ${error.message}", Toast.LENGTH_SHORT).show()
-            }
-        }
+//        binding.btnChangePassword.setOnClickListener {
+//            val currentPassword = binding.txtCurrentPassword.text.toString().trim()
+//            val newPassword = binding.txtNewPassword.text.toString().trim()
+//            val confirmPassword = binding.txtConfirmPassword.text.toString().trim()
+//
+//            if (currentPassword.isEmpty() || newPassword.isEmpty() || confirmPassword.isEmpty()) {
+//                showToast("Vui lòng nhập đầy đủ thông tin")
+//                return@setOnClickListener
+//            }
+//
+//            if (newPassword != confirmPassword) {
+//                showToast("Mật khẩu mới không khớp")
+//                return@setOnClickListener
+//            }
+//            authViewModel.changePassword(ChangePasswordRequest(currentPassword,newPassword,confirmPassword))
+//
+//        }
+//        authViewModel.changePasswordResult.observe(this) { result ->
+//            result.onSuccess {
+//                Toast.makeText(this, "Đổi mật khẩu mới thành công!", Toast.LENGTH_SHORT).show()
+//                tokenManager.clearTokens()
+//                val intent = Intent(this, LoginActivity::class.java)
+//                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+//                startActivity(intent)
+//                finishAffinity()
+//            }.onFailure { error ->
+//                Toast.makeText(this, "Lỗi: ${error.message}", Toast.LENGTH_SHORT).show()
+//            }
+//        }
 
     }
     private fun controlStatusBar() {

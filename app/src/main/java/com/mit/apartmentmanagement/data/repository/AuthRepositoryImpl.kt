@@ -1,11 +1,15 @@
 package com.mit.apartmentmanagement.data.repository
 
+import android.util.Log
 import com.mit.apartmentmanagement.data.datasource.AuthRemoteDataSource
 import com.mit.apartmentmanagement.data.network.TokenManager
+import com.mit.apartmentmanagement.data.network.interceptors.NetworkManager
 import com.mit.apartmentmanagement.domain.repository.AuthRepository
 import com.mit.apartmentmanagement.domain.model.ChangePasswordRequest
 import com.mit.apartmentmanagement.domain.model.LoginRequest
+import com.mit.apartmentmanagement.domain.model.RecoveryPasswordRequest
 import com.mit.apartmentmanagement.domain.model.TokenResponse
+import java.io.IOException
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -22,7 +26,10 @@ class AuthRepositoryImpl @Inject constructor(
                 return Result.success(Unit)
             }
             return Result.failure(Exception(response.message()))
-        } catch (e: Exception) {
+        }catch (e:IOException) {
+            return Result.failure(e)
+        }
+        catch (e: Exception) {
             return Result.failure(e)
         }
     }
@@ -38,7 +45,12 @@ class AuthRepositoryImpl @Inject constructor(
                 return Result.failure(Exception("Server error"))
             }
             Result.failure(Exception(response.message()))
-        } catch (e: Exception) {
+        }catch (e:IOException) {
+            Log.d("LoginViewModel", "IOException: ${e.message}")
+            Result.failure(e)
+        }
+        catch (e: Exception) {
+            Log.d("LoginViewModel", "Exception: ${e.message}")
             Result.failure(e)
         }
     }
@@ -72,9 +84,9 @@ class AuthRepositoryImpl @Inject constructor(
     }
 
 
-    override suspend fun resetPassword(password: String): Result<Unit> {
+    override suspend fun recoveryPassword(request: RecoveryPasswordRequest): Result<Unit> {
         return try {
-            val response = remoteDataSource.resetPassword(password)
+            val response = remoteDataSource.recoveryPassword(request)
             if (response.isSuccessful) {
                 Result.success(Unit)
             } else {

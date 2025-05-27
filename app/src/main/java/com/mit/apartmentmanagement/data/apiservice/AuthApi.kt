@@ -5,7 +5,7 @@ import retrofit2.http.POST
 
 interface AuthApi {
 
-    @POST("auth/logged-in-check")
+    @POST("api/users/token-valid")
     suspend fun checkLoggedIn(): Response<Unit>
 
     @POST("api/users/logout")
