@@ -10,16 +10,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
-import androidx.paging.LoadStateAdapter
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.snackbar.Snackbar
 import com.mit.apartmentmanagement.databinding.FragmentNotificationBinding
-import com.mit.apartmentmanagement.persentation.ui.adapter.NotificationAdapter
+import com.mit.apartmentmanagement.persentation.ui.adapter.NotificationListAdapter
 import com.mit.apartmentmanagement.persentation.ui.adapter.NotificationLoadStateAdapter
-import com.mit.apartmentmanagement.persentation.ui.util.SwipeToDeleteCallback
 import com.mit.apartmentmanagement.persentation.util.showToast
+import com.mit.apartmentmanagement.persentation.viewmodels.NotificationViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -27,7 +23,7 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class NotificationFragment : Fragment() {
     private lateinit var binding: FragmentNotificationBinding
-    private lateinit var notificationAdapter: NotificationAdapter
+    private lateinit var notificationListAdapter: NotificationListAdapter
     private val notificationViewModel: NotificationViewModel by viewModels()
 
     override fun onCreateView(
@@ -38,35 +34,50 @@ class NotificationFragment : Fragment() {
         setupRecyclerView()
         setupSearchView()
         setupSwipeRefresh()
-        setupSwipeToDelete()
         observeNotifications()
         return binding.root
     }
 
     private fun setupRecyclerView() {
-        notificationAdapter = NotificationAdapter(
+        notificationListAdapter = NotificationListAdapter(
             onNotificationClicked = { notification ->
                 val intent = Intent(requireContext(), NotificationDetailActivity::class.java)
                 intent.putExtra("notification", notification)
                 startActivity(intent)
                 notificationViewModel.markNotificationAsRead(notification.notificationId)
+            },
+            onMarkAsReadClicked = { notification ->
+                    notificationViewModel.markNotificationAsRead(notification.notificationId)
+            },
+            onViewDetailsClicked = { notification ->
+                val intent = Intent(requireContext(), NotificationDetailActivity::class.java)
+                intent.putExtra("notification", notification)
+                startActivity(intent)
             }
         )
 
         binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext())
-            adapter = notificationAdapter.withLoadStateFooter(
+            adapter = notificationListAdapter.withLoadStateFooter(
                 footer = NotificationLoadStateAdapter {
-                    notificationAdapter.retry()
+                    notificationListAdapter.retry()
                 }
             )
+            
+            // Add item decoration for better spacing
+            addItemDecoration(androidx.recyclerview.widget.DividerItemDecoration(
+                requireContext(),
+                androidx.recyclerview.widget.DividerItemDecoration.VERTICAL
+            ).apply {
+                setDrawable(resources.getDrawable(android.R.color.transparent, null))
+            })
         }
 
-        notificationAdapter.addLoadStateListener { loadState ->
+        notificationListAdapter.addLoadStateListener { loadState ->
             binding.apply {
-                progressBar.isVisible = loadState.source.refresh is LoadState.Loading
+
                 emptyState.isVisible = loadState.source.refresh is LoadState.NotLoading &&
-                        notificationAdapter.itemCount == 0
+                        notificationListAdapter.itemCount == 0
                 recyclerView.isVisible = loadState.source.refresh is LoadState.NotLoading
                 swipeRefreshLayout.isRefreshing = loadState.source.refresh is LoadState.Loading
             }
@@ -98,47 +109,20 @@ class NotificationFragment : Fragment() {
 
     private fun setupSwipeRefresh() {
         binding.swipeRefreshLayout.setOnRefreshListener {
-            notificationAdapter.refresh()
+            notificationListAdapter.refresh()
         }
     }
-
-    private fun setupSwipeToDelete() {
-        val swipeHandler = object : SwipeToDeleteCallback(requireContext()) {
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val position = viewHolder.bindingAdapterPosition
-                val notification = notificationAdapter.snapshot()[position]
-                
-                notification?.let {
-                    // Show undo snackbar
-                    Snackbar.make(
-                        binding.root,
-                        "Notification deleted",
-                        Snackbar.LENGTH_LONG
-                    ).setAction("UNDO") {
-                        // TODO: Implement undo delete functionality
-                        notificationAdapter.notifyItemInserted(position)
-                    }.show()
-
-                    notificationViewModel.deleteNotification(it.notificationId)
-                }
-            }
-        }
-
-        val itemTouchHelper = ItemTouchHelper(swipeHandler)
-        itemTouchHelper.attachToRecyclerView(binding.recyclerView)
-    }
-
     private fun observeNotifications() {
         viewLifecycleOwner.lifecycleScope.launch {
             notificationViewModel.notifications.collectLatest { pagingData ->
-                notificationAdapter.submitData(pagingData)
+                notificationListAdapter.submitData(pagingData)
             }
         }
-
         viewLifecycleOwner.lifecycleScope.launch {
             notificationViewModel.error.collectLatest { error ->
                 error?.let {
                     requireContext().showToast(it)
+                    binding.emptyState.isVisible=true
                 }
             }
         }

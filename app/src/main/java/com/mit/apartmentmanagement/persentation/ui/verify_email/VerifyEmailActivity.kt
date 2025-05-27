@@ -1,31 +1,28 @@
 package com.mit.apartmentmanagement.persentation.ui.verify_email
 
-
 import android.content.Intent
 import android.os.Bundle
 import android.util.Patterns
 import android.view.View
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.mit.apartmentmanagement.R
 import com.mit.apartmentmanagement.databinding.ActivityVerifyEmailBinding
+import com.mit.apartmentmanagement.persentation.ui.BaseActivity
 import com.mit.apartmentmanagement.persentation.ui.auth.RecoveryPasswordActivity
 import com.mit.apartmentmanagement.domain.util.NetworkResult
 import com.mit.apartmentmanagement.persentation.viewmodels.VerifyEmailViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class VerifyEmailActivity : AppCompatActivity() {
+class VerifyEmailActivity : BaseActivity() {
     private lateinit var binding: ActivityVerifyEmailBinding
     private val verifyEmailViewModel: VerifyEmailViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         binding = ActivityVerifyEmailBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setupUI()

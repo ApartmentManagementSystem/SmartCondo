@@ -1,6 +1,5 @@
 package com.mit.apartmentmanagement.data.repository
 
-import android.util.Log
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
@@ -34,10 +33,11 @@ class InvoiceRepositoryImpl @Inject constructor(
         }.flow
     }
 
-    override suspend fun getSixInvoiceMonthly(): Flow<Result<List<InvoiceMonthly>>> = flow {
+
+    override suspend fun getInvoiceForChart(): Flow<Result<List<InvoiceMonthly>>> = flow {
         emit(Result.Loading)
         try {
-            val response = invoiceApi.getSixInvoiceMonthly()
+            val response = invoiceApi.getInvoiceForChart()
             if (response.isSuccessful) {
                 response.body()?.let {
                     emit(Result.Success(it))
@@ -65,4 +65,23 @@ class InvoiceRepositoryImpl @Inject constructor(
             emit(Result.Error(e.message ?: "Unknown error"))
         }
     }
+
+    override suspend fun payInvoiceMonthly(id: String): Flow<Result<InvoiceMonthly>> = flow {
+        emit(Result.Loading)
+        try {
+            val response = invoiceApi.payInvoiceMonthly(id)
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    emit(Result.Success(it))
+                } ?: emit(Result.Error("Empty response"))
+            } else {
+                emit(Result.Error("Error: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            emit(Result.Error(e.message ?: "Unknown error"))
+
+        }
+    }
+
+
 }

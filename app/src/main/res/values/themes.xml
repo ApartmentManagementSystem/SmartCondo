@@ -10,7 +10,11 @@
         <item name="textInputStyle">@style/AppTextInputLayoutStyle</item>
         <item name="editTextStyle">@style/AppEditTextStyle</item>
         <item name="fontFamily">@font/inter</item>
-        <item name="android:textColor">@color/text_primary</item>"
+        <item name="android:textColor">@color/text_primary</item>
+        
+        <!-- Thiết lập màu status bar cùng màu chính -->
+        <item name="android:statusBarColor">@color/mainColor</item>
+        <item name="android:windowLightStatusBar">false</item>
 
     </style>
 

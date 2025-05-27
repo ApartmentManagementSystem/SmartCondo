@@ -9,6 +9,7 @@ import com.mit.apartmentmanagement.domain.usecase.auth.LoginUseCase
 import com.mit.apartmentmanagement.domain.usecase.auth.LogoutUseCase
 import com.mit.apartmentmanagement.domain.usecase.auth.RecoveryPasswordUseCase
 import com.mit.apartmentmanagement.domain.usecase.invoice.GetInvoiceMonthlyUseCase
+import com.mit.apartmentmanagement.domain.usecase.invoice.PayInvoiceMonthlyUseCase
 import com.mit.apartmentmanagement.domain.usecase.invoice.SearchInvoiceUseCase
 import com.mit.apartmentmanagement.domain.usecase.notification.GetNotificationsUseCase
 import dagger.Module
@@ -74,10 +75,17 @@ object UseCaseModule {
     fun provideSearchInvoiceUseCase(invoiceRepository: InvoiceRepository): SearchInvoiceUseCase {
         return SearchInvoiceUseCase(invoiceRepository)
     }
+
     @Provides
     @Singleton
     fun provideGetApartmentUseCase(apartmentRepository: ApartmentRepository): GetApartmentsUseCase {
         return GetApartmentsUseCase(apartmentRepository)
+    }
+
+    @Singleton
+    @Provides
+    fun providePayInvoiceUseCase(invoiceRepository: InvoiceRepository): PayInvoiceMonthlyUseCase {
+        return PayInvoiceMonthlyUseCase(invoiceRepository)
     }
 
 

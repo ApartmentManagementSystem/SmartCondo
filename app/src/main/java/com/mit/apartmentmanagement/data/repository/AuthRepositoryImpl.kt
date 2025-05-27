@@ -49,10 +49,6 @@ class AuthRepositoryImpl @Inject constructor(
             Log.d("LoginViewModel", "IOException: ${e.message}")
             Result.failure(e)
         }
-        catch (e: Exception) {
-            Log.d("LoginViewModel", "Exception: ${e.message}")
-            Result.failure(e)
-        }
     }
 
     override suspend fun checkRegisteredEmail(email: String): Result<Unit> {

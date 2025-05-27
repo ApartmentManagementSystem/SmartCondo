@@ -23,11 +23,11 @@ class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        
         binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
         addObservers()
         splashViewModel.checkLoggedIn()
-
     }
 
     private fun addObservers() {

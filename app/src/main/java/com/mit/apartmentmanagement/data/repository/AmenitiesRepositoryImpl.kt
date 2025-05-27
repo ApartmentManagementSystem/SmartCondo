@@ -1,5 +1,6 @@
 package com.mit.apartmentmanagement.data.repository
 
+import android.util.Log
 import com.mit.apartmentmanagement.data.apiservice.auth.AmenitiesApi
 import com.mit.apartmentmanagement.data.util.safeApiCall
 import com.mit.apartmentmanagement.domain.model.Amenity
@@ -14,11 +15,12 @@ class AmenitiesRepositoryImpl @Inject constructor(
 ): AmenitiesRepository {
     override suspend fun getAmenities(): Flow<Result<List<Amenity>>> = flow {
         emit(Result.Loading)
+        Log.d("AmenitiesRepository", "Fetching amenities...")
         when (val result = safeApiCall { amenitiesApi.getAmenities() }) {
             is Result.Success -> {
                 emit(Result.Success(result.data))
+                Log.d("AmenitiesRepository", "Loaded amenities: ${result.data}")
             }
-
             is Result.Error -> emit(result)
             is Result.Loading -> emit(result)
         }

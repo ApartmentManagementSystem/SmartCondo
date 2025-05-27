@@ -9,12 +9,14 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.facebook.shimmer.ShimmerFrameLayout
 import com.mit.apartmentmanagement.databinding.FragmentInvoiceBinding
 import com.mit.apartmentmanagement.domain.model.InvoiceType
 import com.mit.apartmentmanagement.persentation.ui.adapter.InvoiceAdapter
 import com.mit.apartmentmanagement.persentation.ui.adapter.ServiceAdapter
-import com.mit.apartmentmanagement.persentation.ui.invoice.detail.DetailMonthlyActivity
+import com.mit.apartmentmanagement.persentation.ui.invoice.detail.DetailInvoiceMonthlyActivity
 import com.mit.apartmentmanagement.persentation.ui.invoice.electricity.ElectricityInvoiceActivity
 import com.mit.apartmentmanagement.persentation.ui.invoice.monthly.MonthlyInvoiceActivity
 import com.mit.apartmentmanagement.persentation.ui.invoice.parking.ParkingInvoiceActivity
@@ -33,7 +35,7 @@ class InvoiceFragment : Fragment() {
     private val viewModel: InvoiceViewModel by viewModels()
     private val invoiceAdapter = InvoiceAdapter(
         onItemClick = { invoice ->
-            startActivity(Intent(requireContext(), DetailMonthlyActivity::class.java).apply {
+            startActivity(Intent(requireContext(), DetailInvoiceMonthlyActivity::class.java).apply {
                 putExtra("invoice_id", invoice.monthlyInvoiceId)
             })
         }
@@ -102,6 +104,21 @@ class InvoiceFragment : Fragment() {
 
     private fun setupInvoices() {
         binding.rvInvoices.adapter = invoiceAdapter
+        
+        // Handle loading states with shimmer
+        invoiceAdapter.addLoadStateListener { loadState ->
+            when (loadState.refresh) {
+                is LoadState.Loading -> {
+                    showShimmer()
+                }
+                is LoadState.NotLoading -> {
+                    hideShimmer()
+                }
+                is LoadState.Error -> {
+                    hideShimmer()
+                }
+            }
+        }
     }
 
     private fun setupViewAll() {
@@ -119,8 +136,18 @@ class InvoiceFragment : Fragment() {
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+
+    private fun showShimmer() {
+       val shimmerInvoices=binding.shimmerInvoices
+         binding.rvInvoices.visibility= View.GONE
+        binding.shimmerInvoices.shimmerFrameLayout.visibility = View.VISIBLE
+        shimmerInvoices.shimmerFrameLayout.startShimmer()
+    }
+
+    private fun hideShimmer() {
+        val shimmerServices = binding.shimmerInvoices
+        binding.rvInvoices.visibility = View.VISIBLE
+        binding.shimmerInvoices.shimmerFrameLayout.visibility = View.GONE
+        shimmerServices.shimmerFrameLayout.stopShimmer()
     }
 }

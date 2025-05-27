@@ -35,4 +35,18 @@
     <string name="please_enter_your_email">Please enter your email</string>
     <string name="enter_your_email_here">Enter your email here.</string>
     <string name="enter_your_password_here">Enter your password here.</string>
+    
+    <!-- Detail Invoice Strings -->
+    <string name="detail_invoice_title">Detail Invoice</string>
+    <string name="monthly_invoice_format">Invoice for %s</string>
+    <string name="apartment_format">Apartment: %s</string>
+    <string name="invoice_id_format">Invoice Code: %s</string>
+    <string name="status_paid">Paid</string>
+    <string name="status_unpaid">Unpaid</string>
+    <string name="status_pending">Processing</string>
+    <string name="electricity_detail_format">%d kWh × %s/kWh</string>
+    <string name="water_detail_format">%d m³ × %s/m³</string>
+    <string name="pay_now">Pay Now</string>
+    <string name="already_paid">Paid</string>
+    <string name="processing">Processing</string>
 </resources>

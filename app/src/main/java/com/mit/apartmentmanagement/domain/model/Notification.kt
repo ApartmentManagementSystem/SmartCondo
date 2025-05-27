@@ -7,18 +7,16 @@ import java.time.LocalDateTime
 
 @Parcelize
 data class Notification(
-    @SerializedName("notificationId")
-    val notificationId: Int,
+    @SerializedName("id")
+    val notificationId: String,
     @SerializedName("title")
     val title: String,
     @SerializedName("content")
     val content: String,
-    @SerializedName("createdAt")
+    @SerializedName("createdDate")
     val createdAt: String,
-    @SerializedName("topic")
-    val topic: String,
     @SerializedName("image")
-    val image: String,
+    val image: String?,
     @SerializedName("isRead")
     val isRead: Boolean
 ): Parcelable

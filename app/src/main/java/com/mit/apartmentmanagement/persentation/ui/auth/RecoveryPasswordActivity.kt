@@ -5,24 +5,22 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import com.mit.apartmentmanagement.databinding.ActivityRecoveryPasswordBinding
 import com.mit.apartmentmanagement.domain.model.RecoveryPasswordRequest
+import com.mit.apartmentmanagement.persentation.ui.BaseActivity
 import com.mit.apartmentmanagement.persentation.ui.login.LoginActivity
 import com.mit.apartmentmanagement.domain.util.NetworkResult
 import com.mit.apartmentmanagement.persentation.viewmodels.RecoveryPasswordViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class RecoveryPasswordActivity : AppCompatActivity() {
+class RecoveryPasswordActivity : BaseActivity() {
     private lateinit var binding: ActivityRecoveryPasswordBinding
     private val recoveryPasswordViewModel: RecoveryPasswordViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         binding = ActivityRecoveryPasswordBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setupUI()

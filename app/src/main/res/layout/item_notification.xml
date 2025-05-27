@@ -3,20 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    app:cardCornerRadius="8dp"
-    app:cardElevation="2dp">
+    android:layout_height="match_parent"
+    app:cardCornerRadius="12dp"
+    app:strokeWidth="0dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="16dp">
+        android:layout_height="match_parent"
+        android:elevation="4dp"
+        android:padding="8dp"
+        >
 
         <View
             android:id="@+id/notificationUnreadIndicator"
-            android:layout_width="8dp"
-            android:layout_height="8dp"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
             android:background="@drawable/bg_notification_unread_indicator"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -25,10 +26,12 @@
             android:id="@+id/notificationTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:textColor="?attr/colorOnSurface"
+            android:layout_marginStart="16dp"
+            android:textColor="@color/mainColor"
             android:textSize="16sp"
             android:textStyle="bold"
+            android:maxLines="1"
+            android:ellipsize="end"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/notificationUnreadIndicator"
             app:layout_constraintTop_toTopOf="parent"
@@ -38,23 +41,25 @@
             android:id="@+id/notificationContent"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="6dp"
             android:ellipsize="end"
             android:maxLines="2"
             android:textColor="?attr/colorOnSurfaceVariant"
             android:textSize="14sp"
+            android:lineSpacingExtra="2dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/notificationTitle"
             app:layout_constraintTop_toBottomOf="@id/notificationTitle"
-            tools:text="Notification content goes here. This is a longer text that might need to be truncated." />
+            tools:text="Notification content goes here. This is a longer text that might need to be truncated to show properly in the notification card." />
 
         <TextView
             android:id="@+id/notificationTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:textColor="?attr/colorOnSurfaceVariant"
+            android:textColor="@color/black"
             android:textSize="12sp"
+            android:textStyle="italic"
             app:layout_constraintStart_toStartOf="@id/notificationTitle"
             app:layout_constraintTop_toBottomOf="@id/notificationContent"
             tools:text="2 hours ago" />

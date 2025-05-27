@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <!-- Section Header -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvSectionTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:textColor="@android:color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            tools:text="Sports and Fitness" />
+
+        <TextView
+            android:id="@+id/tvSectionDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="14sp"
+            tools:text="Gym, pool, courts and fitness facilities" />
+
+    </LinearLayout>
+
+    <!-- Horizontal RecyclerView -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvAmenities"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:orientation="horizontal"
+        android:paddingStart="0dp"
+        android:paddingEnd="16dp"
+        android:paddingVertical="4dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:itemCount="3"
+        tools:listitem="@layout/item_amenity" />
+
+    <!-- Empty state for this section -->
+    <LinearLayout
+        android:id="@+id/layoutSectionEmpty"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginBottom="8dp"
+            android:alpha="0.3"
+            android:src="@drawable/ic_nav_amenities" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No amenities in this category"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+</LinearLayout> 

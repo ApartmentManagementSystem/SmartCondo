@@ -1,5 +1,6 @@
 package com.mit.apartmentmanagement.data.paging
 
+import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.mit.apartmentmanagement.data.apiservice.auth.NotificationApi
@@ -20,6 +21,7 @@ class NotificationPagingSource(
     }
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Notification> {
+        Log.d("NotificationPagingSource", "load: ")
         return try {
             val page = params.key ?: 0
             val response = if (query.isNullOrEmpty()) {
@@ -31,7 +33,7 @@ class NotificationPagingSource(
             if (response.isSuccessful) {
                 val pagedResponse = response.body()
                 val notifications = pagedResponse?.content ?: emptyList()
-
+                Log.d("NotificationPagingSource", "notifications: $notifications")
                 val currentPage = pagedResponse?.page?.number ?: 0
                 val totalPages  = pagedResponse?.page?.totalPages ?: 0
 

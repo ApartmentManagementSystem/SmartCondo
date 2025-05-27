@@ -7,12 +7,14 @@ import com.mit.apartmentmanagement.data.repository.AuthRepositoryImpl
 import com.mit.apartmentmanagement.data.repository.InvoiceRepositoryImpl
 import com.mit.apartmentmanagement.data.repository.NotificationRepositoryImpl
 import com.mit.apartmentmanagement.data.repository.OwnerRepositoryImpl
+import com.mit.apartmentmanagement.data.repository.RequestRepositoryImpl
 import com.mit.apartmentmanagement.domain.repository.ApartmentRepository
 import com.mit.apartmentmanagement.domain.repository.AuthRepository
 import com.mit.apartmentmanagement.domain.repository.InvoiceRepository
 import com.mit.apartmentmanagement.domain.repository.NotificationRepository
 import com.mit.apartmentmanagement.domain.repository.OwnerRepository
 import com.mit.apartmentmanagement.domain.repository.AmenitiesRepository
+import com.mit.apartmentmanagement.domain.repository.RequestRepository
 import com.mit.apartmentmanagement.data.repository.AmenitiesRepositoryImpl
 import dagger.Binds
 import dagger.Module
@@ -53,4 +55,8 @@ abstract class AppModuleClass {
     @Binds
     @Singleton
     abstract fun bindAmenitiesRepository(repo: AmenitiesRepositoryImpl): AmenitiesRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindRequestRepository(repo: RequestRepositoryImpl): RequestRepository
 }

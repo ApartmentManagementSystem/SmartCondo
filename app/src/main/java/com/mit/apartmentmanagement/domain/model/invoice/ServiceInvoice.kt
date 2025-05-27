@@ -8,8 +8,6 @@ data class ServiceInvoice (
     val id: String,
     @SerializedName("unitPrice")
     val unitPrice: Double,
-    @SerializedName("totalPrice")
-    val totalPrice: Double,
     @SerializedName("apartmentName")
     val apartmentName: String,
     @SerializedName("type")
