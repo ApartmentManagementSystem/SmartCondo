@@ -84,7 +84,7 @@ class VerifyEmailActivity : BaseActivity() {
 
     private fun showProcessBar() {
         binding.spinKit.visibility = View.VISIBLE
-        binding.dimOverlay.visibility = View.VISIBLE
+        binding.dimOverlay.visibility = View.GONE
     }
 
     private fun hideProcessBar() {

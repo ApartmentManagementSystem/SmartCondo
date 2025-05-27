@@ -83,7 +83,7 @@ class HomeFragment : Fragment() {
             onApartmentClicked = {
                 val intent = Intent(requireContext(), ApartmentDetailActivity::class.java)
                 intent.putExtra("apartment", it)
-                startActivity(intent)
+               // startActivity(intent)
             }
         )
         binding.apartmentsRecyclerView.adapter = apartmentAdapter
@@ -102,7 +102,7 @@ class HomeFragment : Fragment() {
         amenityAdapter = AmenityAdapter(onAmenityClicked = {
             val intent = Intent(requireContext(), ApartmentDetailActivity::class.java)
             intent.putExtra("amenity", it)
-            startActivity(intent)
+            //  startActivity(intent)
         })
         binding.amenitiesRecyclerView.adapter = amenityAdapter
 

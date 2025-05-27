@@ -36,18 +36,9 @@ class RecoveryPasswordActivity : BaseActivity() {
 //                recoveryPasswordViewModel.recoveryPassword(recoveryPasswordRequest)
 
                 val (isValid, errorMessage) = validateCredentials(resetCode,newPassword,confirmPassword)
-                if (!isValid) {
                     val recoveryPasswordRequest = RecoveryPasswordRequest(resetCode,newPassword,confirmPassword)
                     recoveryPasswordViewModel.recoveryPassword(recoveryPasswordRequest)
                     showProcessBar()
-                } else {
-                    Toast.makeText(
-                        this@RecoveryPasswordActivity,
-                        errorMessage,
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-
             }
 
         }
