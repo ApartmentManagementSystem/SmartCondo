@@ -181,9 +181,9 @@ class AmenitiesFragment : Fragment() {
     private fun onAmenityClicked(amenity: Amenity) {
         Log.d(TAG, "Amenity clicked: ${amenity.name}")
         // Navigate to amenity detail - for now using ApartmentDetailActivity
-        val intent = Intent(requireContext(), ApartmentDetailActivity::class.java)
-        intent.putExtra("amenity", amenity)
-        startActivity(intent)
+//        val intent = Intent(requireContext(), ApartmentDetailActivity::class.java)
+//        intent.putExtra("amenity", amenity)
+//        startActivity(intent)
     }
 
     override fun onDestroyView() {
