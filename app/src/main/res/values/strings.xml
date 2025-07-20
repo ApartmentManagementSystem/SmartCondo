@@ -44,8 +44,8 @@
     <string name="status_paid">Paid</string>
     <string name="status_unpaid">Unpaid</string>
     <string name="status_pending">Processing</string>
-    <string name="electricity_detail_format">%d kWh × %s/kWh</string>
-    <string name="water_detail_format">%d m³ × %s/m³</string>
+    <string name="electricity_detail_format">%1$d kWh × %2$s/kWh</string>
+    <string name="water_detail_format">%1$d m³ × %2$s/m³</string>
     <string name="pay_now">Pay Now</string>
     <string name="already_paid">Paid</string>
     <string name="processing">Processing</string>
