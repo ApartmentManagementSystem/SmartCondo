@@ -43,12 +43,10 @@ class LoginActivity : AppCompatActivity() {
                     startActivity(Intent(this, MainActivity::class.java))
                     finish()
                 }
-
                 is NetworkResult.Error -> {
                     hideProcessBar()
                     Toast.makeText(this, result.message, Toast.LENGTH_SHORT).show()
                 }
-
                 is NetworkResult.Loading -> {
                     showProcessBar()
                 }
@@ -100,7 +98,6 @@ class LoginActivity : AppCompatActivity() {
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches())
             return getString(R.string.invalid_email_format)
         if (password.length < 6) return getString(R.string.password_must_be_at_least_6_characters)
-
         val forbidden = listOf(";", "--", "'", "\"", "/*", "*/", "DROP ", "SELECT ")
         if (forbidden.any { it in email || it in password })
             return getString(R.string.input_contains_invalid_characters)

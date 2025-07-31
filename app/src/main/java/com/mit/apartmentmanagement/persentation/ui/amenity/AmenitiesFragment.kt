@@ -1,6 +1,5 @@
 package com.mit.apartmentmanagement.persentation.ui.amenity
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,7 +11,6 @@ import androidx.lifecycle.lifecycleScope
 import com.mit.apartmentmanagement.databinding.FragmentAmenitiesBinding
 import com.mit.apartmentmanagement.domain.model.Amenity
 import com.mit.apartmentmanagement.domain.model.AmenityType
-import com.mit.apartmentmanagement.persentation.ui.ApartmentDetailActivity
 import com.mit.apartmentmanagement.persentation.viewmodels.AmenitiesViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest

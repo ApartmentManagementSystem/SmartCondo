@@ -48,8 +48,6 @@ class RequestFragment : Fragment() {
 
     private fun setupFloatingActionButton() {
         binding.fabAddRequest.setOnClickListener {
-            // TODO: Navigate to AddRequestActivity
-            // For now, we'll just show a placeholder
             navigateToAddRequest()
         }
     }

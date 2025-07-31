@@ -32,10 +32,10 @@ class RequestListFragment : Fragment() {
     companion object {
         private const val ARG_REQUEST_STATUS = "request_status"
         
-        fun newInstance(status: RequestStatus): RequestListFragment {
+        fun newInstance(status: String): RequestListFragment {
             return RequestListFragment().apply {
                 arguments = Bundle().apply {
-                    putSerializable(ARG_REQUEST_STATUS, status)
+                    putString(ARG_REQUEST_STATUS, status)
                 }
             }
         }
@@ -43,7 +43,14 @@ class RequestListFragment : Fragment() {
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        requestStatus = arguments?.getSerializable(ARG_REQUEST_STATUS) as? RequestStatus
+        val statusString = arguments?.getString(ARG_REQUEST_STATUS)
+        requestStatus = statusString?.let { 
+            try {
+                RequestStatus.valueOf(it)
+            } catch (e: IllegalArgumentException) {
+                null
+            }
+        }
     }
     
     override fun onCreateView(
@@ -87,7 +94,6 @@ class RequestListFragment : Fragment() {
             requestAdapter.loadStateFlow.collectLatest { loadStates ->
                 val isLoading = loadStates.refresh is LoadState.Loading
                 val isEmpty = loadStates.refresh is LoadState.NotLoading && requestAdapter.itemCount == 0
-                
                 // Show/hide empty state
                 binding.layoutEmpty.visibility = if (isEmpty) View.VISIBLE else View.GONE
                 binding.recyclerViewRequests.visibility = if (isEmpty) View.GONE else View.VISIBLE

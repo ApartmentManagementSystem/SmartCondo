@@ -19,7 +19,7 @@ class RequestViewPagerAdapter(
     override fun getItemCount(): Int = requestStatuses.size
 
     override fun createFragment(position: Int): Fragment {
-        return RequestListFragment.newInstance(requestStatuses[position])
+        return RequestListFragment.newInstance(requestStatuses[position].name)
     }
 
     fun getTabTitle(position: Int): String {

@@ -23,7 +23,7 @@
             android:name=".persentation.ui.request.AddRequestActivity"
             android:exported="false" />
         <activity
-            android:name=".persentation.ui.ApartmentDetailActivity"
+            android:name=".persentation.ui.detail_apartment.ApartmentDetailActivity"
             android:exported="false" />
         <activity
             android:name=".persentation.ui.notification.NotificationDetailActivity"

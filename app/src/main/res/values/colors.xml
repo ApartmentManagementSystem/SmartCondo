@@ -58,4 +58,5 @@
     <!-- Additional colors -->
     <color name="primary">@color/md_theme_primary</color>
     <color name="main">#284777</color>
+    <color name="transparent">#00000000</color>
 </resources>

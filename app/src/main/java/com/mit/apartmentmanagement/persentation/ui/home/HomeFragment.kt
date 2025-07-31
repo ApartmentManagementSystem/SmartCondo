@@ -1,7 +1,6 @@
 package com.mit.apartmentmanagement.persentation.ui.home
 
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -14,19 +13,11 @@ import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
-import com.github.mikephil.charting.components.XAxis
-import com.github.mikephil.charting.data.BarData
-import com.github.mikephil.charting.data.BarDataSet
-import com.github.mikephil.charting.data.BarEntry
-import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.mit.apartmentmanagement.R
 import com.mit.apartmentmanagement.databinding.FragmentHomeBinding
-import com.mit.apartmentmanagement.domain.model.invoice.InvoiceMonthly
-import com.mit.apartmentmanagement.persentation.ui.ApartmentDetailActivity
+import com.mit.apartmentmanagement.persentation.ui.detail_apartment.ApartmentDetailActivity
 import com.mit.apartmentmanagement.persentation.ui.adapter.AmenityAdapter
 import com.mit.apartmentmanagement.persentation.viewmodels.HomeViewModel
 import com.mit.apartmentmanagement.persentation.ui.adapter.ApartmentAdapter
@@ -35,7 +26,6 @@ import com.mit.apartmentmanagement.persentation.ui.adapter.InvoiceChartPagerAdap
 import com.mit.apartmentmanagement.persentation.ui.notification.NotificationDetailActivity
 import dagger.hilt.android.AndroidEntryPoint
 import java.time.LocalTime
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -47,13 +37,13 @@ class HomeFragment : Fragment() {
     private lateinit var notificationViewPagerAdapter: NotificationViewPagerAdapter
     private lateinit var invoiceChartPagerAdapter: InvoiceChartPagerAdapter
     private lateinit var bottomNav: BottomNavigationView
-    
+
     // Auto-scroll handling
     private val autoScrollHandler = Handler(Looper.getMainLooper())
     private var autoScrollRunnable: Runnable? = null
     private val autoScrollDelay = 4000L
     private var isUserInteracting = false
-    
+
     // Page indicators
     private val pageIndicators = mutableListOf<ImageView>()
     private val chartPageIndicators = mutableListOf<ImageView>()
@@ -76,14 +66,14 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupUI() {
-        bottomNav= requireActivity().findViewById(R.id.bottom_nav_menu)
+        bottomNav = requireActivity().findViewById(R.id.bottom_nav_menu)
 
         // Setup apartments recycler view
         apartmentAdapter = ApartmentAdapter(
             onApartmentClicked = {
                 val intent = Intent(requireContext(), ApartmentDetailActivity::class.java)
                 intent.putExtra("apartment", it)
-               // startActivity(intent)
+                 startActivity(intent)
             }
         )
         binding.apartmentsRecyclerView.adapter = apartmentAdapter
@@ -124,7 +114,7 @@ class HomeFragment : Fragment() {
         binding.notificationsViewPager.apply {
             // Enable smooth scrolling
             offscreenPageLimit = 1
-            
+
             // Add page transformer for smooth transitions
             setPageTransformer { page, position ->
                 page.apply {
@@ -136,11 +126,12 @@ class HomeFragment : Fragment() {
                             scaleX = 1f
                             scaleY = 1f
                         }
+
                         else -> alpha = 0f
                     }
                 }
             }
-            
+
             // Register page change callback to handle user interaction
             registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
                 override fun onPageScrollStateChanged(state: Int) {
@@ -150,13 +141,14 @@ class HomeFragment : Fragment() {
                             isUserInteracting = true
                             stopAutoScroll()
                         }
+
                         ViewPager2.SCROLL_STATE_IDLE -> {
                             isUserInteracting = false
                             startAutoScroll()
                         }
                     }
                 }
-                
+
                 override fun onPageSelected(position: Int) {
                     super.onPageSelected(position)
                     updatePageIndicators(position)
@@ -183,7 +175,6 @@ class HomeFragment : Fragment() {
             amenityAdapter.submitList(amenities)
             Log.d("HomeFragment", "Amenities received: $amenities")
         }
-
 
 
         // Observe chart data
@@ -219,7 +210,7 @@ class HomeFragment : Fragment() {
 
     private fun startAutoScroll() {
         if (isUserInteracting) return
-        
+
         stopAutoScroll()
         autoScrollRunnable = Runnable {
             if (!isUserInteracting && isAdded) {
@@ -249,7 +240,7 @@ class HomeFragment : Fragment() {
         binding.invoiceChartsViewPager.apply {
             // Enable smooth scrolling
             offscreenPageLimit = 1
-            
+
             // Add page transformer for smooth transitions
             setPageTransformer { page, position ->
                 page.apply {
@@ -261,11 +252,12 @@ class HomeFragment : Fragment() {
                             scaleX = 1f
                             scaleY = 1f
                         }
+
                         else -> alpha = 0f
                     }
                 }
             }
-            
+
             // Register page change callback
             registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
@@ -332,14 +324,14 @@ class HomeFragment : Fragment() {
     private fun setupPageIndicators(count: Int) {
         pageIndicators.clear()
         binding.pageIndicatorContainer.removeAllViews()
-        
+
         if (count <= 1) {
             binding.pageIndicatorContainer.visibility = View.GONE
             return
         }
-        
+
         binding.pageIndicatorContainer.visibility = View.VISIBLE
-        
+
         for (i in 0 until count) {
             val indicator = ImageView(requireContext())
             val layoutParams = LinearLayout.LayoutParams(
@@ -348,19 +340,19 @@ class HomeFragment : Fragment() {
             )
             layoutParams.setMargins(8, 0, 8, 0)
             indicator.layoutParams = layoutParams
-            
+
             indicator.setImageDrawable(
                 ContextCompat.getDrawable(
                     requireContext(),
                     if (i == 0) R.drawable.page_indicator_active else R.drawable.page_indicator_inactive
                 )
             )
-            
+
             pageIndicators.add(indicator)
             binding.pageIndicatorContainer.addView(indicator)
         }
     }
-    
+
     private fun updatePageIndicators(position: Int) {
         pageIndicators.forEachIndexed { index, indicator ->
             indicator.setImageDrawable(
@@ -375,14 +367,14 @@ class HomeFragment : Fragment() {
     private fun setupChartPageIndicators(count: Int) {
         chartPageIndicators.clear()
         binding.chartPageIndicatorContainer.removeAllViews()
-        
+
         if (count <= 1) {
             binding.chartPageIndicatorContainer.visibility = View.GONE
             return
         }
-        
+
         binding.chartPageIndicatorContainer.visibility = View.VISIBLE
-        
+
         for (i in 0 until count) {
             val indicator = ImageView(requireContext())
             val layoutParams = LinearLayout.LayoutParams(
@@ -391,19 +383,19 @@ class HomeFragment : Fragment() {
             )
             layoutParams.setMargins(8, 0, 8, 0)
             indicator.layoutParams = layoutParams
-            
+
             indicator.setImageDrawable(
                 ContextCompat.getDrawable(
                     requireContext(),
                     if (i == 0) R.drawable.page_indicator_active else R.drawable.page_indicator_inactive
                 )
             )
-            
+
             chartPageIndicators.add(indicator)
             binding.chartPageIndicatorContainer.addView(indicator)
         }
     }
-    
+
     private fun updateChartPageIndicators(position: Int) {
         chartPageIndicators.forEachIndexed { index, indicator ->
             indicator.setImageDrawable(
